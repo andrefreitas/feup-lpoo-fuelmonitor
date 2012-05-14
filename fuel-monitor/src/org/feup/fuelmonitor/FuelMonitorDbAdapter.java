@@ -76,7 +76,7 @@ public class FuelMonitorDbAdapter {
 			+ "  FOREIGN KEY (idGasStation) REFERENCES GasStation(_id));";
 
 	private static final String DATABASE_NAME = "data";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 1;
 
 	private final Context mCtx;
 
