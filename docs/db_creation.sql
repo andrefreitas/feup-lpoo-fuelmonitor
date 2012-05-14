@@ -1,13 +1,9 @@
-CREATE TABLE "android_metadata" ("locale" TEXT DEFAULT 'en_US');
-INSERT INTO "android_metadata" VALUES ('pt_PT');
-
-
 --
 -- TABLE: Fueling
 -- 
 --  
 
-CREATE OR TABLE Fueling (
+CREATE TABLE Fueling (
   _id number NOT NULL PRIMARY KEY,
   date date NOT NULL ,
   kmsAtFueling number NOT NULL ,
@@ -15,8 +11,8 @@ CREATE OR TABLE Fueling (
   cost float NOT NULL ,
   idVehicle number NOT NULL ,
   idGasStation number NOT NULL ,
-  FOREIGN KEY (idVehicle) REFERENCES Vehicle(idVehicle) ,
-  FOREIGN KEY (idGasStation) REFERENCES GasStation(idGasStation)
+  FOREIGN KEY (idVehicle) REFERENCES Vehicle(_id) ,
+  FOREIGN KEY (idGasStation) REFERENCES GasStation(_id)
 );
 
 
@@ -63,7 +59,7 @@ CREATE TABLE Model (
   _id number NOT NULL PRIMARY KEY,
   name nvarchar2 NOT NULL UNIQUE,
   idMake number NOT NULL,
-  FOREIGN KEY (idModel) REFERENCES Make(idMake)
+  FOREIGN KEY (idMake) REFERENCES Make(_id)
 );
 
 
@@ -82,6 +78,6 @@ CREATE TABLE Vehicle (
   idModel number NOT NULL ,
   idMake number NOT NULL ,
   idFuelType number NOT NULL,
-  FOREIGN KEY (idModel) REFERENCES Model(idModel),
-  FOREIGN KEY (idFuelType) REFERENCES FuelType(idFuelType)
+  FOREIGN KEY (idModel) REFERENCES Model(_id),
+  FOREIGN KEY (idFuelType) REFERENCES FuelType(_id)
 );
