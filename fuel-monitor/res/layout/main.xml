@@ -8,7 +8,7 @@
 
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/relativeLayout1"
+        android:id="@+id/menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
@@ -51,10 +51,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/statsButton"
+            android:layout_toLeftOf="@+id/gasButton"
             android:gravity="center_horizontal"
             android:text="Estatísticas"
             android:textAppearance="?android:attr/textAppearanceSmall"
-             android:textSize="18dp" />
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/fuelingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/fuelingButton"
+            android:layout_toLeftOf="@+id/carButton"
+            android:gravity="center_horizontal"
+            android:text="Abastecer"
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/gasText"
@@ -64,16 +76,6 @@
             android:layout_below="@+id/gasButton"
             android:gravity="center_horizontal"
             android:text="Gasolineiras"
-             android:textSize="18dp" />
-
-        <TextView
-            android:id="@+id/fuelingText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/fuelingButton"
-            android:layout_toLeftOf="@+id/carButton"
-            android:gravity="center_horizontal"
-            android:text="Abastecer"
             android:textSize="18dp" />
 
         <TextView
@@ -83,6 +85,7 @@
             android:layout_alignBaseline="@+id/fuelingText"
             android:layout_alignBottom="@+id/fuelingText"
             android:layout_alignLeft="@+id/carButton"
+            android:layout_alignRight="@+id/carButton"
             android:gravity="center_horizontal"
             android:text="Veículos"
             android:textAppearance="?android:attr/textAppearanceSmall"
