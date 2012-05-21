@@ -6,91 +6,84 @@
     android:background="#FFFFFF"
     android:gravity="center_horizontal" >
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/menu"
+    <Button
+        android:id="@+id/fuelingButton"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/fueling" />
+
+    <Button
+        android:id="@+id/carButton"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_toRightOf="@+id/fuelingButton"
+        android:background="@drawable/car" />
+
+    <Button
+        android:id="@+id/statsButton"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_below="@+id/fuelingButton"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/stats"
+        android:gravity="center_horizontal" />
+
+    <Button
+        android:id="@+id/gasButton"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_below="@+id/carButton"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="70dp"
+        android:layout_toRightOf="@+id/statsButton"
+        android:background="@drawable/gas_station" />
+
+    <TextView
+        android:id="@+id/statsText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/statsButton"
+        android:layout_toLeftOf="@+id/gasButton"
+        android:gravity="center_horizontal"
+        android:text="@string/menu_stats"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="18dp" />
 
-        <Button
-            android:id="@+id/fuelingButton"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/fueling" />
+    <TextView
+        android:id="@+id/fuelingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/fuelingButton"
+        android:layout_toLeftOf="@+id/carButton"
+        android:gravity="center_horizontal"
+        android:text="@string/menu_addfueling"
+        android:textSize="18dp" />
 
-        <Button
-            android:id="@+id/carButton"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="30dp"
-            android:layout_toRightOf="@+id/fuelingButton"
-            android:background="@drawable/car" />
+    <TextView
+        android:id="@+id/gasText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/gasButton"
+        android:layout_below="@+id/gasButton"
+        android:gravity="center_horizontal"
+        android:text="@string/menu_fuelstations"
+        android:textSize="18dp" />
 
-        <Button           android:gravity="center_horizontal"
-            android:id="@+id/statsButton"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_below="@+id/fuelingButton"
-            android:layout_marginTop="70dp"
-            android:background="@drawable/stats" />
-
-        <Button
-            android:id="@+id/gasButton"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_below="@+id/carButton"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="70dp"
-            android:layout_toRightOf="@+id/statsButton"
-            android:background="@drawable/gas_station" />
-
-        <TextView
-            android:id="@+id/statsText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/statsButton"
-            android:layout_toLeftOf="@+id/gasButton"
-            android:gravity="center_horizontal"
-            android:text="Estatísticas"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="18dp" />
-
-        <TextView
-            android:id="@+id/fuelingText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/fuelingButton"
-            android:layout_toLeftOf="@+id/carButton"
-            android:gravity="center_horizontal"
-            android:text="Abastecer"
-            android:textSize="18dp" />
-
-        <TextView
-            android:id="@+id/gasText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/gasButton"
-            android:layout_below="@+id/gasButton"
-            android:gravity="center_horizontal"
-            android:text="Gasolineiras"
-            android:textSize="18dp" />
-
-        <TextView
-            android:id="@+id/carText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/fuelingText"
-            android:layout_alignBottom="@+id/fuelingText"
-            android:layout_alignLeft="@+id/carButton"
-            android:layout_alignRight="@+id/carButton"
-            android:gravity="center_horizontal"
-            android:text="Veículos"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="18dp" />
-
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/carText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/fuelingText"
+        android:layout_alignBottom="@+id/fuelingText"
+        android:layout_alignLeft="@+id/carButton"
+        android:layout_alignRight="@+id/carButton"
+        android:gravity="center_horizontal"
+        android:text="@string/menu_vehicles"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="18dp" />
 
 </RelativeLayout>

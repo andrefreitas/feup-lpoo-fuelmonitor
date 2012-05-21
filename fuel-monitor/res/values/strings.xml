@@ -12,5 +12,9 @@
     <dimen name="add_vehicle_spacing">30dp</dimen>
     <string name="add_vehicle_photo_button">Tirar</string>
     <string name="add_vehicle_save_button">Gravar</string>
+    <string name="menu_addfueling">Abastecer</string>
+    <string name="menu_vehicles">Veículos</string>
+    <string name="menu_stats">Estatísticas</string>
+    <string name="menu_fuelstations">Gasolineiras</string>
 
 </resources>

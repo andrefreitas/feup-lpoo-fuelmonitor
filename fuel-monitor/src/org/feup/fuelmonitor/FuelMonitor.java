@@ -2,7 +2,9 @@ package org.feup.fuelmonitor;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 public class FuelMonitor extends Activity {
@@ -12,9 +14,38 @@ public class FuelMonitor extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.addfueling);
 		mDbHelper = new FuelMonitorDbAdapter(this);
-		mDbHelper.open();
+		openMainMenu();
+		// mDbHelper.open();
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		mDbHelper.close();
+	}
+
+	@Override
+	public void onBackPressed() {
+		openMainMenu();
+	}
+	
+	private void openMainMenu() {
+		setContentView(R.layout.main);
+		Button b1 = (Button) findViewById(R.id.fuelingButton);
+
+		b1.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				openInsertFueling();
+			}
+		});
+
+	}
+
+	private void openInsertFueling() {
+		setContentView(R.layout.addfueling);
 		Spinner s = (Spinner) findViewById(R.id.brandSpinner);
 		Spinner s2 = (Spinner) findViewById(R.id.fuelTypeSpinner);
 		Spinner s3 = (Spinner) findViewById(R.id.yearSpinner);
@@ -25,10 +56,11 @@ public class FuelMonitor extends Activity {
 				android.R.layout.simple_spinner_item, array_spinner);
 		ArrayAdapter<Integer> addVehicleYearAdapter = new ArrayAdapter<Integer>(
 				this, android.R.layout.simple_spinner_item);
-		for(int y=2012;y>=1900;y--)
+		for (int y = 2012; y >= 1900; y--)
 			addVehicleYearAdapter.add(y);
 		s.setAdapter(adapter);
 		s2.setAdapter(adapter);
 		s3.setAdapter(addVehicleYearAdapter);
 	}
+
 }
