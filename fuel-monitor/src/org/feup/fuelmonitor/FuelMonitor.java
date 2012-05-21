@@ -19,7 +19,6 @@ public class FuelMonitor extends Activity {
 		Button b1 = (Button) findViewById(R.id.fuelingButton);
 		final Context c = this;
 		b1.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(c, AddFueling.class);
 				startActivity(i);
