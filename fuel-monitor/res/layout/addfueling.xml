@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <TextView
+        android:id="@+id/brandLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/add_vehicle_brand"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Spinner
+        android:id="@+id/brandSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/brandLabel"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp" />
+
+    <TextView
+        android:id="@+id/modelLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/brandLabel"
+        android:layout_below="@+id/brandLabel"
+        android:layout_marginTop="@dimen/add_vehicle_spacing"
+        android:text="@string/add_vehicle_model"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/modelText"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/modelLabel"
+        android:layout_alignRight="@+id/brandSpinner"
+        android:ems="10"
+        android:inputType="text"
+        android:singleLine="true" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/fuelTypeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/modelLabel"
+        android:layout_below="@+id/modelLabel"
+        android:layout_marginTop="@dimen/add_vehicle_spacing"
+        android:text="@string/add_vehicle_fuel_type"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Spinner
+        android:id="@+id/fuelTypeSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/fuelTypeLabel"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp" />
+
+    <TextView
+        android:id="@+id/licenseLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/fuelTypeLabel"
+        android:layout_below="@+id/fuelTypeLabel"
+        android:layout_marginTop="@dimen/add_vehicle_spacing"
+        android:text="@string/add_vehicle_license"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/licenseText"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/licenseLabel"
+        android:layout_alignRight="@+id/fuelTypeSpinner"
+        android:ems="10"
+        android:inputType="text"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/yearLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/licenseLabel"
+        android:layout_below="@+id/licenseLabel"
+        android:layout_marginTop="@dimen/add_vehicle_spacing"
+        android:text="@string/add_vehicle_year"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Spinner
+        android:id="@+id/yearSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/yearLabel"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp" />
+
+    <TextView
+        android:id="@+id/photoLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/yearLabel"
+        android:layout_below="@+id/yearLabel"
+        android:layout_marginTop="@dimen/add_vehicle_spacing"
+        android:text="@string/add_vehicle_photo"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/photoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/photoLabel"
+        android:layout_alignRight="@+id/yearSpinner"
+        android:text="@string/add_vehicle_photo_button" />
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:text="@string/add_vehicle_save_button" />
+
+</RelativeLayout>

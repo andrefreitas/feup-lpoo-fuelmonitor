@@ -3,5 +3,14 @@
 
     <string name="hello">Hello World, FuelMonitor!</string>
     <string name="app_name">Fuel Monitor</string>
+    <string name="add_vehicle_brand">Marca</string>
+    <string name="add_vehicle_model">Modelo</string>
+    <string name="add_vehicle_fuel_type">Combustível</string>
+    <string name="add_vehicle_license">Matrícula</string>
+    <string name="add_vehicle_year">Ano</string>
+    <string name="add_vehicle_photo">Foto</string>
+    <dimen name="add_vehicle_spacing">30dp</dimen>
+    <string name="add_vehicle_photo_button">Tirar</string>
+    <string name="add_vehicle_save_button">Gravar</string>
 
 </resources>
