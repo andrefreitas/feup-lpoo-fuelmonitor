@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_gravity="center_horizontal" >
+    android:layout_height="fill_parent" >
 
     <Button
         android:id="@+id/fuelingButton"
@@ -13,7 +12,8 @@
         android:layout_marginTop="80dp"
         android:background="@null"
         android:drawableTop="@drawable/fueling"
-        android:text="@string/menu_addfueling" />
+        android:text="@string/menu_addfueling"
+        android:textColor="@android:color/primary_text_dark"/>
 
     <Button
         android:id="@+id/vehiclesButton"
@@ -24,7 +24,8 @@
         android:layout_toRightOf="@id/fuelingButton"
         android:background="@null"
         android:drawableTop="@drawable/car"
-        android:text="@string/menu_vehicles" />
+        android:text="@string/menu_vehicles"
+        android:textColor="@android:color/primary_text_dark"/>
 
     <Button
         android:id="@+id/statsButton"
@@ -35,7 +36,8 @@
         android:layout_marginTop="40dp"
         android:background="@null"
         android:drawableTop="@drawable/stats"
-        android:text="@string/menu_stats" />
+        android:text="@string/menu_stats"
+        android:textColor="@android:color/primary_text_dark"/>
 
     <Button
         android:id="@+id/gasButton"
@@ -46,6 +48,7 @@
         android:layout_alignLeft="@+id/vehiclesButton"
         android:background="@null"
         android:drawableTop="@drawable/gas_station"
-        android:text="@string/menu_fuelstations" />
+        android:text="@string/menu_fuelstations"
+        android:textColor="@android:color/primary_text_dark"/>
 
 </RelativeLayout>
