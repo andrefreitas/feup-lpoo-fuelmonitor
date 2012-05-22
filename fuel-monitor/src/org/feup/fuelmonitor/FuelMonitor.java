@@ -9,18 +9,17 @@ import android.widget.Button;
 
 public class FuelMonitor extends Activity {
 	/** Called when the activity is first created. */
-	private FuelMonitorDbAdapter mDbHelper;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mDbHelper = new FuelMonitorDbAdapter(this);
+		
 		setContentView(R.layout.main);
-		Button b1 = (Button) findViewById(R.id.fuelingButton);
+		Button b1 = (Button) findViewById(R.id.main_fuelingButton);
 		final Context c = this;
 		b1.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent i = new Intent(c, AddFueling.class);
+				Intent i = new Intent(c, AddVehicle.class);
 				startActivity(i);
 
 			}

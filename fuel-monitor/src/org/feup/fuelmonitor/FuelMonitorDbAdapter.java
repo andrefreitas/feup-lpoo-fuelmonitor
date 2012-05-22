@@ -16,7 +16,9 @@
 
 package org.feup.fuelmonitor;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -42,22 +44,22 @@ public class FuelMonitorDbAdapter {
 	 * Database creation sql statement
 	 */
 	private static final String FUELTYPE_CREATE = "CREATE TABLE FuelType ("
-			+ "  _id number NOT NULL PRIMARY KEY,"
+			+ "  _id INTEGER PRIMARY KEY,"
 			+ "  name nvarchar2 NOT NULL UNIQUE);";
 
 	private static final String GASSTATION_CREATE = "CREATE TABLE GasStation ("
-			+ "  _id number NOT NULL PRIMARY KEY,"
+			+ "  _id INTEGER PRIMARY KEY,"
 			+ "  name nvarchar2 NOT NULL ," + "  location nvarchar2 NOT NULL);";
 	private static final String MAKE_CREATE = "CREATE TABLE Make ("
-			+ "  _id number NOT NULL PRIMARY KEY,"
+			+ "  _id INTEGER PRIMARY KEY,"
 			+ "  name nvarchar2 NOT NULL UNIQUE);";
 
 	private static final String MODEL_CREATE = "CREATE TABLE Model ("
-			+ "  _id number NOT NULL PRIMARY KEY,"
+			+ "  _id INTEGER PRIMARY KEY,"
 			+ "  name nvarchar2 NOT NULL UNIQUE," + "  idMake number NOT NULL,"
 			+ "  FOREIGN KEY (idMake) REFERENCES Make(_id));";
 	private static final String VEHICLE_CREATE = "CREATE TABLE Vehicle ("
-			+ "  _id number NOT NULL PRIMARY KEY," + "  kms number NOT NULL ,"
+			+ "  _id INTEGER PRIMARY KEY," + "  kms number NOT NULL ,"
 			+ "  date date NOT NULL ,"
 			+ "  photoPath nvarchar2 NOT NULL UNIQUE,"
 			+ "  fuelCapacity number NOT NULL ,"
@@ -67,7 +69,7 @@ public class FuelMonitorDbAdapter {
 			+ "  FOREIGN KEY (idModel) REFERENCES Model(_id),"
 			+ "  FOREIGN KEY (idFuelType) REFERENCES FuelType(_id));";
 	private static final String FUELING_CREATE = "CREATE TABLE Fueling ("
-			+ "  _id number NOT NULL PRIMARY KEY," + "  date date NOT NULL ,"
+			+ "  _id INTEGER PRIMARY KEY," + "  date date NOT NULL ,"
 			+ "  kmsAtFueling number NOT NULL ,"
 			+ "  quantity number NOT NULL ," + "  cost float NOT NULL ,"
 			+ "  idVehicle number NOT NULL ,"
@@ -95,6 +97,17 @@ public class FuelMonitorDbAdapter {
 			db.execSQL(MODEL_CREATE);
 			db.execSQL(VEHICLE_CREATE);
 			db.execSQL(FUELING_CREATE);
+			
+			ContentValues fuel_types = new ContentValues();
+			fuel_types.put("name", "Gasolina 95");
+			db.insert("fueltype", null, fuel_types);
+			fuel_types.put("name", "Gasolina 98");
+			db.insert("fueltype", null, fuel_types);
+			fuel_types.put("name", "Gasóleo");
+			db.insert("fueltype", null, fuel_types);
+			fuel_types.put("name", "GPL");
+			db.insert("fueltype", null, fuel_types);
+			
 		}
 
 		@Override
@@ -140,6 +153,17 @@ public class FuelMonitorDbAdapter {
 
 	public void close() {
 		mDbHelper.close();
+	}
+
+	public void addFueling(String make, String model, String fuelType,
+			String license, short year) {
+		
+	}
+	
+	public Cursor fetchAllFuelingTypes() {
+
+		return mDb.query("FuelType", new String[] { "_id", "name" }, null,
+				null, null, null, null);
 	}
 
 	/*

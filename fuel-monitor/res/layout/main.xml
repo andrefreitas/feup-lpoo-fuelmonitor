@@ -4,7 +4,7 @@
     android:layout_height="fill_parent" >
 
     <Button
-        android:id="@+id/fuelingButton"
+        android:id="@+id/main_fuelingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -16,23 +16,23 @@
         android:textColor="@android:color/primary_text_dark"/>
 
     <Button
-        android:id="@+id/vehiclesButton"
+        android:id="@+id/main_vehiclesButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/fuelingButton"
+        android:layout_alignBaseline="@+id/main_fuelingButton"
         android:layout_marginLeft="65dp"
-        android:layout_toRightOf="@id/fuelingButton"
+        android:layout_toRightOf="@+id/main_fuelingButton"
         android:background="@null"
         android:drawableTop="@drawable/car"
         android:text="@string/menu_vehicles"
         android:textColor="@android:color/primary_text_dark"/>
 
     <Button
-        android:id="@+id/statsButton"
+        android:id="@+id/main_statsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/fuelingButton"
-        android:layout_below="@+id/fuelingButton"
+        android:layout_alignLeft="@+id/main_fuelingButton"
+        android:layout_below="@+id/main_fuelingButton"
         android:layout_marginTop="40dp"
         android:background="@null"
         android:drawableTop="@drawable/stats"
@@ -40,12 +40,12 @@
         android:textColor="@android:color/primary_text_dark"/>
 
     <Button
-        android:id="@+id/gasButton"
+        android:id="@+id/main_gasButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/statsButton"
-        android:layout_alignBottom="@+id/statsButton"
-        android:layout_alignLeft="@+id/vehiclesButton"
+        android:layout_alignBaseline="@+id/main_statsButton"
+        android:layout_alignBottom="@+id/main_statsButton"
+        android:layout_alignLeft="@+id/main_vehiclesButton"
         android:background="@null"
         android:drawableTop="@drawable/gas_station"
         android:text="@string/menu_fuelstations"
