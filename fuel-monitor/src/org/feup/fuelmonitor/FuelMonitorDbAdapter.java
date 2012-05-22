@@ -55,12 +55,10 @@ public class FuelMonitorDbAdapter {
 			+ "  name nvarchar2 NOT NULL UNIQUE);";
 	private static final String VEHICLE_CREATE = "CREATE TABLE Vehicle ("
 			+ "  _id INTEGER PRIMARY KEY," + "  kms integer NOT NULL ,"
-			+ "  year integer NOT NULL ,"
-			+ "  photoPath nvarchar2 UNIQUE,"
+			+ "  year integer NOT NULL ," + "  photoPath nvarchar2 UNIQUE,"
 			+ "  fuelCapacity integer NOT NULL ,"
 			+ "  registration nvarchar2 NOT NULL UNIQUE,"
-			+ "  model nvarchar2 NOT NULL,"
-			+ "  idMake integer NOT NULL,"
+			+ "  model nvarchar2 NOT NULL," + "  idMake integer NOT NULL,"
 			+ "  idFuelType integer NOT NULL,"
 			+ "  FOREIGN KEY (idFuelType) REFERENCES FuelType(_id));";
 	private static final String FUELING_CREATE = "CREATE TABLE Fueling ("
@@ -73,7 +71,7 @@ public class FuelMonitorDbAdapter {
 			+ "  FOREIGN KEY (idGasStation) REFERENCES GasStation(_id));";
 
 	private static final String DATABASE_NAME = "data";
-	private static final int DATABASE_VERSION = 4;
+	private static final int DATABASE_VERSION = 1;
 
 	private final Context mCtx;
 
@@ -97,23 +95,136 @@ public class FuelMonitorDbAdapter {
 			Log.i(TAG, "Creating Fueling table");
 			db.execSQL(FUELING_CREATE);
 
+			
+			//TODO Ship app with pre-populated and created database
 			Log.i(TAG, "Populating FuelType table");
 			ContentValues fuel_types = new ContentValues();
-			fuel_types.put("name", "Gasolina 95");
-			db.insert("fueltype", null, fuel_types);
-			fuel_types.put("name", "Gasolina 98");
+			fuel_types.put("name", "Gasolina");
 			db.insert("fueltype", null, fuel_types);
 			fuel_types.put("name", "Gasóleo");
 			db.insert("fueltype", null, fuel_types);
 			fuel_types.put("name", "GPL");
 			db.insert("fueltype", null, fuel_types);
-			
-			
+
 			Log.i(TAG, "Populating Make table");
 			ContentValues makes = new ContentValues();
+			makes.put("name", "Alfa Romeo");
+			db.insert("make", null, makes);
+			makes.put("name", "Aston Martin");
+			db.insert("make", null, makes);
+			makes.put("name", "Audi");
+			db.insert("make", null, makes);
+			makes.put("name", "Austin Morris");
+			db.insert("make", null, makes);
+			makes.put("name", "Austin Rover");
+			db.insert("make", null, makes);
+			makes.put("name", "Bentley");
+			db.insert("make", null, makes);
+			makes.put("name", "BMW");
+			db.insert("make", null, makes);
+			makes.put("name", "Chevrolet");
+			db.insert("make", null, makes);
+			makes.put("name", "Chrysler");
+			db.insert("make", null, makes);
+			makes.put("name", "Citroën");
+			db.insert("make", null, makes);
+			makes.put("name", "Dacia");
+			db.insert("make", null, makes);
+			makes.put("name", "Daewoo");
+			db.insert("make", null, makes);
+			makes.put("name", "Daihatsu");
+			db.insert("make", null, makes);
+			makes.put("name", "Dodge");
+			db.insert("make", null, makes);
+			makes.put("name", "Ferrari");
+			db.insert("make", null, makes);
+			makes.put("name", "Fiat");
+			db.insert("make", null, makes);
+			makes.put("name", "Ford");
+			db.insert("make", null, makes);
+			makes.put("name", "GMC");
+			db.insert("make", null, makes);
+			makes.put("name", "Honda");
+			db.insert("make", null, makes);
+			makes.put("name", "Hummer");
+			db.insert("make", null, makes);
+			makes.put("name", "Hyundai");
+			db.insert("make", null, makes);
+			makes.put("name", "Isuzu");
+			db.insert("make", null, makes);
+			makes.put("name", "Jaguar");
+			db.insert("make", null, makes);
+			makes.put("name", "Jeep");
+			db.insert("make", null, makes);
+			makes.put("name", "Kia");
+			db.insert("make", null, makes);
+			makes.put("name", "Lada");
+			db.insert("make", null, makes);
+			makes.put("name", "Lamborghini");
+			db.insert("make", null, makes);
+			makes.put("name", "Lancia");
+			db.insert("make", null, makes);
+			makes.put("name", "Land Rover");
+			db.insert("make", null, makes);
+			makes.put("name", "Lexus");
+			db.insert("make", null, makes);
+			makes.put("name", "Lotus");
+			db.insert("make", null, makes);
+			makes.put("name", "Maserati");
+			db.insert("make", null, makes);
+			makes.put("name", "Mazda");
+			db.insert("make", null, makes);
+			makes.put("name", "Mercedes-Benz");
+			db.insert("make", null, makes);
+			makes.put("name", "MG");
+			db.insert("make", null, makes);
+			makes.put("name", "MINI");
+			db.insert("make", null, makes);
+			makes.put("name", "Mitsubishi");
+			db.insert("make", null, makes);
 			makes.put("name", "Nissan");
 			db.insert("make", null, makes);
+			makes.put("name", "Opel");
+			db.insert("make", null, makes);
+			makes.put("name", "Peugeot");
+			db.insert("make", null, makes);
+			makes.put("name", "Pontiac");
+			db.insert("make", null, makes);
+			makes.put("name", "Porsche");
+			db.insert("make", null, makes);
+			makes.put("name", "Renault");
+			db.insert("make", null, makes);
+			makes.put("name", "Rolls Royce");
+			db.insert("make", null, makes);
+			makes.put("name", "Rover");
+			db.insert("make", null, makes);
+			makes.put("name", "Saab");
+			db.insert("make", null, makes);
+			makes.put("name", "Seat");
+			db.insert("make", null, makes);
+			makes.put("name", "Skoda");
+			db.insert("make", null, makes);
+			makes.put("name", "Smart");
+			db.insert("make", null, makes);
+			makes.put("name", "SsangYong");
+			db.insert("make", null, makes);
+			makes.put("name", "Subaru");
+			db.insert("make", null, makes);
+			makes.put("name", "Suzuki");
+			db.insert("make", null, makes);
+			makes.put("name", "Tata");
+			db.insert("make", null, makes);
 			makes.put("name", "Toyota");
+			db.insert("make", null, makes);
+			makes.put("name", "Triumph");
+			db.insert("make", null, makes);
+			makes.put("name", "UMM");
+			db.insert("make", null, makes);
+			makes.put("name", "Vauxhall");
+			db.insert("make", null, makes);
+			makes.put("name", "Volvo");
+			db.insert("make", null, makes);
+			makes.put("name", "VW");
 			db.insert("make", null, makes);
 		}
 
@@ -162,8 +273,8 @@ public class FuelMonitorDbAdapter {
 		mDbHelper.close();
 	}
 
-	public long addVehicle(int make, String model, int fuelType, short fuelCapacity,
-			String registration, short year, int kms) {
+	public long addVehicle(int make, String model, int fuelType,
+			short fuelCapacity, String registration, short year, int kms) {
 		ContentValues vehicle = new ContentValues();
 		vehicle.put("idMake", make);
 		vehicle.put("model", model);
@@ -180,11 +291,11 @@ public class FuelMonitorDbAdapter {
 		return mDb.query("FuelType", new String[] { "_id", "name" }, null,
 				null, null, null, null);
 	}
-	
+
 	public Cursor fetchMakes() {
 
-		return mDb.query("Make", new String[] { "_id", "name" }, null,
-				null, null, null, null);
+		return mDb.query("Make", new String[] { "_id", "name" }, null, null,
+				null, null, null);
 	}
 
 	/*

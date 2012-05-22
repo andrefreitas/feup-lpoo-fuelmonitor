@@ -79,4 +79,12 @@ public class AddVehicle extends Activity {
 		mDbHelper.close();
 	}
 
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		mDbHelper.open();
+	}
+	
+	
+
 }
