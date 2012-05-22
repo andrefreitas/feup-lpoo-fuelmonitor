@@ -95,8 +95,7 @@ public class FuelMonitorDbAdapter {
 			Log.i(TAG, "Creating Fueling table");
 			db.execSQL(FUELING_CREATE);
 
-			
-			//TODO Ship app with pre-populated and created database
+			// TODO Ship app with pre-populated and created database
 			Log.i(TAG, "Populating FuelType table");
 			ContentValues fuel_types = new ContentValues();
 			fuel_types.put("name", "Gasolina");
@@ -226,6 +225,20 @@ public class FuelMonitorDbAdapter {
 			db.insert("make", null, makes);
 			makes.put("name", "VW");
 			db.insert("make", null, makes);
+			
+			/*Log.i(TAG, "Populating Vehicles table (DEBUG)");
+			ContentValues vehicles = new ContentValues();
+			vehicles.put("idMake", 1);
+			vehicles.put("model", "TESTE");
+			vehicles.put("idFuelType", 1);
+			vehicles.put("fuelCapacity", 50);
+			vehicles.put("year", 2001);
+			vehicles.put("kms", 50000);
+			for(int i=0;i<100;i++)
+			{
+				vehicles.put("registration", "TESTE "+i);
+				db.insert("vehicle", null, vehicles);
+			}*/
 		}
 
 		@Override
@@ -297,11 +310,16 @@ public class FuelMonitorDbAdapter {
 		return mDb.query("Make", new String[] { "_id", "name" }, null, null,
 				null, null, null);
 	}
-	
+
 	public Cursor fetchVehicles() {
 
-		return mDb.query("Vehicle", new String[] { "_id", "registration" }, null, null,
-				null, null, null);
+		return mDb.query("Vehicle", new String[] { "_id", "registration",
+				"idmake", "model" }, null, null, null, null, null);
+	}
+
+	public boolean deleteVehicle(long rowId) {
+
+		return mDb.delete("vehicle", "_id=" + rowId, null) > 0;
 	}
 
 	/*

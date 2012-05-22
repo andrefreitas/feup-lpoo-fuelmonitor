@@ -19,5 +19,6 @@
     <string name="add_vehicle_fuel_capacity">Capacidade</string>
     <string name="add_vehicle_kms">Kms</string>
     <string name="vehicle_list_add_vehicle">Adicionar veículo</string>
+    <string name="vehicle_delete">Apagar</string>
 
 </resources>

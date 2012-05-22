@@ -64,7 +64,7 @@ public class AddVehicle extends Activity {
 			//TODO Set Make and Fueltype IDs from database
 			public void onClick(View v) {
 				if (!model.getText().toString().equals("") && !license.getText().toString().equals("") && !capacity.getText().toString().equals("") && !kms.getText().toString().equals(""))
-					if(mDbHelper.addVehicle(make.getSelectedItemPosition(), model.getText().toString(), fuelType.getSelectedItemPosition(), Short.parseShort(capacity.getText().toString()), license.getText().toString(), Short.parseShort(year.getSelectedItem().toString()), Integer.parseInt(kms.getText().toString()))>0)
+					if(mDbHelper.addVehicle(make.getId(), model.getText().toString(), fuelType.getId(), Short.parseShort(capacity.getText().toString()), license.getText().toString(), Short.parseShort(year.getSelectedItem().toString()), Integer.parseInt(kms.getText().toString()))>0)
 					{
 						finish();
 					}
