@@ -6,15 +6,17 @@
     <string name="add_vehicle_brand">Marca</string>
     <string name="add_vehicle_model">Modelo</string>
     <string name="add_vehicle_fuel_type">Combustível</string>
-    <string name="add_vehicle_license">Matrícula</string>
+    <string name="add_vehicle_registration">Matrícula</string>
     <string name="add_vehicle_year">Ano</string>
     <string name="add_vehicle_photo">Foto</string>
-    <dimen name="add_vehicle_spacing">30dp</dimen>
+    <dimen name="add_vehicle_spacing">20dp</dimen>
     <string name="add_vehicle_photo_button">Tirar</string>
     <string name="add_vehicle_save_button">Gravar</string>
     <string name="menu_addfueling">Abastecer</string>
     <string name="menu_vehicles">Veículos</string>
     <string name="menu_stats">Estatísticas</string>
     <string name="menu_fuelstations">Gasolineiras</string>
+    <string name="add_vehicle_fuel_capacity">Capacidade</string>
+    <string name="add_vehicle_kms">Kms</string>
 
 </resources>

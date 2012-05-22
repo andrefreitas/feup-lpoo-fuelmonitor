@@ -48,37 +48,32 @@ public class FuelMonitorDbAdapter {
 			+ "  name nvarchar2 NOT NULL UNIQUE);";
 
 	private static final String GASSTATION_CREATE = "CREATE TABLE GasStation ("
-			+ "  _id INTEGER PRIMARY KEY,"
-			+ "  name nvarchar2 NOT NULL ," + "  location nvarchar2 NOT NULL);";
+			+ "  _id INTEGER PRIMARY KEY," + "  name nvarchar2 NOT NULL ,"
+			+ "  location nvarchar2 NOT NULL);";
 	private static final String MAKE_CREATE = "CREATE TABLE Make ("
 			+ "  _id INTEGER PRIMARY KEY,"
 			+ "  name nvarchar2 NOT NULL UNIQUE);";
-
-	private static final String MODEL_CREATE = "CREATE TABLE Model ("
-			+ "  _id INTEGER PRIMARY KEY,"
-			+ "  name nvarchar2 NOT NULL UNIQUE," + "  idMake number NOT NULL,"
-			+ "  FOREIGN KEY (idMake) REFERENCES Make(_id));";
 	private static final String VEHICLE_CREATE = "CREATE TABLE Vehicle ("
-			+ "  _id INTEGER PRIMARY KEY," + "  kms number NOT NULL ,"
-			+ "  date date NOT NULL ,"
-			+ "  photoPath nvarchar2 NOT NULL UNIQUE,"
-			+ "  fuelCapacity number NOT NULL ,"
+			+ "  _id INTEGER PRIMARY KEY," + "  kms integer NOT NULL ,"
+			+ "  year integer NOT NULL ,"
+			+ "  photoPath nvarchar2 UNIQUE,"
+			+ "  fuelCapacity integer NOT NULL ,"
 			+ "  registration nvarchar2 NOT NULL UNIQUE,"
-			+ "  idModel number NOT NULL ," + "  idMake number NOT NULL ,"
-			+ "  idFuelType number NOT NULL,"
-			+ "  FOREIGN KEY (idModel) REFERENCES Model(_id),"
+			+ "  model nvarchar2 NOT NULL,"
+			+ "  idMake integer NOT NULL,"
+			+ "  idFuelType integer NOT NULL,"
 			+ "  FOREIGN KEY (idFuelType) REFERENCES FuelType(_id));";
 	private static final String FUELING_CREATE = "CREATE TABLE Fueling ("
 			+ "  _id INTEGER PRIMARY KEY," + "  date date NOT NULL ,"
-			+ "  kmsAtFueling number NOT NULL ,"
-			+ "  quantity number NOT NULL ," + "  cost float NOT NULL ,"
-			+ "  idVehicle number NOT NULL ,"
-			+ "  idGasStation number NOT NULL ,"
+			+ "  kmsAtFueling integer NOT NULL ,"
+			+ "  quantity integer NOT NULL ," + "  cost float NOT NULL ,"
+			+ "  idVehicle integer NOT NULL ,"
+			+ "  idGasStation integer NOT NULL ,"
 			+ "  FOREIGN KEY (idVehicle) REFERENCES Vehicle(_id) ,"
 			+ "  FOREIGN KEY (idGasStation) REFERENCES GasStation(_id));";
 
 	private static final String DATABASE_NAME = "data";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 3;
 
 	private final Context mCtx;
 
@@ -94,10 +89,9 @@ public class FuelMonitorDbAdapter {
 			db.execSQL(FUELTYPE_CREATE);
 			db.execSQL(GASSTATION_CREATE);
 			db.execSQL(MAKE_CREATE);
-			db.execSQL(MODEL_CREATE);
 			db.execSQL(VEHICLE_CREATE);
 			db.execSQL(FUELING_CREATE);
-			
+
 			ContentValues fuel_types = new ContentValues();
 			fuel_types.put("name", "Gasolina 95");
 			db.insert("fueltype", null, fuel_types);
@@ -108,6 +102,12 @@ public class FuelMonitorDbAdapter {
 			fuel_types.put("name", "GPL");
 			db.insert("fueltype", null, fuel_types);
 			
+			ContentValues makes = new ContentValues();
+			makes.put("name", "Nissan");
+			db.insert("make", null, makes);
+			makes.put("name", "Toyota");
+			db.insert("make", null, makes);
+
 		}
 
 		@Override
@@ -155,14 +155,28 @@ public class FuelMonitorDbAdapter {
 		mDbHelper.close();
 	}
 
-	public void addFueling(String make, String model, String fuelType,
-			String license, short year) {
-		
+	public long addVehicle(int make, String model, int fuelType, short fuelCapacity,
+			String registration, short year, int kms) {
+		ContentValues vehicle = new ContentValues();
+		vehicle.put("idMake", make);
+		vehicle.put("model", model);
+		vehicle.put("idFuelType", fuelType);
+		vehicle.put("fuelCapacity", fuelCapacity);
+		vehicle.put("registration", registration);
+		vehicle.put("year", year);
+		vehicle.put("kms", kms);
+		return mDb.insert("vehicle", null, vehicle);
 	}
-	
+
 	public Cursor fetchAllFuelingTypes() {
 
 		return mDb.query("FuelType", new String[] { "_id", "name" }, null,
+				null, null, null, null);
+	}
+	
+	public Cursor fetchAllMakes() {
+
+		return mDb.query("Make", new String[] { "_id", "name" }, null,
 				null, null, null, null);
 	}
 

@@ -64,21 +64,41 @@
         android:layout_marginRight="20dp" />
 
     <TextView
-        android:id="@+id/addvehicle_licenseLabel"
+        android:id="@+id/addvehicle_fuelCapacityLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/addvehicle_fuelTypeLabel"
         android:layout_below="@+id/addvehicle_fuelTypeLabel"
         android:layout_marginTop="@dimen/add_vehicle_spacing"
-        android:text="@string/add_vehicle_license"
+        android:text="@string/add_vehicle_fuel_capacity"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
-        android:id="@+id/addvehicle_licenseText"
+        android:id="@+id/addvehicle_fuelCapacityText"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/addvehicle_licenseLabel"
+        android:layout_alignBaseline="@+id/addvehicle_fuelCapacityLabel"
         android:layout_alignRight="@+id/addvehicle_fuelTypeSpinner"
+        android:ems="10"
+        android:inputType="number|text"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/addvehicle_registrationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/addvehicle_fuelCapacityLabel"
+        android:layout_below="@+id/addvehicle_fuelCapacityLabel"
+        android:layout_marginTop="@dimen/add_vehicle_spacing"
+        android:text="@string/add_vehicle_registration"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/addvehicle_registrationText"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/addvehicle_registrationLabel"
+        android:layout_alignRight="@+id/addvehicle_fuelCapacityText"
         android:ems="10"
         android:inputType="text"
         android:singleLine="true" />
@@ -87,8 +107,8 @@
         android:id="@+id/addvehicle_yearLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/addvehicle_licenseLabel"
-        android:layout_below="@+id/addvehicle_licenseLabel"
+        android:layout_alignLeft="@+id/addvehicle_registrationLabel"
+        android:layout_below="@+id/addvehicle_registrationLabel"
         android:layout_marginTop="@dimen/add_vehicle_spacing"
         android:text="@string/add_vehicle_year"
         android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -102,11 +122,31 @@
         android:layout_marginRight="20dp" />
 
     <TextView
-        android:id="@+id/addvehicle_photoLabel"
+        android:id="@+id/addvehicle_kmsLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/addvehicle_yearLabel"
         android:layout_below="@+id/addvehicle_yearLabel"
+        android:layout_marginTop="@dimen/add_vehicle_spacing"
+        android:text="@string/add_vehicle_kms"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/addvehicle_kmsText"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/addvehicle_kmsLabel"
+        android:layout_alignRight="@+id/addvehicle_yearSpinner"
+        android:ems="10"
+        android:inputType="number|text"
+        android:singleLine="true" />
+    
+    <TextView
+        android:id="@+id/addvehicle_photoLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/addvehicle_kmsLabel"
+        android:layout_below="@+id/addvehicle_kmsLabel"
         android:layout_marginTop="@dimen/add_vehicle_spacing"
         android:text="@string/add_vehicle_photo"
         android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -116,7 +156,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/addvehicle_photoLabel"
-        android:layout_alignRight="@+id/addvehicle_yearSpinner"
+        android:layout_alignRight="@+id/addvehicle_kmsText"
         android:text="@string/add_vehicle_photo_button" />
 
     <Button
