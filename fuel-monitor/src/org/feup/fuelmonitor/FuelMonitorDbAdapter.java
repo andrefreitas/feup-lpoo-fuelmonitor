@@ -168,13 +168,13 @@ public class FuelMonitorDbAdapter {
 		return mDb.insert("vehicle", null, vehicle);
 	}
 
-	public Cursor fetchAllFuelingTypes() {
+	public Cursor fetchFuelingTypes() {
 
 		return mDb.query("FuelType", new String[] { "_id", "name" }, null,
 				null, null, null, null);
 	}
 	
-	public Cursor fetchAllMakes() {
+	public Cursor fetchMakes() {
 
 		return mDb.query("Make", new String[] { "_id", "name" }, null,
 				null, null, null, null);

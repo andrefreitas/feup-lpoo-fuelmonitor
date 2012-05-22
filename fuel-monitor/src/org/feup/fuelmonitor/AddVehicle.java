@@ -38,7 +38,7 @@ public class AddVehicle extends Activity {
 		for (int y = 2012; y >= 1900; y--)
 			yearAdapter.add(y);
 
-		Cursor makeCursor = mDbHelper.fetchAllMakes();
+		Cursor makeCursor = mDbHelper.fetchMakes();
 
 		startManagingCursor(makeCursor);
 
@@ -46,7 +46,7 @@ public class AddVehicle extends Activity {
 				android.R.layout.simple_spinner_item, makeCursor,
 				new String[] { "name" }, new int[] { android.R.id.text1 });
 		
-		Cursor fuelTypeCursor = mDbHelper.fetchAllFuelingTypes();
+		Cursor fuelTypeCursor = mDbHelper.fetchFuelingTypes();
 
 		startManagingCursor(fuelTypeCursor);
 
