@@ -78,14 +78,5 @@ public class AddVehicle extends Activity {
 		super.onDestroy();
 		mDbHelper.close();
 	}
-	
-
-	@Override
-	protected void onRestart() {
-		super.onRestart();
-		mDbHelper.open();
-	}
-	
-	
 
 }
