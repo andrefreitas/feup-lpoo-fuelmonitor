@@ -18,5 +18,6 @@
     <string name="menu_fuelstations">Gasolineiras</string>
     <string name="add_vehicle_fuel_capacity">Capacidade</string>
     <string name="add_vehicle_kms">Kms</string>
+    <string name="vehicle_list_add_vehicle">Adicionar veículo</string>
 
 </resources>

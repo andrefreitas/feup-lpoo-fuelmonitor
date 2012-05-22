@@ -13,7 +13,7 @@
         android:background="@null"
         android:drawableTop="@drawable/fueling"
         android:text="@string/menu_addfueling"
-        android:textColor="@android:color/primary_text_dark"/>
+        android:textColor="@android:color/primary_text_dark" />
 
     <Button
         android:id="@+id/main_vehiclesButton"
@@ -25,7 +25,7 @@
         android:background="@null"
         android:drawableTop="@drawable/car"
         android:text="@string/menu_vehicles"
-        android:textColor="@android:color/primary_text_dark"/>
+        android:textColor="@android:color/primary_text_dark" />
 
     <Button
         android:id="@+id/main_statsButton"
@@ -37,7 +37,7 @@
         android:background="@null"
         android:drawableTop="@drawable/stats"
         android:text="@string/menu_stats"
-        android:textColor="@android:color/primary_text_dark"/>
+        android:textColor="@android:color/primary_text_dark" />
 
     <Button
         android:id="@+id/main_gasButton"
@@ -49,6 +49,6 @@
         android:background="@null"
         android:drawableTop="@drawable/gas_station"
         android:text="@string/menu_fuelstations"
-        android:textColor="@android:color/primary_text_dark"/>
+        android:textColor="@android:color/primary_text_dark" />
 
 </RelativeLayout>

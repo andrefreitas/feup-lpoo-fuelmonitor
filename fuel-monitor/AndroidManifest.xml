@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddVehicle"></activity>
+        <activity android:name="VehicleList"></activity>
     </application>
 
 </manifest>

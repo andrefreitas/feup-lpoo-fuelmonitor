@@ -7,19 +7,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class FuelMonitor extends Activity {
-	/** Called when the activity is first created. */
+public class VehicleList extends Activity {
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		setContentView(R.layout.main);
-		Button b2 = (Button) findViewById(R.id.main_vehiclesButton);
+		setContentView(R.layout.vehiclelist);
+
+		Button addVehicle = (Button) findViewById(R.id.vehiclelist_addvehicle);
+
 		final Context c = this;
-		b2.setOnClickListener(new View.OnClickListener() {
+
+		addVehicle.setOnClickListener(new View.OnClickListener() {
+
+			@Override
 			public void onClick(View v) {
-				Intent i = new Intent(c, VehicleList.class);
+				Intent i = new Intent(c, AddVehicle.class);
 				startActivity(i);
 
 			}
