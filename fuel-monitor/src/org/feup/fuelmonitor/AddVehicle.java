@@ -39,7 +39,7 @@ public class AddVehicle extends Activity {
 			yearAdapter.add(y);
 
 		Cursor makeCursor = mDbHelper.fetchMakes();
-
+		//TODO Use a CursorLoader (startManagingCursor is deprecated)
 		startManagingCursor(makeCursor);
 
 		SimpleCursorAdapter makeAdapter = new SimpleCursorAdapter(this,
@@ -71,6 +71,12 @@ public class AddVehicle extends Activity {
 
 			}
 		});
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		mDbHelper.close();
 	}
 
 }

@@ -73,7 +73,7 @@ public class FuelMonitorDbAdapter {
 			+ "  FOREIGN KEY (idGasStation) REFERENCES GasStation(_id));";
 
 	private static final String DATABASE_NAME = "data";
-	private static final int DATABASE_VERSION = 3;
+	private static final int DATABASE_VERSION = 4;
 
 	private final Context mCtx;
 
@@ -86,12 +86,18 @@ public class FuelMonitorDbAdapter {
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 
+			Log.i(TAG, "Creating FuelType table");
 			db.execSQL(FUELTYPE_CREATE);
+			Log.i(TAG, "Creating GasStation table");
 			db.execSQL(GASSTATION_CREATE);
+			Log.i(TAG, "Creating Make table");
 			db.execSQL(MAKE_CREATE);
+			Log.i(TAG, "Creating Vehicle table");
 			db.execSQL(VEHICLE_CREATE);
+			Log.i(TAG, "Creating Fueling table");
 			db.execSQL(FUELING_CREATE);
 
+			Log.i(TAG, "Populating FuelType table");
 			ContentValues fuel_types = new ContentValues();
 			fuel_types.put("name", "Gasolina 95");
 			db.insert("fueltype", null, fuel_types);
@@ -102,12 +108,13 @@ public class FuelMonitorDbAdapter {
 			fuel_types.put("name", "GPL");
 			db.insert("fueltype", null, fuel_types);
 			
+			
+			Log.i(TAG, "Populating Make table");
 			ContentValues makes = new ContentValues();
 			makes.put("name", "Nissan");
 			db.insert("make", null, makes);
 			makes.put("name", "Toyota");
 			db.insert("make", null, makes);
-
 		}
 
 		@Override
