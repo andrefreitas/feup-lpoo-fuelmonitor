@@ -297,6 +297,12 @@ public class FuelMonitorDbAdapter {
 		return mDb.query("Make", new String[] { "_id", "name" }, null, null,
 				null, null, null);
 	}
+	
+	public Cursor fetchVehicles() {
+
+		return mDb.query("Vehicle", new String[] { "_id", "registration" }, null, null,
+				null, null, null);
+	}
 
 	/*
 	 * TO IMPLEMENT
