@@ -1,10 +1,13 @@
 package org.feup.fuelmonitor;
 
+import java.io.File;
+
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -56,6 +59,12 @@ public class VehicleList extends ListActivity {
 		case Menu.FIRST:
 			AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
 					.getMenuInfo();
+			File directory = new File(
+					Environment.getExternalStorageDirectory(), "fuelmonitor/");
+			directory.mkdirs();
+			File file = new File(directory,
+					(mDbHelper.getRegistrationByID(info.id) + ".jpg"));
+			file.delete();
 			mDbHelper.deleteVehicle(info.id);
 			fillData();
 			return true;
@@ -69,11 +78,17 @@ public class VehicleList extends ListActivity {
 		// TODO Implement getting the make name from the ID
 		startManagingCursor(vehicleCursor);
 		SimpleCursorAdapter vehicleAdapter = new SimpleCursorAdapter(this,
-				R.layout.vehiclerow, vehicleCursor, new String[] { "idMake",
+				R.layout.vehiclerow, vehicleCursor, new String[] { "makeName",
 						"model" }, new int[] { R.id.vehicleRow_make,
 						R.id.vehicleRow_model });
 
 		getListView().setAdapter(vehicleAdapter);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mDbHelper.close();
 	}
 
 }

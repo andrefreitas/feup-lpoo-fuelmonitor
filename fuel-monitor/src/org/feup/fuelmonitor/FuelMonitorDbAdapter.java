@@ -225,20 +225,16 @@ public class FuelMonitorDbAdapter {
 			db.insert("make", null, makes);
 			makes.put("name", "VW");
 			db.insert("make", null, makes);
-			
-			/*Log.i(TAG, "Populating Vehicles table (DEBUG)");
-			ContentValues vehicles = new ContentValues();
-			vehicles.put("idMake", 1);
-			vehicles.put("model", "TESTE");
-			vehicles.put("idFuelType", 1);
-			vehicles.put("fuelCapacity", 50);
-			vehicles.put("year", 2001);
-			vehicles.put("kms", 50000);
-			for(int i=0;i<100;i++)
-			{
-				vehicles.put("registration", "TESTE "+i);
-				db.insert("vehicle", null, vehicles);
-			}*/
+
+			/*
+			 * Log.i(TAG, "Populating Vehicles table (DEBUG)"); ContentValues
+			 * vehicles = new ContentValues(); vehicles.put("idMake", 1);
+			 * vehicles.put("model", "TESTE"); vehicles.put("idFuelType", 1);
+			 * vehicles.put("fuelCapacity", 50); vehicles.put("year", 2001);
+			 * vehicles.put("kms", 50000); for(int i=0;i<100;i++) {
+			 * vehicles.put("registration", "TESTE "+i); db.insert("vehicle",
+			 * null, vehicles); }
+			 */
 		}
 
 		@Override
@@ -312,9 +308,18 @@ public class FuelMonitorDbAdapter {
 	}
 
 	public Cursor fetchVehicles() {
+		return mDb
+				.rawQuery(
+						"SELECT V._id, model, M.name as makeName, registration FROM Make M, Vehicle V WHERE V.idmake = M._id",
+						null);
+	}
 
-		return mDb.query("Vehicle", new String[] { "_id", "registration",
-				"idmake", "model" }, null, null, null, null, null);
+	public String getRegistrationByID(long id) {
+		Cursor result = mDb.rawQuery(
+				"SELECT registration FROM Vehicle WHERE _id=?",
+				new String[] { String.valueOf(id) });
+		result.moveToFirst();
+		return result.getString(0);
 	}
 
 	public boolean deleteVehicle(long rowId) {

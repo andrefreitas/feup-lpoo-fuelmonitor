@@ -77,13 +77,13 @@ public class AddVehicle extends Activity {
 						&& !capacity.getText().toString().equals("")
 						&& !kms.getText().toString().equals("")) {
 					if (mDbHelper.addVehicle(
-							make.getSelectedItemPosition(),
-							model.getText().toString(),
-							fuelType.getSelectedItemPosition(),
-							Short.parseShort(capacity.getText().toString()),
-							license.getText().toString(),
-							Short.parseShort(year.getSelectedItem().toString()),
-							Integer.parseInt(kms.getText().toString())) > 0) {
+							make.getSelectedItemPosition() + 1, model.getText()
+									.toString(), fuelType
+									.getSelectedItemPosition(), Short
+									.parseShort(capacity.getText().toString()),
+							license.getText().toString(), Short.parseShort(year
+									.getSelectedItem().toString()), Integer
+									.parseInt(kms.getText().toString())) > 0) {
 						if (photo.isChecked()) {
 							File directory = new File(Environment
 									.getExternalStorageDirectory(),
