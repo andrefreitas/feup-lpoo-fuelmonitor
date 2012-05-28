@@ -6,18 +6,34 @@
 	android:paddingBottom="10dp"
     android:orientation="vertical" >
 
+    <ImageView
+        android:id="@+id/vehicleRow_pic"
+        android:layout_width="75dp"
+        android:layout_height="75dp" 
+        android:layout_marginLeft="10dp"
+        android:contentDescription="@string/vehicle_list_pic_description"
+        android:src="@drawable/photo_not_available"/>
+        
     <TextView
         android:id="@+id/vehicleRow_make"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
+        android:layout_alignBottom="@+id/vehicleRow_pic"
+        android:layout_alignTop="@+id/vehicleRow_pic"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/vehicleRow_pic"
+        android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium" />
     
     <TextView
         android:id="@+id/vehicleRow_model"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/vehicleRow_make"
+        android:layout_height="75dp"
+        android:layout_alignBottom="@+id/vehicleRow_make"
+        android:layout_alignTop="@+id/vehicleRow_make"
         android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/vehicleRow_make"
+        android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

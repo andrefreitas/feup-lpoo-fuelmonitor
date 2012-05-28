@@ -38,7 +38,6 @@ public class VehicleList extends ListActivity {
 
 		addVehicle.setOnClickListener(new View.OnClickListener() {
 
-			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(c, AddVehicle.class);
 				startActivity(i);

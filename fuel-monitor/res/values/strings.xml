@@ -21,5 +21,6 @@
     <string name="vehicle_list_add_vehicle">Adicionar veículo</string>
     <string name="vehicle_delete">Apagar</string>
     <string name="vehicle_list_empty">Sem Veículos</string>
+    <string name="vehicle_list_pic_description">Fotografia do veículo</string>
 
 </resources>
