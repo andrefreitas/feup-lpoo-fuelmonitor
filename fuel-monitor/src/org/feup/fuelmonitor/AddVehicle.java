@@ -1,17 +1,27 @@
 package org.feup.fuelmonitor;
 
+import java.io.File;
+import java.io.IOException;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 public class AddVehicle extends Activity {
 
+	private static final String TAG = "FuelMonitorAddVehicle";
 	private FuelMonitorDbAdapter mDbHelper;
 
 	@Override
@@ -26,26 +36,25 @@ public class AddVehicle extends Activity {
 		final TextView license = (TextView) findViewById(R.id.addvehicle_registrationText);
 		final Spinner year = (Spinner) findViewById(R.id.addvehicle_yearSpinner);
 		final TextView kms = (TextView) findViewById(R.id.addvehicle_kmsText);
+		final CheckBox photo = (CheckBox) findViewById(R.id.addvehicle_photoCheckBox);
 		final Button save = (Button) findViewById(R.id.addvehicle_saveButton);
-		
+
 		mDbHelper.open();
-		
-		
 
 		ArrayAdapter<Integer> yearAdapter = new ArrayAdapter<Integer>(this,
 				android.R.layout.simple_spinner_item);
-		
+
 		for (int y = 2012; y >= 1900; y--)
 			yearAdapter.add(y);
 
 		Cursor makeCursor = mDbHelper.fetchMakes();
-		//TODO Use a CursorLoader (startManagingCursor is deprecated)
+		// TODO Use a CursorLoader (startManagingCursor is deprecated)
 		startManagingCursor(makeCursor);
 
 		SimpleCursorAdapter makeAdapter = new SimpleCursorAdapter(this,
 				android.R.layout.simple_spinner_item, makeCursor,
 				new String[] { "name" }, new int[] { android.R.id.text1 });
-		
+
 		Cursor fuelTypeCursor = mDbHelper.fetchFuelingTypes();
 
 		startManagingCursor(fuelTypeCursor);
@@ -61,16 +70,48 @@ public class AddVehicle extends Activity {
 		year.setAdapter(yearAdapter);
 
 		save.setOnClickListener(new View.OnClickListener() {
-			//TODO Set Make and Fueltype IDs from database
+			// TODO Set Make and Fueltype IDs from database
 			public void onClick(View v) {
-				if (!model.getText().toString().equals("") && !license.getText().toString().equals("") && !capacity.getText().toString().equals("") && !kms.getText().toString().equals(""))
-					if(mDbHelper.addVehicle(make.getSelectedItemPosition(), model.getText().toString(), fuelType.getSelectedItemPosition(), Short.parseShort(capacity.getText().toString()), license.getText().toString(), Short.parseShort(year.getSelectedItem().toString()), Integer.parseInt(kms.getText().toString()))>0)
-					{
+				if (!model.getText().toString().equals("")
+						&& !license.getText().toString().equals("")
+						&& !capacity.getText().toString().equals("")
+						&& !kms.getText().toString().equals("")) {
+					if (mDbHelper.addVehicle(
+							make.getSelectedItemPosition(),
+							model.getText().toString(),
+							fuelType.getSelectedItemPosition(),
+							Short.parseShort(capacity.getText().toString()),
+							license.getText().toString(),
+							Short.parseShort(year.getSelectedItem().toString()),
+							Integer.parseInt(kms.getText().toString())) > 0) {
+						if (photo.isChecked()) {
+							File directory = new File(Environment
+									.getExternalStorageDirectory(),
+									"fuelmonitor/");
+							directory.mkdirs();
+							File file = new File(directory, (license.getText()
+									.toString() + ".jpg"));
+							file.delete();
+							try {
+								file.createNewFile();
+							} catch (IOException e) {
+								Log.e(TAG, "Error creating image file");
+							}
+							Intent i = new Intent(
+									android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+							i.putExtra(MediaStore.EXTRA_OUTPUT,
+									Uri.fromFile(file));
+							startActivity(i);
+							if (file.length() == 0)
+								file.delete();
+						}
 						finish();
 					}
 
+				}
 			}
 		});
+
 	}
 
 	@Override

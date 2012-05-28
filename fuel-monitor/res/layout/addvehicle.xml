@@ -39,7 +39,7 @@
         android:layout_alignBaseline="@+id/addvehicle_modelLabel"
         android:layout_alignRight="@+id/addvehicle_brandSpinner"
         android:ems="10"
-        android:inputType="text"
+        android:inputType="text|textCapWords"
         android:singleLine="true" >
 
         <requestFocus />
@@ -100,7 +100,7 @@
         android:layout_alignBaseline="@+id/addvehicle_registrationLabel"
         android:layout_alignRight="@+id/addvehicle_fuelCapacityText"
         android:ems="10"
-        android:inputType="text"
+        android:inputType="text|textCapCharacters"
         android:singleLine="true" />
 
     <TextView
@@ -140,7 +140,7 @@
         android:ems="10"
         android:inputType="number|text"
         android:singleLine="true" />
-    
+
     <TextView
         android:id="@+id/addvehicle_photoLabel"
         android:layout_width="wrap_content"
@@ -151,13 +151,12 @@
         android:text="@string/add_vehicle_photo"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <Button
-        android:id="@+id/addvehicle_photoButton"
+    <CheckBox
+        android:id="@+id/addvehicle_photoCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/addvehicle_photoLabel"
-        android:layout_alignRight="@+id/addvehicle_kmsText"
-        android:text="@string/add_vehicle_photo_button" />
+        android:layout_alignRight="@+id/addvehicle_kmsText" />
 
     <Button
         android:id="@+id/addvehicle_saveButton"
