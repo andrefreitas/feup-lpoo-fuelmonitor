@@ -24,12 +24,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddVehicle"
+            android:name="AddVehicle"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="VehicleList"
             android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="AddFueling"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

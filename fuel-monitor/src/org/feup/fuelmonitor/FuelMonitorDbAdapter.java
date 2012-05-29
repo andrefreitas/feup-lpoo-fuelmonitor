@@ -46,17 +46,12 @@ public class FuelMonitorDbAdapter {
 	private static final String FUELTYPE_CREATE = "CREATE TABLE FuelType ("
 			+ "  _id INTEGER PRIMARY KEY,"
 			+ "  name nvarchar2 NOT NULL UNIQUE);";
-
-	private static final String GASSTATION_CREATE = "CREATE TABLE GasStation ("
-			+ "  _id INTEGER PRIMARY KEY," + "  name nvarchar2 NOT NULL ,"
-			+ "  location nvarchar2 NOT NULL);";
 	private static final String MAKE_CREATE = "CREATE TABLE Make ("
 			+ "  _id INTEGER PRIMARY KEY,"
 			+ "  name nvarchar2 NOT NULL UNIQUE);";
 	private static final String VEHICLE_CREATE = "CREATE TABLE Vehicle ("
 			+ "  _id INTEGER PRIMARY KEY," + "  kms integer NOT NULL ,"
-			+ "  year integer NOT NULL ," + "  photoPath nvarchar2 UNIQUE,"
-			+ "  fuelCapacity integer NOT NULL ,"
+			+ "  year integer NOT NULL ," + "  fuelCapacity integer NOT NULL ,"
 			+ "  registration nvarchar2 NOT NULL UNIQUE,"
 			+ "  model nvarchar2 NOT NULL," + "  idMake integer NOT NULL,"
 			+ "  idFuelType integer NOT NULL,"
@@ -64,11 +59,14 @@ public class FuelMonitorDbAdapter {
 	private static final String FUELING_CREATE = "CREATE TABLE Fueling ("
 			+ "  _id INTEGER PRIMARY KEY," + "  date date NOT NULL ,"
 			+ "  kmsAtFueling integer NOT NULL ,"
-			+ "  quantity integer NOT NULL ," + "  cost float NOT NULL ,"
+			+ "  fuelStation nvarchar2 NOT NULL ,"
+			+ "  quantity double NOT NULL ," + "  cost float NOT NULL ,"
+			+ "  courseTypeCity integer NOT NULL ,"
+			+ "  courseTypeRoad integer NOT NULL ,"
+			+ "  courseTypeFreeway integer NOT NULL ,"
+			+ "  drivingStyle integer NOT NULL ,"
 			+ "  idVehicle integer NOT NULL ,"
-			+ "  idGasStation integer NOT NULL ,"
-			+ "  FOREIGN KEY (idVehicle) REFERENCES Vehicle(_id) ,"
-			+ "  FOREIGN KEY (idGasStation) REFERENCES GasStation(_id));";
+			+ "  FOREIGN KEY (idVehicle) REFERENCES Vehicle(_id));";
 
 	private static final String DATABASE_NAME = "data";
 	private static final int DATABASE_VERSION = 1;
@@ -86,8 +84,6 @@ public class FuelMonitorDbAdapter {
 
 			Log.i(TAG, "Creating FuelType table");
 			db.execSQL(FUELTYPE_CREATE);
-			Log.i(TAG, "Creating GasStation table");
-			db.execSQL(GASSTATION_CREATE);
 			Log.i(TAG, "Creating Make table");
 			db.execSQL(MAKE_CREATE);
 			Log.i(TAG, "Creating Vehicle table");
@@ -243,7 +239,6 @@ public class FuelMonitorDbAdapter {
 					+ newVersion + ", which will destroy all old data");
 			db.execSQL("DROP TABLE IF EXISTS Fueling;");
 			db.execSQL("DROP TABLE IF EXISTS FuelType;");
-			db.execSQL("DROP TABLE IF EXISTS GasStation;");
 			db.execSQL("DROP TABLE IF EXISTS Make;");
 			db.execSQL("DROP TABLE IF EXISTS Model;");
 			db.execSQL("DROP TABLE IF EXISTS Vehicle;");
@@ -295,6 +290,23 @@ public class FuelMonitorDbAdapter {
 		return mDb.insert("vehicle", null, vehicle);
 	}
 
+	public long addFueling(String date, int kms, String fuelStation,
+			float quantity, float cost, int courseTypeCity, int courseTypeRoad,
+			int courseTypeFreeway, int drivingStyle, int idVehicle) {
+		ContentValues fueling = new ContentValues();
+		fueling.put("date", date);
+		fueling.put("kmsAtFueling", kms);
+		fueling.put("fuelStation", fuelStation);
+		fueling.put("quantity", quantity);
+		fueling.put("cost", cost);
+		fueling.put("courseTypeCity", courseTypeCity);
+		fueling.put("courseTypeRoad", courseTypeRoad);
+		fueling.put("courseTypeFreeway", courseTypeFreeway);
+		fueling.put("drivingStyle", drivingStyle);
+		fueling.put("idVehicle", idVehicle);
+		return mDb.insert("fueling", null, fueling);
+	}
+
 	public Cursor fetchFuelingTypes() {
 
 		return mDb.query("FuelType", new String[] { "_id", "name" }, null,
@@ -325,6 +337,12 @@ public class FuelMonitorDbAdapter {
 	public boolean deleteVehicle(long rowId) {
 		return mDb.delete("vehicle", "_id=?",
 				new String[] { String.valueOf(rowId) }) > 0;
+	}
+
+	public int getNumVehicles() {
+		Cursor result = mDb.rawQuery("SELECT COUNT(*) FROM Vehicle", null);
+		result.moveToFirst();
+		return result.getInt(0);
 	}
 
 	/*

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, FuelMonitor!</string>
     <string name="app_name">Fuel Monitor</string>
     <string name="add_vehicle_brand">Marca</string>
     <string name="add_vehicle_model">Modelo</string>
@@ -9,7 +8,7 @@
     <string name="add_vehicle_registration">Matrícula</string>
     <string name="add_vehicle_year">Ano</string>
     <string name="add_vehicle_photo">Foto</string>
-    <dimen name="add_vehicle_spacing">20dp</dimen>
+    <dimen name="add_vehicle_spacing">25dp</dimen>
     <string name="add_vehicle_photo_button">Tirar</string>
     <string name="add_vehicle_save_button">Gravar</string>
     <string name="menu_addfueling">Abastecer</string>
@@ -22,8 +21,28 @@
     <string name="vehicle_delete">Apagar</string>
     <string name="vehicle_list_empty">Sem Veículos</string>
     <string name="vehicle_list_pic_description">Fotografia do veículo</string>
-    <dimen name="add_fueling_spacing">20dp</dimen>
+    <dimen name="add_fueling_spacing">15dp</dimen>
     <string name="add_fueling_vehicle">Veículo</string>
     <string name="add_fueling_station">Gasolineira</string>
+    <string name="add_fueling_quantity">Litros</string>
+    <string name="add_fueling_kms">Kms</string>
+    <string name="add_fueling_cost">Custo</string>
+    <string name="add_fueling_courseType">Percurso</string>
+    <string name="add_fueling_courseTypeCity">Cidade</string>
+    <string name="add_fueling_courseTypeRoad">Estrada</string>
+    <string name="add_fueling_courseTypeFreeway">Auto-estrada</string>
+    <string name="add_fueling_drivingStyle">Condução</string>
+    <string name="add_fueling_save_button">Gravar</string>
+    <string-array name="add_fueling_driving_styles">
+        <item>Calma</item>
+		<item>Normal</item>
+		<item>Agressiva</item>
+    </string-array>
+    <string name="add_fueling_date">Data</string>
+    <string name="vehicle_menu_no_vehicles_toast">Não existem veículos</string>
+    <string name="add_vehicle_error_inserting_toast">Erro ao inserir na base de dados</string>
+    <string name="add_vehicle_fill_all_toast">Preencher todos os campos</string>
+    <string name="add_fueling_error_inserting_toast">Erro ao inserir na base de dados</string>
+    <string name="add_fueling_fill_all_toast">Preencher todos os campos</string>
 
 </resources>

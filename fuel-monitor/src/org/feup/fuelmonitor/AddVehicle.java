@@ -25,6 +25,7 @@ import android.widget.CheckBox;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AddVehicle extends Activity {
 
@@ -113,9 +114,26 @@ public class AddVehicle extends Activity {
 							mTempFile = new File(directory, (license.getText()
 									.toString()));
 							startActivityForResult(i, 1);
-						}
+						} else
+							finish();
+					} else {
+						int duration = Toast.LENGTH_SHORT;
+
+						Toast toast = Toast
+								.makeText(
+										getApplicationContext(),
+										getString(R.string.add_vehicle_error_inserting_toast),
+										duration);
+						toast.show();
 					}
 
+				} else {
+					int duration = Toast.LENGTH_SHORT;
+
+					Toast toast = Toast.makeText(getApplicationContext(),
+							getString(R.string.add_vehicle_fill_all_toast),
+							duration);
+					toast.show();
 				}
 			}
 		});
@@ -123,7 +141,8 @@ public class AddVehicle extends Activity {
 	}
 
 	// TODO FIX ORIENTATION BUG WITH BITMAP
-	// TODO
+	// TODO FIX ACTIVITY RESULT WHEN HORIZONTAL CAM (temp solution disabled
+	// rotation)
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
