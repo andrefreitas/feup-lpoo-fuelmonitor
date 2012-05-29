@@ -22,5 +22,8 @@
     <string name="vehicle_delete">Apagar</string>
     <string name="vehicle_list_empty">Sem Veículos</string>
     <string name="vehicle_list_pic_description">Fotografia do veículo</string>
+    <dimen name="add_fueling_spacing">20dp</dimen>
+    <string name="add_fueling_vehicle">Veículo</string>
+    <string name="add_fueling_station">Gasolineira</string>
 
 </resources>
