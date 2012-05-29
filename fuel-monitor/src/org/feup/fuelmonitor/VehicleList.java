@@ -65,9 +65,11 @@ public class VehicleList extends ListActivity {
 					.getMenuInfo();
 			File directory = new File(
 					Environment.getExternalStorageDirectory(), "fuelmonitor/");
-			File file = new File(directory,
-					(mDbHelper.getRegistrationByID(info.id) + ".jpg"));
-			file.delete();
+			String registration = mDbHelper.getRegistrationByID(info.id);
+			File imgFile = new File(directory, (registration + ".jpg"));
+			File thumbFile = new File(directory, (registration + "t.jpg"));
+			imgFile.delete();
+			thumbFile.delete();
 			mDbHelper.deleteVehicle(info.id);
 			fillData();
 			return true;
@@ -78,6 +80,7 @@ public class VehicleList extends ListActivity {
 	private void fillData() {
 		Cursor vehicleCursor = mDbHelper.fetchVehicles();
 		// TODO Use a CursorLoader (startManagingCursor is deprecated)
+		// TODO Perhaps save thumbnail to database?
 		startManagingCursor(vehicleCursor);
 		SimpleCursorAdapter vehicleAdapter = new SimpleCursorAdapter(this,
 				R.layout.vehiclerow, vehicleCursor, new String[] { "makeName",
@@ -97,13 +100,12 @@ public class VehicleList extends ListActivity {
 					ImageView image = (ImageView) view;
 					File directory = new File(Environment
 							.getExternalStorageDirectory(), "fuelmonitor/");
-					File file = new File(directory, (cursor.getString(cursor
-							.getColumnIndex("registration")) + ".jpg"));
+					File file = new File(directory, (cursor.getString(columnIndex) + "t.jpg"));
 					if (file.exists() && file.length() > 0) {
 						Bitmap bmp = BitmapFactory.decodeFile(file
 								.getAbsolutePath());
 						image.setImageBitmap(Bitmap.createScaledBitmap(bmp, 150,
-								150, true));
+								150, false));
 					}
 					return true;
 

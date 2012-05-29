@@ -1,11 +1,18 @@
 package org.feup.fuelmonitor;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,11 +30,13 @@ public class AddVehicle extends Activity {
 
 	private static final String TAG = "FuelMonitorAddVehicle";
 	private FuelMonitorDbAdapter mDbHelper;
+	private File mTempFile;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mDbHelper = new FuelMonitorDbAdapter(this);
+		mTempFile = null;
 		setContentView(R.layout.addvehicle);
 		final Spinner make = (Spinner) findViewById(R.id.addvehicle_brandSpinner);
 		final TextView model = (TextView) findViewById(R.id.addvehicle_modelText);
@@ -101,17 +110,55 @@ public class AddVehicle extends Activity {
 									android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 							i.putExtra(MediaStore.EXTRA_OUTPUT,
 									Uri.fromFile(file));
-							startActivity(i);
-							if (file.length() == 0)
-								file.delete();
+							mTempFile = new File(directory, (license.getText()
+									.toString()));
+							startActivityForResult(i, 1);
 						}
-						finish();
 					}
 
 				}
 			}
 		});
 
+	}
+
+	
+	//TODO FIX ORIENTATION BUG
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == 1) {
+			File imgFile = new File(mTempFile.getPath() + ".jpg");
+			if (resultCode == RESULT_CANCELED)
+				imgFile.delete();
+			else if (resultCode == RESULT_OK) {
+				Bitmap bmp = BitmapFactory
+						.decodeFile(imgFile.getAbsolutePath());
+				File thumbfile = new File(mTempFile.getPath() + "t.jpg");
+				OutputStream out = null;
+				try {
+					out = new BufferedOutputStream(new FileOutputStream(
+							thumbfile));
+				} catch (FileNotFoundException e) {
+					Log.e(TAG, "Error creating thumbnail file");
+				} finally {
+					if (out != null) {
+						try {
+							Bitmap thumb = Bitmap.createScaledBitmap(bmp,
+									bmp.getWidth() / 10, bmp.getHeight() / 10,
+									false);
+							thumb.compress(CompressFormat.JPEG, 100, out);
+							out.close();
+						} catch (IOException e) {
+							Log.e(TAG, "Error writing thumbnail file");
+						}
+					}
+				}
+
+			}
+			finish();
+
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override
