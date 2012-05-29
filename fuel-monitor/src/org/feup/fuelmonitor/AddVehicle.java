@@ -30,13 +30,13 @@ public class AddVehicle extends Activity {
 
 	private static final String TAG = "FuelMonitorAddVehicle";
 	private FuelMonitorDbAdapter mDbHelper;
-	private File mTempFile;
+	private static File mTempFile;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mDbHelper = new FuelMonitorDbAdapter(this);
-		mTempFile = null;
+		// mTempFile = null;
 		setContentView(R.layout.addvehicle);
 		final Spinner make = (Spinner) findViewById(R.id.addvehicle_brandSpinner);
 		final TextView model = (TextView) findViewById(R.id.addvehicle_modelText);
@@ -122,10 +122,11 @@ public class AddVehicle extends Activity {
 
 	}
 
-	
-	//TODO FIX ORIENTATION BUG
+	// TODO FIX ORIENTATION BUG WITH BITMAP
+	// TODO
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == 1) {
 			File imgFile = new File(mTempFile.getPath() + ".jpg");
 			if (resultCode == RESULT_CANCELED)
@@ -146,7 +147,7 @@ public class AddVehicle extends Activity {
 							Bitmap thumb = Bitmap.createScaledBitmap(bmp,
 									bmp.getWidth() / 10, bmp.getHeight() / 10,
 									false);
-							thumb.compress(CompressFormat.JPEG, 100, out);
+							thumb.compress(CompressFormat.JPEG, 60, out);
 							out.close();
 						} catch (IOException e) {
 							Log.e(TAG, "Error writing thumbnail file");
@@ -158,7 +159,6 @@ public class AddVehicle extends Activity {
 			finish();
 
 		}
-		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override

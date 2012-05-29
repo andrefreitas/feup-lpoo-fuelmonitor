@@ -6,7 +6,6 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
@@ -100,13 +99,11 @@ public class VehicleList extends ListActivity {
 					ImageView image = (ImageView) view;
 					File directory = new File(Environment
 							.getExternalStorageDirectory(), "fuelmonitor/");
-					File file = new File(directory, (cursor.getString(columnIndex) + "t.jpg"));
-					if (file.exists() && file.length() > 0) {
-						Bitmap bmp = BitmapFactory.decodeFile(file
-								.getAbsolutePath());
-						image.setImageBitmap(Bitmap.createScaledBitmap(bmp, 150,
-								150, false));
-					}
+					File file = new File(directory, (cursor
+							.getString(columnIndex) + "t.jpg"));
+					if (file.exists() && file.length() > 0)
+						image.setImageBitmap(BitmapFactory.decodeFile(file
+								.getAbsolutePath()));
 					return true;
 
 				}

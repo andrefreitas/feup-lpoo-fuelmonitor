@@ -9,9 +9,10 @@
     <ImageView
         android:id="@+id/vehicleRow_pic"
         android:layout_width="75dp"
-        android:layout_height="75dp" 
+        android:layout_height="wrap_content" 
         android:layout_marginLeft="10dp"
         android:contentDescription="@string/vehicle_list_pic_description"
+        android:adjustViewBounds="true"
         android:src="@drawable/photo_not_available"/>
         
     <TextView
