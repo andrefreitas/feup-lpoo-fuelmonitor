@@ -314,17 +314,17 @@ public class FuelMonitorDbAdapter {
 						null);
 	}
 
-	public String getRegistrationByID(long id) {
-		Cursor result = mDb.rawQuery(
-				"SELECT registration FROM Vehicle WHERE _id=?",
-				new String[] { String.valueOf(id) });
+	public String getRegistrationByID(long rowId) {
+		Cursor result = mDb.query("Vehicle", new String[] { "registration" },
+				"_id=?", new String[] { String.valueOf(rowId) }, null, null,
+				null);
 		result.moveToFirst();
 		return result.getString(0);
 	}
 
 	public boolean deleteVehicle(long rowId) {
-
-		return mDb.delete("vehicle", "_id=" + rowId, null) > 0;
+		return mDb.delete("vehicle", "_id=?",
+				new String[] { String.valueOf(rowId) }) > 0;
 	}
 
 	/*

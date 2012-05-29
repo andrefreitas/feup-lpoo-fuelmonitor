@@ -6,6 +6,8 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.ContextMenu;
@@ -15,7 +17,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.SimpleCursorAdapter.ViewBinder;
+import android.widget.TextView;
 
 public class VehicleList extends ListActivity {
 
@@ -60,7 +65,6 @@ public class VehicleList extends ListActivity {
 					.getMenuInfo();
 			File directory = new File(
 					Environment.getExternalStorageDirectory(), "fuelmonitor/");
-			directory.mkdirs();
 			File file = new File(directory,
 					(mDbHelper.getRegistrationByID(info.id) + ".jpg"));
 			file.delete();
@@ -74,13 +78,39 @@ public class VehicleList extends ListActivity {
 	private void fillData() {
 		Cursor vehicleCursor = mDbHelper.fetchVehicles();
 		// TODO Use a CursorLoader (startManagingCursor is deprecated)
-		// TODO Implement getting the make name from the ID
 		startManagingCursor(vehicleCursor);
 		SimpleCursorAdapter vehicleAdapter = new SimpleCursorAdapter(this,
 				R.layout.vehiclerow, vehicleCursor, new String[] { "makeName",
-						"model" }, new int[] { R.id.vehicleRow_make,
-						R.id.vehicleRow_model });
+						"model", "registration" }, new int[] {
+						R.id.vehicleRow_make, R.id.vehicleRow_model,
+						R.id.vehicleRow_pic });
+		vehicleAdapter.setViewBinder(new ViewBinder() {
 
+			public boolean setViewValue(View view, Cursor cursor,
+					int columnIndex) {
+				if (view instanceof TextView) {
+					TextView text = (TextView) view;
+					text.setText(cursor.getString(columnIndex));
+					return true;
+				}
+				if (view.getId() == R.id.vehicleRow_pic) {
+					ImageView image = (ImageView) view;
+					File directory = new File(Environment
+							.getExternalStorageDirectory(), "fuelmonitor/");
+					File file = new File(directory, (cursor.getString(cursor
+							.getColumnIndex("registration")) + ".jpg"));
+					if (file.exists() && file.length() > 0) {
+						Bitmap bmp = BitmapFactory.decodeFile(file
+								.getAbsolutePath());
+						image.setImageBitmap(Bitmap.createScaledBitmap(bmp, 150,
+								150, true));
+					}
+					return true;
+
+				}
+				return false;
+			}
+		});
 		getListView().setAdapter(vehicleAdapter);
 	}
 
