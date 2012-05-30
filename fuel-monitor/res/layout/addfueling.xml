@@ -91,7 +91,7 @@
 
     <EditText
         android:id="@+id/addfueling_quantityText"
-        android:layout_width="65dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/addfueling_quantityLabel"
         android:layout_alignBottom="@+id/addfueling_quantityLabel"
@@ -103,7 +103,7 @@
 
     <EditText
         android:id="@+id/addfueling_costText"
-        android:layout_width="65dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/addfueling_quantityText"
         android:layout_alignRight="@+id/addfueling_kmsText"
