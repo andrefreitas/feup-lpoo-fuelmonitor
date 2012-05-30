@@ -80,17 +80,24 @@ public class AddVehicle extends Activity {
 		year.setAdapter(yearAdapter);
 
 		save.setOnClickListener(new View.OnClickListener() {
-			// TODO Set Make and Fueltype IDs from database
 			public void onClick(View v) {
 				if (!model.getText().toString().equals("")
 						&& !license.getText().toString().equals("")
 						&& !capacity.getText().toString().equals("")
 						&& !kms.getText().toString().equals("")) {
 					if (mDbHelper.addVehicle(
-							make.getSelectedItemPosition() + 1, model.getText()
-									.toString(), fuelType
-									.getSelectedItemPosition() + 1, Short
-									.parseShort(capacity.getText().toString()),
+							((SimpleCursorAdapter) make.getAdapter())
+									.getCursor().getLong(
+											((SimpleCursorAdapter) make
+													.getAdapter()).getCursor()
+													.getColumnIndex("_id")),
+							model.getText().toString(),
+							((SimpleCursorAdapter) fuelType.getAdapter())
+									.getCursor().getLong(
+											((SimpleCursorAdapter) fuelType
+													.getAdapter()).getCursor()
+													.getColumnIndex("_id")),
+							Short.parseShort(capacity.getText().toString()),
 							license.getText().toString(), Short.parseShort(year
 									.getSelectedItem().toString()), Integer
 									.parseInt(kms.getText().toString())) > 0) {

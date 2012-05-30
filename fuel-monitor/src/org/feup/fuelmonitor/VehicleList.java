@@ -47,6 +47,23 @@ public class VehicleList extends ListActivity {
 				startActivity(i);
 			}
 		});
+
+		getListView().setOnItemClickListener(new OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> adapter, View view,
+					int position, long arg) {
+				Intent i = new Intent(getApplicationContext(),
+						FuelingList.class);
+
+				long id = ((SimpleCursorAdapter) getListView().getAdapter())
+						.getCursor().getLong(
+								((SimpleCursorAdapter) getListView()
+										.getAdapter()).getCursor()
+										.getColumnIndex("_id"));
+				i.putExtra("vehicleID", id);
+				startActivity(i);
+			}
+		});
 	}
 
 	@Override
@@ -111,19 +128,6 @@ public class VehicleList extends ListActivity {
 			}
 		});
 		getListView().setAdapter(vehicleAdapter);
-		getListView().setOnItemClickListener(new OnItemClickListener() {
-
-			public void onItemClick(AdapterView<?> adapter, View view,
-					int position, long arg) {
-				Intent i = new Intent(getApplicationContext(),
-						FuelingList.class);
-				long id = mDbHelper.getIDByRegistration(((TextView) view
-						.findViewById(R.id.vehicleRow_registration)).getText()
-						.toString());
-				i.putExtra("vehicleID", id);
-				startActivity(i);
-			}
-		});
 	}
 
 	@Override

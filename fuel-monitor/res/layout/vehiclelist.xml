@@ -24,6 +24,7 @@
         android:layout_width="fill_parent"
         android:gravity="center"
         android:layout_height="fill_parent"
+        android:layout_above="@id/vehiclelist_addvehicle"
         android:textAppearance="@android:style/TextAppearance.Large"
         android:textColor="@android:color/secondary_text_dark"
         android:text="@string/vehicle_list_empty" />

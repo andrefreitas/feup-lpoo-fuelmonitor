@@ -155,18 +155,24 @@ public class AddFueling extends Activity {
 						&& (courseTypeCity.isChecked()
 								|| courseTypeRoad.isChecked() || courseTypeFreeway
 									.isChecked())) {
-					if (mDbHelper.addFueling(new String(mYear + "-"
-							+ (mMonth + 1) // Month starts at 0
-							+ "-" + mDay), Integer.parseInt(kms.getText()
-							.toString()), fuelStation.getText().toString(),
+					if (mDbHelper.addFueling(
+							new String(mYear + "-" + (mMonth + 1) // Month
+																	// starts at
+																	// 0
+									+ "-" + mDay),
+							Integer.parseInt(kms.getText().toString()),
+							fuelStation.getText().toString(),
 							Float.parseFloat(quantity.getText().toString()),
 							Float.parseFloat(cost.getText().toString()),
 							(courseTypeCity.isChecked()) ? 1 : 0,
 							(courseTypeRoad.isChecked()) ? 1 : 0,
 							(courseTypeFreeway.isChecked()) ? 1 : 0,
 							drivingStyle.getSelectedItemPosition() + 1,
-							mDbHelper.getIDByRegistration(((TextView) vehicle
-									.getSelectedView()).getText().toString())) > 0)
+							((SimpleCursorAdapter) vehicle.getAdapter())
+									.getCursor().getLong(
+											((SimpleCursorAdapter) vehicle
+													.getAdapter()).getCursor()
+													.getColumnIndex("_id"))) > 0)
 						finish();
 					else {
 						int duration = Toast.LENGTH_SHORT;

@@ -50,21 +50,16 @@ public class FuelMonitorDbAdapter {
 			+ "  _id INTEGER PRIMARY KEY,"
 			+ "  name nvarchar2 NOT NULL UNIQUE);";
 	private static final String VEHICLE_CREATE = "CREATE TABLE Vehicle ("
-			+ "  _id INTEGER PRIMARY KEY,"
-			+ "  kms integer NOT NULL ,"
-			+ "  year integer NOT NULL ,"
-			+ "  fuelCapacity integer NOT NULL ,"
+			+ "  _id INTEGER PRIMARY KEY," + "  kms integer NOT NULL ,"
+			+ "  year integer NOT NULL ," + "  fuelCapacity integer NOT NULL ,"
 			+ "  registration nvarchar2 NOT NULL UNIQUE,"
-			+ "  model nvarchar2 NOT NULL,"
-			+ "  idMake integer NOT NULL,"
+			+ "  model nvarchar2 NOT NULL," + "  idMake integer NOT NULL,"
 			+ "  idFuelType integer REFERENCES FuelType ON DELETE CASCADE);";
 	private static final String FUELING_CREATE = "CREATE TABLE Fueling ("
-			+ "  _id INTEGER PRIMARY KEY,"
-			+ "  date date NOT NULL ,"
+			+ "  _id INTEGER PRIMARY KEY," + "  date date NOT NULL ,"
 			+ "  kmsAtFueling integer NOT NULL ,"
 			+ "  fuelStation nvarchar2 NOT NULL ,"
-			+ "  quantity double NOT NULL ,"
-			+ "  cost float NOT NULL ,"
+			+ "  quantity double NOT NULL ," + "  cost float NOT NULL ,"
 			+ "  courseTypeCity integer NOT NULL ,"
 			+ "  courseTypeRoad integer NOT NULL ,"
 			+ "  courseTypeFreeway integer NOT NULL ,"
@@ -285,12 +280,12 @@ public class FuelMonitorDbAdapter {
 		mDbHelper.close();
 	}
 
-	public long addVehicle(int make, String model, int fuelType,
-			short fuelCapacity, String registration, short year, int kms) {
+	public long addVehicle(long make, String model, long l, short fuelCapacity,
+			String registration, short year, int kms) {
 		ContentValues vehicle = new ContentValues();
 		vehicle.put("idMake", make);
 		vehicle.put("model", model);
-		vehicle.put("idFuelType", fuelType);
+		vehicle.put("idFuelType", l);
 		vehicle.put("fuelCapacity", fuelCapacity);
 		vehicle.put("registration", registration);
 		vehicle.put("year", year);
@@ -300,7 +295,7 @@ public class FuelMonitorDbAdapter {
 
 	public long addFueling(String date, int kms, String fuelStation,
 			float quantity, float cost, int courseTypeCity, int courseTypeRoad,
-			int courseTypeFreeway, int drivingStyle, long l) {
+			int courseTypeFreeway, int drivingStyle, long vehicle) {
 		ContentValues fueling = new ContentValues();
 		fueling.put("date", date);
 		fueling.put("kmsAtFueling", kms);
@@ -311,7 +306,7 @@ public class FuelMonitorDbAdapter {
 		fueling.put("courseTypeRoad", courseTypeRoad);
 		fueling.put("courseTypeFreeway", courseTypeFreeway);
 		fueling.put("drivingStyle", drivingStyle);
-		fueling.put("idVehicle", l);
+		fueling.put("idVehicle", vehicle);
 		return mDb.insert("fueling", null, fueling);
 	}
 
@@ -341,14 +336,13 @@ public class FuelMonitorDbAdapter {
 		result.moveToFirst();
 		return result.getString(0);
 	}
-	
-	public long getIDByRegistration(String registration) {
-		Cursor result = mDb.query("Vehicle", new String[] { "_id" },
-				"registration=?", new String[] { registration }, null, null,
-				null);
-		result.moveToFirst();
-		return result.getLong(0);
-	}
+
+	/*
+	 * public long getIDByRegistration(String registration) { Cursor result =
+	 * mDb.query("Vehicle", new String[] { "_id" }, "registration=?", new
+	 * String[] { registration }, null, null, null); result.moveToFirst();
+	 * return result.getLong(0); }
+	 */
 
 	public boolean deleteVehicle(long rowId) {
 		return mDb.delete("vehicle", "_id=?",
