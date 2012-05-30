@@ -5,11 +5,11 @@
 
     <Button
         android:id="@+id/main_fuelingButton"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="100dp"
         android:background="@null"
         android:drawableTop="@drawable/fueling"
         android:text="@string/menu_addfueling"
@@ -17,11 +17,11 @@
 
     <Button
         android:id="@+id/main_vehiclesButton"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/main_fuelingButton"
-        android:layout_marginLeft="65dp"
-        android:layout_toRightOf="@+id/main_fuelingButton"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="40dp"
         android:background="@null"
         android:drawableTop="@drawable/car"
         android:text="@string/menu_vehicles"
@@ -29,11 +29,11 @@
 
     <Button
         android:id="@+id/main_statsButton"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/main_fuelingButton"
-        android:layout_below="@+id/main_fuelingButton"
-        android:layout_marginTop="40dp"
+		android:layout_alignParentBottom="true"
+		android:layout_alignLeft="@id/main_fuelingButton"
+        android:layout_marginBottom="100dp"
         android:background="@null"
         android:drawableTop="@drawable/stats"
         android:text="@string/menu_stats"
@@ -41,7 +41,7 @@
 
     <Button
         android:id="@+id/main_gasButton"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/main_statsButton"
         android:layout_alignBottom="@+id/main_statsButton"
