@@ -44,5 +44,10 @@
     <string name="add_vehicle_fill_all_toast">Preencher todos os campos</string>
     <string name="add_fueling_error_inserting_toast">Erro ao inserir na base de dados</string>
     <string name="add_fueling_fill_all_toast">Preencher todos os campos</string>
+    <string name="fueling_list_empty">Sem Abastecimentos</string>
+    <string name="fueling_delete">Apagar</string>
+    <string name="fueling_row_separator">-</string>
+    <string name="fueling_row_quantity_unit">l</string>
+    <string name="fueling_row_cost_unit">€</string>
 
 </resources>

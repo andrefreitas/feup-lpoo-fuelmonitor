@@ -50,23 +50,26 @@ public class FuelMonitorDbAdapter {
 			+ "  _id INTEGER PRIMARY KEY,"
 			+ "  name nvarchar2 NOT NULL UNIQUE);";
 	private static final String VEHICLE_CREATE = "CREATE TABLE Vehicle ("
-			+ "  _id INTEGER PRIMARY KEY," + "  kms integer NOT NULL ,"
-			+ "  year integer NOT NULL ," + "  fuelCapacity integer NOT NULL ,"
+			+ "  _id INTEGER PRIMARY KEY,"
+			+ "  kms integer NOT NULL ,"
+			+ "  year integer NOT NULL ,"
+			+ "  fuelCapacity integer NOT NULL ,"
 			+ "  registration nvarchar2 NOT NULL UNIQUE,"
-			+ "  model nvarchar2 NOT NULL," + "  idMake integer NOT NULL,"
-			+ "  idFuelType integer NOT NULL,"
-			+ "  FOREIGN KEY (idFuelType) REFERENCES FuelType(_id));";
+			+ "  model nvarchar2 NOT NULL,"
+			+ "  idMake integer NOT NULL,"
+			+ "  idFuelType integer REFERENCES FuelType ON DELETE CASCADE);";
 	private static final String FUELING_CREATE = "CREATE TABLE Fueling ("
-			+ "  _id INTEGER PRIMARY KEY," + "  date date NOT NULL ,"
+			+ "  _id INTEGER PRIMARY KEY,"
+			+ "  date date NOT NULL ,"
 			+ "  kmsAtFueling integer NOT NULL ,"
 			+ "  fuelStation nvarchar2 NOT NULL ,"
-			+ "  quantity double NOT NULL ," + "  cost float NOT NULL ,"
+			+ "  quantity double NOT NULL ,"
+			+ "  cost float NOT NULL ,"
 			+ "  courseTypeCity integer NOT NULL ,"
 			+ "  courseTypeRoad integer NOT NULL ,"
 			+ "  courseTypeFreeway integer NOT NULL ,"
 			+ "  drivingStyle integer NOT NULL ,"
-			+ "  idVehicle integer NOT NULL ,"
-			+ "  FOREIGN KEY (idVehicle) REFERENCES Vehicle(_id));";
+			+ "  idVehicle integer REFERENCES Vehicle ON DELETE CASCADE);";
 
 	private static final String DATABASE_NAME = "data";
 	private static final int DATABASE_VERSION = 1;
@@ -270,6 +273,11 @@ public class FuelMonitorDbAdapter {
 	public FuelMonitorDbAdapter open() throws SQLException {
 		mDbHelper = new DatabaseHelper(mCtx);
 		mDb = mDbHelper.getWritableDatabase();
+
+		if (!mDb.isReadOnly())
+			// Enable foreign key constraints (MAY NOT WORK ON < 2.1)
+			mDb.execSQL("PRAGMA foreign_keys=ON;");
+
 		return this;
 	}
 
@@ -292,7 +300,7 @@ public class FuelMonitorDbAdapter {
 
 	public long addFueling(String date, int kms, String fuelStation,
 			float quantity, float cost, int courseTypeCity, int courseTypeRoad,
-			int courseTypeFreeway, int drivingStyle, int idVehicle) {
+			int courseTypeFreeway, int drivingStyle, long l) {
 		ContentValues fueling = new ContentValues();
 		fueling.put("date", date);
 		fueling.put("kmsAtFueling", kms);
@@ -303,7 +311,7 @@ public class FuelMonitorDbAdapter {
 		fueling.put("courseTypeRoad", courseTypeRoad);
 		fueling.put("courseTypeFreeway", courseTypeFreeway);
 		fueling.put("drivingStyle", drivingStyle);
-		fueling.put("idVehicle", idVehicle);
+		fueling.put("idVehicle", l);
 		return mDb.insert("fueling", null, fueling);
 	}
 
@@ -333,6 +341,14 @@ public class FuelMonitorDbAdapter {
 		result.moveToFirst();
 		return result.getString(0);
 	}
+	
+	public long getIDByRegistration(String registration) {
+		Cursor result = mDb.query("Vehicle", new String[] { "_id" },
+				"registration=?", new String[] { registration }, null, null,
+				null);
+		result.moveToFirst();
+		return result.getLong(0);
+	}
 
 	public boolean deleteVehicle(long rowId) {
 		return mDb.delete("vehicle", "_id=?",
@@ -343,6 +359,17 @@ public class FuelMonitorDbAdapter {
 		Cursor result = mDb.rawQuery("SELECT COUNT(*) FROM Vehicle", null);
 		result.moveToFirst();
 		return result.getInt(0);
+	}
+
+	public boolean deleteFueling(long rowId) {
+		return mDb.delete("fueling", "_id=?",
+				new String[] { String.valueOf(rowId) }) > 0;
+	}
+
+	public Cursor fetchFuelingsByVehicleID(long rowId) {
+		return mDb.query("Fueling", new String[] { "_id", "quantity", "cost" },
+				"idVehicle=?", new String[] { String.valueOf(rowId) }, null,
+				null, null);
 	}
 
 	/*

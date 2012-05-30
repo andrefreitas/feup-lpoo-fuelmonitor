@@ -89,7 +89,7 @@ public class AddVehicle extends Activity {
 					if (mDbHelper.addVehicle(
 							make.getSelectedItemPosition() + 1, model.getText()
 									.toString(), fuelType
-									.getSelectedItemPosition(), Short
+									.getSelectedItemPosition() + 1, Short
 									.parseShort(capacity.getText().toString()),
 							license.getText().toString(), Short.parseShort(year
 									.getSelectedItem().toString()), Integer

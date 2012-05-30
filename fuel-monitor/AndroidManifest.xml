@@ -35,6 +35,7 @@
             android:name="AddFueling"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name="FuelingList"></activity>
     </application>
 
 </manifest>

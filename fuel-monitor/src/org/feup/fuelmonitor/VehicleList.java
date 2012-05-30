@@ -3,7 +3,6 @@ package org.feup.fuelmonitor;
 import java.io.File;
 
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
@@ -14,7 +13,9 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 
 public class VehicleList extends ListActivity {
 
+	// private static final String TAG = "FuelMonitorVehicleList";
 	private FuelMonitorDbAdapter mDbHelper;
 
 	@Override
@@ -31,8 +33,6 @@ public class VehicleList extends ListActivity {
 		setContentView(R.layout.vehiclelist);
 		mDbHelper = new FuelMonitorDbAdapter(this);
 		Button addVehicle = (Button) findViewById(R.id.vehiclelist_addvehicle);
-
-		final Context c = this;
 
 		mDbHelper.open();
 
@@ -43,7 +43,7 @@ public class VehicleList extends ListActivity {
 		addVehicle.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				Intent i = new Intent(c, AddVehicle.class);
+				Intent i = new Intent(getApplicationContext(), AddVehicle.class);
 				startActivity(i);
 			}
 		});
@@ -83,9 +83,9 @@ public class VehicleList extends ListActivity {
 		startManagingCursor(vehicleCursor);
 		SimpleCursorAdapter vehicleAdapter = new SimpleCursorAdapter(this,
 				R.layout.vehiclerow, vehicleCursor, new String[] { "makeName",
-						"model", "registration" }, new int[] {
+						"model", "registration", "registration" }, new int[] {
 						R.id.vehicleRow_make, R.id.vehicleRow_model,
-						R.id.vehicleRow_pic });
+						R.id.vehicleRow_pic, R.id.vehicleRow_registration });
 		vehicleAdapter.setViewBinder(new ViewBinder() {
 
 			public boolean setViewValue(View view, Cursor cursor,
@@ -111,6 +111,19 @@ public class VehicleList extends ListActivity {
 			}
 		});
 		getListView().setAdapter(vehicleAdapter);
+		getListView().setOnItemClickListener(new OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> adapter, View view,
+					int position, long arg) {
+				Intent i = new Intent(getApplicationContext(),
+						FuelingList.class);
+				long id = mDbHelper.getIDByRegistration(((TextView) view
+						.findViewById(R.id.vehicleRow_registration)).getText()
+						.toString());
+				i.putExtra("vehicleID", id);
+				startActivity(i);
+			}
+		});
 	}
 
 	@Override

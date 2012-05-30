@@ -18,8 +18,7 @@
     <TextView
         android:id="@+id/vehicleRow_make"
         android:layout_width="wrap_content"
-        android:layout_height="75dp"
-        android:layout_alignBottom="@+id/vehicleRow_pic"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@+id/vehicleRow_pic"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/vehicleRow_pic"
@@ -29,11 +28,20 @@
     <TextView
         android:id="@+id/vehicleRow_model"
         android:layout_width="wrap_content"
-        android:layout_height="75dp"
-        android:layout_alignBottom="@+id/vehicleRow_make"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@+id/vehicleRow_make"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/vehicleRow_make"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <TextView
+        android:id="@+id/vehicleRow_registration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/vehicleRow_pic"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/vehicleRow_pic"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
