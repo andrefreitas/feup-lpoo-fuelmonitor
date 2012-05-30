@@ -2,7 +2,6 @@ package org.feup.fuelmonitor;
 
 import java.io.File;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
@@ -22,7 +21,9 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
 
-public class VehicleList extends ListActivity {
+import com.actionbarsherlock.app.SherlockListActivity;
+
+public class VehicleList extends SherlockListActivity {
 
 	// private static final String TAG = "FuelMonitorVehicleList";
 	private FuelMonitorDbAdapter mDbHelper;

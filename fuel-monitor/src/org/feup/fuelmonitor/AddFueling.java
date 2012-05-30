@@ -2,7 +2,6 @@ package org.feup.fuelmonitor;
 
 import java.util.Calendar;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.database.Cursor;
@@ -19,7 +18,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AddFueling extends Activity {
+import com.actionbarsherlock.app.SherlockActivity;
+
+public class AddFueling extends SherlockActivity {
 	// private static final String TAG = "FuelMonitorAddFueling";
 	private FuelMonitorDbAdapter mDbHelper;
 	private int mYear;

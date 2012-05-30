@@ -1,6 +1,5 @@
 package org.feup.fuelmonitor;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class FuelMonitor extends Activity {
+import com.actionbarsherlock.app.SherlockActivity;
+
+public class FuelMonitor extends SherlockActivity {
 	/** Called when the activity is first created. */
 
 	private FuelMonitorDbAdapter mDbHelper;

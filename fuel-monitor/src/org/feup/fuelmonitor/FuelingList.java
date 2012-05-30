@@ -1,6 +1,5 @@
 package org.feup.fuelmonitor;
 
-import android.app.ListActivity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -11,7 +10,9 @@ import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.SimpleCursorAdapter;
 
-public class FuelingList extends ListActivity {
+import com.actionbarsherlock.app.SherlockListActivity;
+
+public class FuelingList extends SherlockListActivity {
 
 	// private static final String TAG = "FuelMonitorFuelingList";
 	private FuelMonitorDbAdapter mDbHelper;

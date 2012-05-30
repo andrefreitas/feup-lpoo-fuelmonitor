@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -27,7 +26,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AddVehicle extends Activity {
+import com.actionbarsherlock.app.SherlockActivity;
+
+public class AddVehicle extends SherlockActivity {
 
 	private static final String TAG = "FuelMonitorAddVehicle";
 	private FuelMonitorDbAdapter mDbHelper;
