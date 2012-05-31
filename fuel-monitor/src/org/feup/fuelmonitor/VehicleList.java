@@ -55,12 +55,7 @@ public class VehicleList extends SherlockListActivity {
 					int position, long arg) {
 				Intent i = new Intent(getApplicationContext(),
 						FuelingList.class);
-
-				long id = ((SimpleCursorAdapter) getListView().getAdapter())
-						.getCursor().getLong(
-								((SimpleCursorAdapter) getListView()
-										.getAdapter()).getCursor()
-										.getColumnIndex("_id"));
+				long id = arg;
 				i.putExtra("vehicleID", id);
 				startActivity(i);
 			}
