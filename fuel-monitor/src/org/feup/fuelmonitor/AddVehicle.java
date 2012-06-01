@@ -33,10 +33,12 @@ public class AddVehicle extends SherlockActivity {
 	private static final String TAG = "FuelMonitorAddVehicle";
 	private FuelMonitorDbAdapter mDbHelper;
 	private static File mTempFile;
+	private boolean edit;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		edit = getIntent().getBooleanExtra("edit", false);
 		mDbHelper = new FuelMonitorDbAdapter(this);
 		// mTempFile = null;
 		setContentView(R.layout.addvehicle);
@@ -82,66 +84,72 @@ public class AddVehicle extends SherlockActivity {
 
 		save.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				if (!model.getText().toString().equals("")
-						&& !license.getText().toString().equals("")
-						&& !capacity.getText().toString().equals("")
-						&& !kms.getText().toString().equals("")) {
-					if (mDbHelper.addVehicle(
-							((SimpleCursorAdapter) make.getAdapter())
-									.getCursor().getLong(
-											((SimpleCursorAdapter) make
-													.getAdapter()).getCursor()
-													.getColumnIndex("_id")),
-							model.getText().toString(),
-							((SimpleCursorAdapter) fuelType.getAdapter())
-									.getCursor().getLong(
-											((SimpleCursorAdapter) fuelType
-													.getAdapter()).getCursor()
-													.getColumnIndex("_id")),
-							Short.parseShort(capacity.getText().toString()),
-							license.getText().toString(), Short.parseShort(year
-									.getSelectedItem().toString()), Integer
-									.parseInt(kms.getText().toString())) > 0) {
-						if (photo.isChecked()) {
-							File directory = new File(Environment
-									.getExternalStorageDirectory(),
-									"fuelmonitor/");
-							directory.mkdirs();
-							File file = new File(directory, (license.getText()
-									.toString() + ".jpg"));
-							file.delete();
-							try {
-								file.createNewFile();
-							} catch (IOException e) {
-								Log.e(TAG, "Error creating image file");
-							}
-							Intent i = new Intent(
-									android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-							i.putExtra(MediaStore.EXTRA_OUTPUT,
-									Uri.fromFile(file));
-							mTempFile = new File(directory, (license.getText()
-									.toString()));
-							startActivityForResult(i, 1);
-						} else
-							finish();
+				if (edit) {
+				} else {
+					if (!model.getText().toString().equals("")
+							&& !license.getText().toString().equals("")
+							&& !capacity.getText().toString().equals("")
+							&& !kms.getText().toString().equals("")) {
+						if (mDbHelper.addVehicle(
+								((SimpleCursorAdapter) make.getAdapter())
+										.getCursor().getLong(
+												((SimpleCursorAdapter) make
+														.getAdapter())
+														.getCursor()
+														.getColumnIndex("_id")),
+								model.getText().toString(),
+								((SimpleCursorAdapter) fuelType.getAdapter())
+										.getCursor().getLong(
+												((SimpleCursorAdapter) fuelType
+														.getAdapter())
+														.getCursor()
+														.getColumnIndex("_id")),
+								Short.parseShort(capacity.getText().toString()),
+								license.getText().toString(), Short
+										.parseShort(year.getSelectedItem()
+												.toString()), Integer
+										.parseInt(kms.getText().toString())) > 0) {
+							if (photo.isChecked()) {
+								File directory = new File(Environment
+										.getExternalStorageDirectory(),
+										"fuelmonitor/");
+								directory.mkdirs();
+								File file = new File(directory, (license
+										.getText().toString() + ".jpg"));
+								file.delete();
+								try {
+									file.createNewFile();
+								} catch (IOException e) {
+									Log.e(TAG, "Error creating image file");
+								}
+								Intent i = new Intent(
+										android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+								i.putExtra(MediaStore.EXTRA_OUTPUT,
+										Uri.fromFile(file));
+								mTempFile = new File(directory, (license
+										.getText().toString()));
+								startActivityForResult(i, 1);
+							} else
+								finish();
+						} else {
+							int duration = Toast.LENGTH_SHORT;
+
+							Toast toast = Toast
+									.makeText(
+											getApplicationContext(),
+											getString(R.string.add_vehicle_error_inserting_toast),
+											duration);
+							toast.show();
+						}
+
 					} else {
 						int duration = Toast.LENGTH_SHORT;
 
-						Toast toast = Toast
-								.makeText(
-										getApplicationContext(),
-										getString(R.string.add_vehicle_error_inserting_toast),
-										duration);
+						Toast toast = Toast.makeText(getApplicationContext(),
+								getString(R.string.add_vehicle_fill_all_toast),
+								duration);
 						toast.show();
 					}
-
-				} else {
-					int duration = Toast.LENGTH_SHORT;
-
-					Toast toast = Toast.makeText(getApplicationContext(),
-							getString(R.string.add_vehicle_fill_all_toast),
-							duration);
-					toast.show();
 				}
 			}
 		});

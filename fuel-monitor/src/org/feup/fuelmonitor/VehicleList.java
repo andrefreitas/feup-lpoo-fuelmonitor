@@ -77,7 +77,7 @@ public class VehicleList extends SherlockListActivity {
 		switch (item.getItemId()) {
 		case Menu.FIRST:
 			Intent i = new Intent(getApplicationContext(), AddVehicle.class);
-			i.putExtra("edit", 1);
+			i.putExtra("edit", true);
 			startActivity(i);
 			return true;
 		case Menu.FIRST + 1:
