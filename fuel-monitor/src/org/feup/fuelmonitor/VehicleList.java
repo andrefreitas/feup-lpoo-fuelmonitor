@@ -66,15 +66,21 @@ public class VehicleList extends SherlockListActivity {
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-		menu.add(0, Menu.FIRST, 0, R.string.vehicle_delete);
+		menu.add(0, Menu.FIRST, 0, R.string.vehicle_edit);
+		menu.add(0, Menu.FIRST + 1, 0, R.string.vehicle_delete);
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
 		switch (item.getItemId()) {
 		case Menu.FIRST:
-			AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-					.getMenuInfo();
+			Intent i = new Intent(getApplicationContext(), AddVehicle.class);
+			i.putExtra("edit", 1);
+			startActivity(i);
+			return true;
+		case Menu.FIRST + 1:
 			File directory = new File(
 					Environment.getExternalStorageDirectory(), "fuelmonitor/");
 			String registration = mDbHelper.getRegistrationByID(info.id);

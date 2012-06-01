@@ -54,5 +54,6 @@
     <string name="fueling_row_separator">-</string>
     <string name="fueling_row_quantity_unit">l</string>
     <string name="fueling_row_cost_unit">€</string>
+    <string name="vehicle_edit">Editar</string>
 
 </resources>
