@@ -56,26 +56,6 @@ public class AddVehicle extends SherlockActivity {
 
 		mDbHelper.open();
 
-		if (edit) {
-			mVehicleID = getIntent().getLongExtra("vehicleID", 0);
-			Cursor editVehicle = mDbHelper.getVehicleByID(mVehicleID);
-			editVehicle.moveToFirst();
-			make.setSelection(editVehicle.getInt(editVehicle
-					.getColumnIndex("idMake")) + 1);
-			model.setText(editVehicle.getString(editVehicle
-					.getColumnIndex("model")));
-			fuelType.setSelection(editVehicle.getInt(editVehicle
-					.getColumnIndex("idFuelType")) + 1);
-			capacity.setText(Integer.toString(editVehicle.getInt(editVehicle
-					.getColumnIndex("fuelCapacity"))));
-			registration.setText(editVehicle.getString(editVehicle
-					.getColumnIndex("registration")));
-			year.setSelection(Calendar.getInstance().get(Calendar.YEAR)
-					- editVehicle.getInt(editVehicle.getColumnIndex("year")));
-			kms.setText(Integer.toString(editVehicle.getInt(editVehicle
-					.getColumnIndex("kms"))));
-		}
-
 		ArrayAdapter<Integer> yearAdapter = new ArrayAdapter<Integer>(this,
 				android.R.layout.simple_spinner_item);
 
@@ -103,6 +83,26 @@ public class AddVehicle extends SherlockActivity {
 		make.setAdapter(makeAdapter);
 
 		year.setAdapter(yearAdapter);
+
+		if (edit) {
+			mVehicleID = getIntent().getLongExtra("vehicleID", 0);
+			Cursor editVehicle = mDbHelper.getVehicleByID(mVehicleID);
+			editVehicle.moveToFirst();
+			make.setSelection(editVehicle.getInt(editVehicle
+					.getColumnIndex("idMake")) - 1);
+			model.setText(editVehicle.getString(editVehicle
+					.getColumnIndex("model")));
+			fuelType.setSelection(editVehicle.getInt(editVehicle
+					.getColumnIndex("idFuelType")) - 1);
+			capacity.setText(Integer.toString(editVehicle.getInt(editVehicle
+					.getColumnIndex("fuelCapacity"))));
+			registration.setText(editVehicle.getString(editVehicle
+					.getColumnIndex("registration")));
+			year.setSelection(Calendar.getInstance().get(Calendar.YEAR)
+					- editVehicle.getInt(editVehicle.getColumnIndex("year")));
+			kms.setText(Integer.toString(editVehicle.getInt(editVehicle
+					.getColumnIndex("kms"))));
+		}
 
 		save.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {

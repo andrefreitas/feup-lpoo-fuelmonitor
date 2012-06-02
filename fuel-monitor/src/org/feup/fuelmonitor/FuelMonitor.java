@@ -54,7 +54,7 @@ public class FuelMonitor extends SherlockActivity {
 		});
 		b3.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent i = new Intent(getApplicationContext(),Stats.class);
+				Intent i = new Intent(getApplicationContext(), Stats.class);
 				startActivity(i);
 
 			}
@@ -63,7 +63,8 @@ public class FuelMonitor extends SherlockActivity {
 			public void onClick(View v) {
 				int duration = Toast.LENGTH_SHORT;
 				Toast toast = Toast.makeText(getApplicationContext(),
-						"N�o implementado", duration);
+						getString(R.string.menu_not_implemented_toast),
+						duration);
 				toast.show();
 
 			}
