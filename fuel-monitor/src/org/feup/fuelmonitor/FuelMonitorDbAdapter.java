@@ -293,6 +293,20 @@ public class FuelMonitorDbAdapter {
 		return mDb.insert("vehicle", null, vehicle);
 	}
 
+	public long editVehicle(long id, long make, String model, long l,
+			short fuelCapacity, String registration, short year, int kms) {
+		ContentValues vehicle = new ContentValues();
+		vehicle.put("idMake", make);
+		vehicle.put("model", model);
+		vehicle.put("idFuelType", l);
+		vehicle.put("fuelCapacity", fuelCapacity);
+		vehicle.put("registration", registration);
+		vehicle.put("year", year);
+		vehicle.put("kms", kms);
+		return mDb.update("vehicle", vehicle, "_id = ?",
+				new String[] { String.valueOf(id) });
+	}
+
 	public long addFueling(String date, int kms, String fuelStation,
 			float quantity, float cost, int courseTypeCity, int courseTypeRoad,
 			int courseTypeFreeway, int drivingStyle, long vehicle) {
@@ -327,6 +341,11 @@ public class FuelMonitorDbAdapter {
 				.rawQuery(
 						"SELECT V._id, model, M.name as makeName, registration FROM Make M, Vehicle V WHERE V.idmake = M._id",
 						null);
+	}
+
+	public Cursor getVehicleByID(long rowId) {
+		return mDb.query("Vehicle", null, "_id=?",
+				new String[] { String.valueOf(rowId) }, null, null, null);
 	}
 
 	public String getRegistrationByID(long rowId) {
