@@ -72,23 +72,23 @@ public class VehicleList extends SherlockListActivity {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-				.getMenuInfo();
+		long id = ((AdapterContextMenuInfo) item.getMenuInfo()).id;
 		switch (item.getItemId()) {
 		case Menu.FIRST:
 			Intent i = new Intent(getApplicationContext(), AddVehicle.class);
 			i.putExtra("edit", true);
+			i.putExtra("vehicleID", id);
 			startActivity(i);
 			return true;
 		case Menu.FIRST + 1:
 			File directory = new File(
 					Environment.getExternalStorageDirectory(), "fuelmonitor/");
-			String registration = mDbHelper.getRegistrationByID(info.id);
+			String registration = mDbHelper.getRegistrationByID(id);
 			File imgFile = new File(directory, (registration + ".jpg"));
 			File thumbFile = new File(directory, (registration + "t.jpg"));
 			imgFile.delete();
 			thumbFile.delete();
-			mDbHelper.deleteVehicle(info.id);
+			mDbHelper.deleteVehicle(id);
 			fillData();
 			return true;
 		}
