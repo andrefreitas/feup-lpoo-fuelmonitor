@@ -36,6 +36,11 @@
             android:name="AddFueling"
             android:screenOrientation="portrait">
         </activity>
+        
+         <activity
+            android:name="Stats"
+            android:screenOrientation="landscape">
+        </activity>
         <activity android:name="FuelingList"></activity>
     </application>
 
