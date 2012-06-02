@@ -52,7 +52,7 @@ public class FuelMonitorDbAdapter {
 	private static final String VEHICLE_CREATE = "CREATE TABLE Vehicle ("
 			+ "  _id INTEGER PRIMARY KEY," + "  kms integer NOT NULL ,"
 			+ "  year integer NOT NULL ," + "  fuelCapacity integer NOT NULL ,"
-			+ "  registration nvarchar2 NOT NULL UNIQUE,"
+			+ "  registration nvarchar2 NOT NULL UNIQUE ON CONFLICT IGNORE,"
 			+ "  model nvarchar2 NOT NULL," + "  idMake integer NOT NULL,"
 			+ "  idFuelType integer REFERENCES FuelType ON DELETE CASCADE);";
 	private static final String FUELING_CREATE = "CREATE TABLE Fueling ("
