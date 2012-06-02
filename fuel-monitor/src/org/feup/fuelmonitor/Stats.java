@@ -6,11 +6,9 @@ import org.graphview.*;
 
 import com.actionbarsherlock.app.SherlockActivity;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
+import org.feup.fuelmonitor.FuelMonitorDbAdapter;
 
 /**
  * GraphViewDemo creates some dummy data to demonstrate the GraphView component.
@@ -22,7 +20,12 @@ public class Stats extends SherlockActivity{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		fillSpinner();
+		buildGraph();
 		
+	}
+	
+	private void buildGraph(){
 		float[] values = new float[] { 2.0f,1.5f, 2.5f, 1.0f , 3.0f };
 		String[] months = new String[] { "Jan.", "Fev.", "Mar.", "Abr.", "Mai.","Jun.","Jul.","Ago.","Set.","Out.","Nov.","Dez."};
 		
@@ -44,5 +47,9 @@ public class Stats extends SherlockActivity{
 		RelativeLayout layoutGraph = (RelativeLayout) findViewById(R.id.stats_GraphLayout);
 		GraphView graphView = new GraphView(this, values, "Consumos de "+year,actualMonths, null, GraphView.BAR);
 		layoutGraph.addView(graphView);
+	}
+	
+	private void fillSpinner(){
+		
 	}
 }

@@ -10,17 +10,20 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="29dp" />
+        android:layout_marginTop="30dp" />
 
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/stats_GraphLayout"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignParentLeft="true"
+        android:layout_height="180dp"
+        android:layout_alignLeft="@+id/stats_CarSpinner"
+        android:layout_alignParentBottom="true"
         android:layout_below="@+id/stats_CarSpinner"
-        android:layout_marginTop="19dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:background="@android:color/holo_red_dark" >
+
     </RelativeLayout>
 
 </RelativeLayout>
