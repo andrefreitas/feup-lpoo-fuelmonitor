@@ -42,6 +42,74 @@
         <item>Normal</item>
         <item>Agressiva</item>
     </string-array>
+    
+    <string-array name="make_database_list">
+        <item>Alfa Romeo</item>
+        <item>Aston Martin</item>
+        <item>Audi</item>
+        <item>Austin Morris</item>
+        <item>Austin Rover</item>
+        <item>Bentley</item>
+        <item>BMW</item>
+        <item>Chevrolet</item>
+        <item>Chrysler</item>
+        <item>Citroën</item>
+        <item>Dacia</item>
+        <item>Daewoo</item>
+        <item>Daihatsu</item>
+        <item>Dodge</item>
+        <item>Ferrari</item>
+        <item>Fiat</item>
+        <item>Ford</item>
+        <item>GMC</item>
+        <item>Honda</item>
+        <item>Hummer</item>
+        <item>Hyundai</item>
+        <item>Isuzu</item>
+        <item>Jaguar</item>
+        <item>Jeep</item>
+        <item>Kia</item>
+        <item>Lada</item>
+        <item>Lamborghini</item>
+        <item>Lancia</item>
+        <item>Land Rover</item>
+        <item>Lexus</item>
+        <item>Lotus</item>
+        <item>Maserati</item>
+        <item>Mazda</item>
+        <item>Mercedes-Benz</item>
+        <item>MG</item>
+        <item>MINI</item>
+        <item>Mitsubishi</item>
+        <item>Nissan</item>
+        <item>Opel</item>
+        <item>Peugeot</item>
+        <item>Pontiac</item>
+        <item>Porsche</item>
+        <item>Renault</item>
+        <item>Rolls Royce</item>
+        <item>Rover</item>
+        <item>Saab</item>
+        <item>Seat</item>
+        <item>Skoda</item>
+        <item>Smart</item>
+        <item>SsangYong</item>
+        <item>Subaru</item>
+        <item>Suzuki</item>
+        <item>Tata</item>
+        <item>Toyota</item>
+        <item>Triumph</item>
+        <item>UMM</item>
+        <item>Vauxhall</item>
+        <item>Volvo</item>
+        <item>VW</item>
+    </string-array>
+    
+    <string-array name="fuelType_database_list">
+        <item>Gasolina</item>
+        <item>Gasóleo</item>
+        <item>GPL</item>
+    </string-array>
 
     <string name="add_fueling_date">Data</string>
     <string name="vehicle_menu_no_vehicles_toast">Não existem veículos</string>

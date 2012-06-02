@@ -73,8 +73,11 @@ public class FuelMonitorDbAdapter {
 
 	private static class DatabaseHelper extends SQLiteOpenHelper {
 
+		private final Context mCtx;
+
 		DatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
+			mCtx = context;
 		}
 
 		@Override
@@ -91,144 +94,25 @@ public class FuelMonitorDbAdapter {
 
 			// TODO Ship app with pre-populated and created database
 			Log.i(TAG, "Populating FuelType table");
-			ContentValues fuel_types = new ContentValues();
-			fuel_types.put("name", "Gasolina");
-			db.insert("fueltype", null, fuel_types);
-			fuel_types.put("name", "Gasóleo");
-			db.insert("fueltype", null, fuel_types);
-			fuel_types.put("name", "GPL");
-			db.insert("fueltype", null, fuel_types);
+			ContentValues fuelTypes = new ContentValues();
+			String[] fuelTypesList = mCtx.getResources().getStringArray(
+					R.array.fuelType_database_list);
+
+			for (int i = 0; i < fuelTypesList.length; i++) {
+				fuelTypes.put("name", fuelTypesList[i]);
+				db.insert("fuelType", null, fuelTypes);
+			}
 
 			Log.i(TAG, "Populating Make table");
 			ContentValues makes = new ContentValues();
-			makes.put("name", "Alfa Romeo");
-			db.insert("make", null, makes);
-			makes.put("name", "Aston Martin");
-			db.insert("make", null, makes);
-			makes.put("name", "Audi");
-			db.insert("make", null, makes);
-			makes.put("name", "Austin Morris");
-			db.insert("make", null, makes);
-			makes.put("name", "Austin Rover");
-			db.insert("make", null, makes);
-			makes.put("name", "Bentley");
-			db.insert("make", null, makes);
-			makes.put("name", "BMW");
-			db.insert("make", null, makes);
-			makes.put("name", "Chevrolet");
-			db.insert("make", null, makes);
-			makes.put("name", "Chrysler");
-			db.insert("make", null, makes);
-			makes.put("name", "Citroën");
-			db.insert("make", null, makes);
-			makes.put("name", "Dacia");
-			db.insert("make", null, makes);
-			makes.put("name", "Daewoo");
-			db.insert("make", null, makes);
-			makes.put("name", "Daihatsu");
-			db.insert("make", null, makes);
-			makes.put("name", "Dodge");
-			db.insert("make", null, makes);
-			makes.put("name", "Ferrari");
-			db.insert("make", null, makes);
-			makes.put("name", "Fiat");
-			db.insert("make", null, makes);
-			makes.put("name", "Ford");
-			db.insert("make", null, makes);
-			makes.put("name", "GMC");
-			db.insert("make", null, makes);
-			makes.put("name", "Honda");
-			db.insert("make", null, makes);
-			makes.put("name", "Hummer");
-			db.insert("make", null, makes);
-			makes.put("name", "Hyundai");
-			db.insert("make", null, makes);
-			makes.put("name", "Isuzu");
-			db.insert("make", null, makes);
-			makes.put("name", "Jaguar");
-			db.insert("make", null, makes);
-			makes.put("name", "Jeep");
-			db.insert("make", null, makes);
-			makes.put("name", "Kia");
-			db.insert("make", null, makes);
-			makes.put("name", "Lada");
-			db.insert("make", null, makes);
-			makes.put("name", "Lamborghini");
-			db.insert("make", null, makes);
-			makes.put("name", "Lancia");
-			db.insert("make", null, makes);
-			makes.put("name", "Land Rover");
-			db.insert("make", null, makes);
-			makes.put("name", "Lexus");
-			db.insert("make", null, makes);
-			makes.put("name", "Lotus");
-			db.insert("make", null, makes);
-			makes.put("name", "Maserati");
-			db.insert("make", null, makes);
-			makes.put("name", "Mazda");
-			db.insert("make", null, makes);
-			makes.put("name", "Mercedes-Benz");
-			db.insert("make", null, makes);
-			makes.put("name", "MG");
-			db.insert("make", null, makes);
-			makes.put("name", "MINI");
-			db.insert("make", null, makes);
-			makes.put("name", "Mitsubishi");
-			db.insert("make", null, makes);
-			makes.put("name", "Nissan");
-			db.insert("make", null, makes);
-			makes.put("name", "Opel");
-			db.insert("make", null, makes);
-			makes.put("name", "Peugeot");
-			db.insert("make", null, makes);
-			makes.put("name", "Pontiac");
-			db.insert("make", null, makes);
-			makes.put("name", "Porsche");
-			db.insert("make", null, makes);
-			makes.put("name", "Renault");
-			db.insert("make", null, makes);
-			makes.put("name", "Rolls Royce");
-			db.insert("make", null, makes);
-			makes.put("name", "Rover");
-			db.insert("make", null, makes);
-			makes.put("name", "Saab");
-			db.insert("make", null, makes);
-			makes.put("name", "Seat");
-			db.insert("make", null, makes);
-			makes.put("name", "Skoda");
-			db.insert("make", null, makes);
-			makes.put("name", "Smart");
-			db.insert("make", null, makes);
-			makes.put("name", "SsangYong");
-			db.insert("make", null, makes);
-			makes.put("name", "Subaru");
-			db.insert("make", null, makes);
-			makes.put("name", "Suzuki");
-			db.insert("make", null, makes);
-			makes.put("name", "Tata");
-			db.insert("make", null, makes);
-			makes.put("name", "Toyota");
-			db.insert("make", null, makes);
-			makes.put("name", "Triumph");
-			db.insert("make", null, makes);
-			makes.put("name", "UMM");
-			db.insert("make", null, makes);
-			makes.put("name", "Vauxhall");
-			db.insert("make", null, makes);
-			makes.put("name", "Volvo");
-			db.insert("make", null, makes);
-			makes.put("name", "VW");
-			db.insert("make", null, makes);
+			String[] makeList = mCtx.getResources().getStringArray(
+					R.array.make_database_list);
 
-			/*
-			 * Log.i(TAG, "Populating Vehicles table (DEBUG)"); ContentValues
-			 * vehicles = new ContentValues(); vehicles.put("idMake", 1);
-			 * vehicles.put("model", "TESTE"); vehicles.put("idFuelType", 1);
-			 * vehicles.put("fuelCapacity", 50); vehicles.put("year", 2001);
-			 * vehicles.put("kms", 50000); for(int i=0;i<100;i++) {
-			 * vehicles.put("registration", "TESTE "+i); db.insert("vehicle",
-			 * null, vehicles); }
-			 */
+			for (int i = 0; i < makeList.length; i++) {
+				makes.put("name", makeList[i]);
+				db.insert("make", null, makes);
+			}
+
 		}
 
 		@Override
