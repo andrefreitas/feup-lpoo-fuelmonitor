@@ -1,11 +1,14 @@
 package org.feup.fuelmonitor;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,12 +24,14 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
 
 public class AddFueling extends SherlockActivity {
-	// private static final String TAG = "FuelMonitorAddFueling";
+	private static final String TAG = "FuelMonitorAddFueling";
 	private FuelMonitorDbAdapter mDbHelper;
 	private int mYear;
 	private int mMonth;
 	private int mDay;
 	private Spinner mDatePick;
+	private boolean edit;
+	private long mFuelingID;
 	private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
 
 		public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -43,39 +48,7 @@ public class AddFueling extends SherlockActivity {
 		switch (id) {
 		case 0:
 			return new DatePickerDialog(this, mDateSetListener, mYear, mMonth,
-					mDay) {
-
-				// Boolean to prevent recursion
-				boolean dateFixed = false;
-				final Calendar c = Calendar.getInstance();
-
-				public void onDateChanged(DatePicker view, int year, int month,
-						int day) {
-
-					if (!dateFixed) {
-						if (year >= c.get(Calendar.YEAR)) {
-							if (year > c.get(Calendar.YEAR)) {
-								year = c.get(Calendar.YEAR);
-								dateFixed = true;
-							}
-
-							if (month > c.get(Calendar.MONTH)) {
-								month = c.get(Calendar.MONTH);
-								dateFixed = true;
-							}
-
-							if (day > c.get(Calendar.DAY_OF_MONTH)) {
-								day = c.get(Calendar.DAY_OF_MONTH);
-								dateFixed = true;
-							}
-						}
-
-						if (dateFixed)
-							updateDate(year, month, day);
-					} else
-						dateFixed = false;
-				}
-			};
+					mDay);
 		}
 		return null;
 	}
@@ -84,6 +57,7 @@ public class AddFueling extends SherlockActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mDbHelper = new FuelMonitorDbAdapter(this);
+		edit = getIntent().getBooleanExtra("edit", false);
 		// mTempFile = null;
 		setContentView(R.layout.addfueling);
 		final Spinner vehicle = (Spinner) findViewById(R.id.addfueling_vehicleSpinner);
@@ -116,11 +90,52 @@ public class AddFueling extends SherlockActivity {
 
 		vehicle.setAdapter(vehicleAdapter);
 
-		// get the current date
-		final Calendar c = Calendar.getInstance();
-		mYear = c.get(Calendar.YEAR);
-		mMonth = c.get(Calendar.MONTH);
-		mDay = c.get(Calendar.DAY_OF_MONTH);
+		if (edit) {
+			mFuelingID = getIntent().getLongExtra("fuelingID", 0);
+			Cursor editFueling = mDbHelper.getFuelingByID(mFuelingID);
+			editFueling.moveToFirst();
+			vehicle.setSelection(editFueling.getInt(editFueling
+					.getColumnIndex("idVehicle")) - 1);
+
+			try {
+				SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+				Calendar c = Calendar.getInstance();
+				c.setTime(date.parse(editFueling.getString(editFueling
+						.getColumnIndex("date"))));
+				mYear = c.get(Calendar.YEAR);
+				mMonth = c.get(Calendar.MONTH);
+				mDay = c.get(Calendar.DAY_OF_MONTH);
+
+			} catch (ParseException e) {
+				Log.e(TAG, "Error parsing date from database");
+			}
+
+			fuelStation.setText(editFueling.getString(editFueling
+					.getColumnIndex("fuelStation")));
+			kms.setText(Integer.toString(editFueling.getInt(editFueling
+					.getColumnIndex("kmsAtFueling"))));
+			quantity.setText(Double.toString(editFueling.getDouble(editFueling
+					.getColumnIndex("quantity"))));
+			cost.setText(Float.toString(editFueling.getFloat(editFueling
+					.getColumnIndex("cost"))));
+			courseTypeCity.setChecked(editFueling.getInt(editFueling
+					.getColumnIndex("courseTypeCity")) == 1);
+			courseTypeRoad.setChecked(editFueling.getInt(editFueling
+					.getColumnIndex("courseTypeRoad")) == 1);
+			courseTypeFreeway.setChecked(editFueling.getInt(editFueling
+					.getColumnIndex("courseTypeFreeway")) == 1);
+			drivingStyle.setSelection(editFueling.getInt(editFueling
+					.getColumnIndex("drivingStyle")) - 1);
+		}
+
+		else {
+
+			// get the current date
+			final Calendar c = Calendar.getInstance();
+			mYear = c.get(Calendar.YEAR);
+			mMonth = c.get(Calendar.MONTH);
+			mDay = c.get(Calendar.DAY_OF_MONTH);
+		}
 
 		// display the current date
 		updateDisplay();
@@ -156,32 +171,78 @@ public class AddFueling extends SherlockActivity {
 						&& (courseTypeCity.isChecked()
 								|| courseTypeRoad.isChecked() || courseTypeFreeway
 									.isChecked())) {
-					if (mDbHelper.addFueling(
-							new String(mYear + "-" + (mMonth + 1) // Month
-																	// starts at
-																	// 0
-									+ "-" + mDay),
-							Integer.parseInt(kms.getText().toString()),
-							fuelStation.getText().toString(),
-							Float.parseFloat(quantity.getText().toString()),
-							Float.parseFloat(cost.getText().toString()),
-							(courseTypeCity.isChecked()) ? 1 : 0,
-							(courseTypeRoad.isChecked()) ? 1 : 0,
-							(courseTypeFreeway.isChecked()) ? 1 : 0,
-							drivingStyle.getSelectedItemPosition() + 1,
-							((SimpleCursorAdapter) vehicle.getAdapter())
-									.getCursor().getLong(
-											((SimpleCursorAdapter) vehicle
-													.getAdapter()).getCursor()
-													.getColumnIndex("_id"))) > 0)
-						finish();
-					else {
+
+					Calendar c = Calendar.getInstance();
+					c.set(mYear, mMonth, mDay);
+					if (c.compareTo(Calendar.getInstance()) != 1) {
+						long queryRetCode;
+						if (edit) {
+							queryRetCode = mDbHelper.editFueling(
+									mFuelingID,
+									new String(mYear + "-" + (mMonth + 1) // Month
+											// starts at
+											// 0
+											+ "-" + mDay),
+									Integer.parseInt(kms.getText().toString()),
+									fuelStation.getText().toString(),
+									Float.parseFloat(quantity.getText()
+											.toString()),
+									Float.parseFloat(cost.getText().toString()),
+									(courseTypeCity.isChecked()) ? 1 : 0,
+									(courseTypeRoad.isChecked()) ? 1 : 0,
+									(courseTypeFreeway.isChecked()) ? 1 : 0,
+									drivingStyle.getSelectedItemPosition() + 1,
+									((SimpleCursorAdapter) vehicle.getAdapter())
+											.getCursor()
+											.getLong(
+													((SimpleCursorAdapter) vehicle
+															.getAdapter())
+															.getCursor()
+															.getColumnIndex(
+																	"_id")));
+						} else {
+							queryRetCode = mDbHelper.addFueling(
+									new String(mYear + "-" + (mMonth + 1) // Month
+											// starts at
+											// 0
+											+ "-" + mDay),
+									Integer.parseInt(kms.getText().toString()),
+									fuelStation.getText().toString(),
+									Float.parseFloat(quantity.getText()
+											.toString()),
+									Float.parseFloat(cost.getText().toString()),
+									(courseTypeCity.isChecked()) ? 1 : 0,
+									(courseTypeRoad.isChecked()) ? 1 : 0,
+									(courseTypeFreeway.isChecked()) ? 1 : 0,
+									drivingStyle.getSelectedItemPosition() + 1,
+									((SimpleCursorAdapter) vehicle.getAdapter())
+											.getCursor()
+											.getLong(
+													((SimpleCursorAdapter) vehicle
+															.getAdapter())
+															.getCursor()
+															.getColumnIndex(
+																	"_id")));
+						}
+						if (queryRetCode > 0)
+							finish();
+						else {
+							int duration = Toast.LENGTH_SHORT;
+
+							Toast toast = Toast
+									.makeText(
+											getApplicationContext(),
+											getString(R.string.add_fueling_error_inserting_toast),
+											duration);
+							toast.show();
+						}
+					} else {
 						int duration = Toast.LENGTH_SHORT;
 
 						Toast toast = Toast
 								.makeText(
 										getApplicationContext(),
-										getString(R.string.add_fueling_error_inserting_toast),
+										getString(R.string.add_fueling_invalid_date_toast),
 										duration);
 						toast.show();
 					}

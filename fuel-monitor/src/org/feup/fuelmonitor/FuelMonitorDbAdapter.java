@@ -293,7 +293,7 @@ public class FuelMonitorDbAdapter {
 		return mDb.insert("vehicle", null, vehicle);
 	}
 
-	public long editVehicle(long id, long make, String model, long l,
+	public long editVehicle(long rowId, long make, String model, long l,
 			short fuelCapacity, String registration, short year, int kms) {
 		ContentValues vehicle = new ContentValues();
 		vehicle.put("idMake", make);
@@ -304,7 +304,7 @@ public class FuelMonitorDbAdapter {
 		vehicle.put("year", year);
 		vehicle.put("kms", kms);
 		return mDb.update("vehicle", vehicle, "_id = ?",
-				new String[] { String.valueOf(id) });
+				new String[] { String.valueOf(rowId) });
 	}
 
 	public long addFueling(String date, int kms, String fuelStation,
@@ -322,6 +322,25 @@ public class FuelMonitorDbAdapter {
 		fueling.put("drivingStyle", drivingStyle);
 		fueling.put("idVehicle", vehicle);
 		return mDb.insert("fueling", null, fueling);
+	}
+
+	public long editFueling(long rowId, String date, int kms,
+			String fuelStation, float quantity, float cost, int courseTypeCity,
+			int courseTypeRoad, int courseTypeFreeway, int drivingStyle,
+			long vehicle) {
+		ContentValues fueling = new ContentValues();
+		fueling.put("date", date);
+		fueling.put("kmsAtFueling", kms);
+		fueling.put("fuelStation", fuelStation);
+		fueling.put("quantity", quantity);
+		fueling.put("cost", cost);
+		fueling.put("courseTypeCity", courseTypeCity);
+		fueling.put("courseTypeRoad", courseTypeRoad);
+		fueling.put("courseTypeFreeway", courseTypeFreeway);
+		fueling.put("drivingStyle", drivingStyle);
+		fueling.put("idVehicle", vehicle);
+		return mDb.update("fueling", fueling, "_id = ?",
+				new String[] { String.valueOf(rowId) });
 	}
 
 	public Cursor fetchFuelingTypes() {
@@ -345,6 +364,11 @@ public class FuelMonitorDbAdapter {
 
 	public Cursor getVehicleByID(long rowId) {
 		return mDb.query("Vehicle", null, "_id=?",
+				new String[] { String.valueOf(rowId) }, null, null, null);
+	}
+
+	public Cursor getFuelingByID(long rowId) {
+		return mDb.query("Fueling", null, "_id=?",
 				new String[] { String.valueOf(rowId) }, null, null, null);
 	}
 

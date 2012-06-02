@@ -55,5 +55,7 @@
     <string name="fueling_row_quantity_unit">l</string>
     <string name="fueling_row_cost_unit">€</string>
     <string name="vehicle_edit">Editar</string>
+    <string name="fueling_edit">Editar</string>
+    <string name="add_fueling_invalid_date_toast">Data inválida</string>
 
 </resources>

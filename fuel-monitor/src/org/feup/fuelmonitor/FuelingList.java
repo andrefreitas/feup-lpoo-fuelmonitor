@@ -1,5 +1,6 @@
 package org.feup.fuelmonitor;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -37,16 +38,22 @@ public class FuelingList extends SherlockListActivity {
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-		menu.add(0, Menu.FIRST, 0, R.string.fueling_delete);
+		menu.add(0, Menu.FIRST, 0, R.string.fueling_edit);
+		menu.add(0, Menu.FIRST + 1, 0, R.string.fueling_delete);
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+		long id = ((AdapterContextMenuInfo) item.getMenuInfo()).id;
 		switch (item.getItemId()) {
 		case Menu.FIRST:
-			AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-					.getMenuInfo();
-			mDbHelper.deleteFueling(info.id);
+			Intent i = new Intent(getApplicationContext(), AddFueling.class);
+			i.putExtra("edit", true);
+			i.putExtra("fuelingID", id);
+			startActivity(i);
+			return true;
+		case Menu.FIRST + 1:
+			mDbHelper.deleteFueling(id);
 			fillData();
 			return true;
 		}
