@@ -39,7 +39,7 @@
         
          <activity
             android:name="Stats"
-            android:screenOrientation="landscape">
+           >
         </activity>
         <activity android:name="FuelingList"></activity>
     </application>
