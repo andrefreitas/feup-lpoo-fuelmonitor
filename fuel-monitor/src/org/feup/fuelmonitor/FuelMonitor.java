@@ -54,8 +54,20 @@ public class FuelMonitor extends SherlockActivity {
 		});
 		b3.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent i = new Intent(getApplicationContext(), Stats.class);
-				startActivity(i);
+				mDbHelper.open();
+				int numVehicles = mDbHelper.getNumVehicles();
+				mDbHelper.close();
+				if (numVehicles > 0) {
+					Intent i = new Intent(getApplicationContext(), Stats.class);
+					startActivity(i);
+				} else {
+					int duration = Toast.LENGTH_SHORT;
+
+					Toast toast = Toast.makeText(getApplicationContext(),
+							getString(R.string.vehicle_menu_no_vehicles_toast),
+							duration);
+					toast.show();
+				}
 
 			}
 		});

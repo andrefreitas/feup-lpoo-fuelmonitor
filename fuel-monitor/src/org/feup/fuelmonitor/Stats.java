@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
@@ -31,6 +32,7 @@ public class Stats extends SherlockActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stats);
 		mDbHelper = new FuelMonitorDbAdapter(this);
+		mDbHelper.open();
 		fillSpinner();
 		buildGraph();
 
@@ -64,27 +66,22 @@ public class Stats extends SherlockActivity {
 
 	private void fillSpinner() {
 
-		// Get all the vehicles from the DB
-		ArrayList<String> vehicleRegistrations = new ArrayList<String>();
-		Cursor vehiclesCursor = mDbHelper.fetchVehicles();
-		vehiclesCursor.moveToFirst();
-		if (vehiclesCursor != null) {
-			do {
-				vehicleRegistrations.add(vehiclesCursor
-						.getString(vehiclesCursor
-								.getColumnIndex("registration")));
-			} while (vehiclesCursor.moveToNext());
-			vehiclesCursor.close();
-			String[] items = new String[vehicleRegistrations.size()];
-			vehicleRegistrations.toArray(items);
+		Cursor vehicleCursor = mDbHelper.fetchVehicles();
+		// TODO Use a CursorLoader (startManagingCursor is deprecated)
+		startManagingCursor(vehicleCursor);
 
-			// Put on the spinner
-			Spinner spinner = (Spinner) findViewById(R.id.stats_CarSpinner);
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-					android.R.layout.simple_spinner_item, items);
-			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			spinner.setAdapter(adapter);
-		}
+		SimpleCursorAdapter vehicleAdapter = new SimpleCursorAdapter(this,
+				android.R.layout.simple_spinner_item, vehicleCursor,
+				new String[] { "registration" },
+				new int[] { android.R.id.text1 });
 
+		Spinner spinner = (Spinner) findViewById(R.id.stats_CarSpinner);
+		spinner.setAdapter(vehicleAdapter);	
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mDbHelper.close();
 	}
 }
