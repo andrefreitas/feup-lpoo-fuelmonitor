@@ -22,19 +22,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
+
 /**
  * Addfueling - a class for implementing the activity of adding a fueling.
  */
 public class AddFueling extends SherlockActivity {
-	private static final String TAG = "FuelMonitorAddFueling";	/* The tag for identifying this activity */
-	private FuelMonitorDbAdapter mDbHelper; 						/* The class for managing the data base */
-	private int mYear;												/* The selected year in the form */
-	private int mMonth;											/* The selected month in the form */
-	private int mDay;												/* The selected day in the form */
-	private Spinner mDatePick;										/* The spinner for displaying the dates */
-	private boolean edit;											/* Boolean for edit mode */
-	private long mFuelingID;										/* The id of the fueling */
-	
+	private static final String TAG = "FuelMonitorAddFueling"; /*
+																 * The tag for
+																 * identifying
+																 * this activity
+																 */
+	private FuelMonitorDbAdapter mDbHelper; /*
+											 * The class for managing the data
+											 * base
+											 */
+	private int mYear; /* The selected year in the form */
+	private int mMonth; /* The selected month in the form */
+	private int mDay; /* The selected day in the form */
+	private Spinner mDatePick; /* The spinner for displaying the dates */
+	private boolean edit; /* Boolean for edit mode */
+	private long mFuelingID; /* The id of the fueling */
+
 	/**
 	 * This function updates the date when the spinner is used
 	 */
@@ -59,7 +67,6 @@ public class AddFueling extends SherlockActivity {
 		return null;
 	}
 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -182,70 +189,83 @@ public class AddFueling extends SherlockActivity {
 							.getAdapter()).getCursor().getLong(
 							((SimpleCursorAdapter) vehicle.getAdapter())
 									.getCursor().getColumnIndex("_id"));
+					if (Integer.parseInt(kms.getText().toString()) > mDbHelper.getMinKms(vehicleId)) {
+						Calendar c = Calendar.getInstance();
+						c.set(mYear, mMonth, mDay);
+						if (c.compareTo(Calendar.getInstance()) != 1) {
+							long queryRetCode;
+							if (edit) {
+								queryRetCode = mDbHelper.editFueling(
+										mFuelingID,
+										new String(mYear
+												+ "-"
+												+ String.format("%02d",
+														mMonth + 1) // Month
+												// starts at
+												// 0
+												+ "-"
+												+ String.format("%02d", mDay)),
+										Integer.parseInt(kms.getText()
+												.toString()),
+										fuelStation.getText().toString(),
+										Float.parseFloat(quantity.getText()
+												.toString()),
+										Float.parseFloat(cost.getText()
+												.toString()),
+										(courseTypeCity.isChecked()) ? 1 : 0,
+										(courseTypeRoad.isChecked()) ? 1 : 0,
+										(courseTypeFreeway.isChecked()) ? 1 : 0,
+										drivingStyle.getSelectedItemPosition() + 1,
+										vehicleId);
+							} else {
+								queryRetCode = mDbHelper.addFueling(
+										new String(mYear + "-" + (mMonth + 1) // Month
+												// starts at
+												// 0
+												+ "-" + mDay),
+										Integer.parseInt(kms.getText()
+												.toString()),
+										fuelStation.getText().toString(),
+										Float.parseFloat(quantity.getText()
+												.toString()),
+										Float.parseFloat(cost.getText()
+												.toString()),
+										(courseTypeCity.isChecked()) ? 1 : 0,
+										(courseTypeRoad.isChecked()) ? 1 : 0,
+										(courseTypeFreeway.isChecked()) ? 1 : 0,
+										drivingStyle.getSelectedItemPosition() + 1,
+										vehicleId);
+							}
+							if (queryRetCode > 0)
+								finish();
+							else {
+								int duration = Toast.LENGTH_SHORT;
 
-					Calendar c = Calendar.getInstance();
-					c.set(mYear, mMonth, mDay);
-					if (c.compareTo(Calendar.getInstance()) != 1) {
-						long queryRetCode;
-						if (edit) {
-							queryRetCode = mDbHelper.editFueling(
-									mFuelingID,
-									new String(mYear + "-"
-											+ String.format("%02d", mMonth + 1) // Month
-											// starts at
-											// 0
-											+ "-" + String.format("%02d", mDay)),
-									Integer.parseInt(kms.getText().toString()),
-									fuelStation.getText().toString(), Float
-											.parseFloat(quantity.getText()
-													.toString()), Float
-											.parseFloat(cost.getText()
-													.toString()),
-									(courseTypeCity.isChecked()) ? 1 : 0,
-									(courseTypeRoad.isChecked()) ? 1 : 0,
-									(courseTypeFreeway.isChecked()) ? 1 : 0,
-									drivingStyle.getSelectedItemPosition() + 1,
-									vehicleId);
+								Toast toast = Toast
+										.makeText(
+												getApplicationContext(),
+												getString(R.string.add_fueling_error_inserting_toast),
+												duration);
+								toast.show();
+							}
 						} else {
-							queryRetCode = mDbHelper.addFueling(
-									new String(mYear + "-" + (mMonth + 1) // Month
-											// starts at
-											// 0
-											+ "-" + mDay),
-									Integer.parseInt(kms.getText().toString()),
-									fuelStation.getText().toString(),
-									Float.parseFloat(quantity.getText()
-											.toString()),
-									Float.parseFloat(cost.getText().toString()),
-									(courseTypeCity.isChecked()) ? 1 : 0,
-									(courseTypeRoad.isChecked()) ? 1 : 0,
-									(courseTypeFreeway.isChecked()) ? 1 : 0,
-									drivingStyle.getSelectedItemPosition() + 1,
-									vehicleId);
-						}
-						if (queryRetCode > 0)
-							finish();
-						else {
 							int duration = Toast.LENGTH_SHORT;
 
 							Toast toast = Toast
 									.makeText(
 											getApplicationContext(),
-											getString(R.string.add_fueling_error_inserting_toast),
+											getString(R.string.add_fueling_invalid_date_toast),
 											duration);
 							toast.show();
 						}
 					} else {
 						int duration = Toast.LENGTH_SHORT;
 
-						Toast toast = Toast
-								.makeText(
-										getApplicationContext(),
-										getString(R.string.add_fueling_invalid_date_toast),
-										duration);
+						Toast toast = Toast.makeText(getApplicationContext(),
+								getString(R.string.add_fueling_invalid_kms_toast),
+								duration);
 						toast.show();
 					}
-
 				} else {
 					int duration = Toast.LENGTH_SHORT;
 

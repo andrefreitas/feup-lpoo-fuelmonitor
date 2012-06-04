@@ -24,7 +24,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-
 public class FuelMonitorDbAdapter {
 
 	private static final String TAG = "FuelMonitorDbAdapter";
@@ -275,15 +274,10 @@ public class FuelMonitorDbAdapter {
 	}
 
 	public int getMinKms(long rowId) {
-		Cursor result1 = mDb.query("Vehicle", new String[] { "kms" }, "_id=?",
+		Cursor result = mDb.query("Vehicle", new String[] { "kms" }, "_id=?",
 				new String[] { String.valueOf(rowId) }, null, null, null);
-		result1.moveToFirst();
-		Cursor result2 = mDb.query("Fueling",
-				new String[] { "MIN(kmsAtFueling)" }, "idVehicle=?",
-				new String[] { String.valueOf(rowId) }, null, null, null);
-		result2.moveToFirst();
-		// A fueling could have been added from before adding the vehicle
-		return Math.min(result1.getInt(0), result2.getInt(0));
+		result.moveToFirst();
+		return result.getInt(0);
 
 	}
 
@@ -295,12 +289,14 @@ public class FuelMonitorDbAdapter {
 		return result.getInt(0);
 
 	}
-	
-	public float averageConsumption(int year, int month, int vehicleID){
-		Cursor result = mDb.rawQuery("SELECT AVG(*) FROM Fueling " +
-				"Where idVehicle="+vehicleID+" and date<"+year+"-"+month+"-30 and date >"+year+"-"+month+"-0", null);
+
+	public float averageConsumption(int year, int month, int vehicleID) {
+		Cursor result = mDb.rawQuery("SELECT AVG(*) FROM Fueling "
+				+ "Where idVehicle=" + vehicleID + " and date<" + year + "-"
+				+ month + "-30 and date >" + year + "-" + month + "-0", null);
 		return result.getFloat(0);
 	}
+
 	public boolean deleteFueling(long rowId) {
 		return mDb.delete("fueling", "_id=?",
 				new String[] { String.valueOf(rowId) }) > 0;
@@ -333,19 +329,8 @@ public class FuelMonitorDbAdapter {
 						"kmsAtFueling", "1");
 		// if this is the lowest km value, use the first one (when added
 		// vehicle)
-		if (result.getCount() == 0) {
-			Cursor initialKmsCursor = mDb.query("Vehicle",
-					new String[] { "kms" }, "_id=?",
-					new String[] { String.valueOf(idVehicle) }, null, null,
-					null);
-			initialKmsCursor.moveToFirst();
-			int resultInt = initialKmsCursor.getInt(0);
-			// if the initial value is higher than the lowest kms, just return 0
-			if (resultInt < currentKms)
-				return resultInt;
-			else
-				return 0;
-		}
+		if (result.getCount() == 0)
+			return getMinKms(idVehicle);
 		result.moveToFirst();
 		int resultInt = result.getInt(0);
 		return resultInt;
@@ -357,9 +342,8 @@ public class FuelMonitorDbAdapter {
 				new String[] { String.valueOf(rowId) }, null, null, null);
 		result.moveToFirst();
 		int currentKms = result.getInt(0);
-		int prevKms = getPreviousKms(rowId, currentKms, result.getInt(1));
-		if (prevKms == 0)
-			return 0;
+		int idVehicle = result.getInt(1);
+		int prevKms = getPreviousKms(rowId, currentKms, idVehicle);
 		int totalKms = currentKms - prevKms;
 		double totalLitres = result.getDouble(2);
 
