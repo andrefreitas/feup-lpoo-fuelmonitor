@@ -115,7 +115,8 @@ public class AddFueling extends SherlockActivity {
 			mFuelingID = getIntent().getLongExtra("fuelingID", 0);
 			Cursor editFueling = mDbHelper.getFuelingByID(mFuelingID);
 			editFueling.moveToFirst();
-			//This is needed in case one vehicle (in the middle) had been deleted
+			// This is needed in case one vehicle (in the middle) had been
+			// deleted
 			SimpleCursorAdapter adapter = (SimpleCursorAdapter) vehicle
 					.getAdapter();
 			Cursor cursor = adapter.getCursor();
@@ -170,7 +171,8 @@ public class AddFueling extends SherlockActivity {
 
 			mVehicleID = getIntent().getLongExtra("idVehicle", 0);
 			if (mVehicleID > 0) {
-				//This is needed in case one vehicle (in the middle) had been deleted
+				// This is needed in case one vehicle (in the middle) had been
+				// deleted
 				SimpleCursorAdapter adapter = (SimpleCursorAdapter) vehicle
 						.getAdapter();
 				Cursor cursor = adapter.getCursor();
@@ -182,6 +184,20 @@ public class AddFueling extends SherlockActivity {
 					}
 				}
 
+			} else {
+				// This is needed in case one vehicle (in the middle) had been
+				// deleted (Default - Select previous vehicle)
+				SimpleCursorAdapter adapter = (SimpleCursorAdapter) vehicle
+						.getAdapter();
+				Cursor cursor = adapter.getCursor();
+				int findInt = mDbHelper.getLastFuelingVehicleID();
+				for (int i = 0; i < adapter.getCount(); i++) {
+					cursor.moveToPosition(i);
+					if ((cursor.getLong(cursor.getColumnIndex("_id"))) == findInt) {
+						vehicle.setSelection(i);
+						break;
+					}
+				}
 			}
 		}
 

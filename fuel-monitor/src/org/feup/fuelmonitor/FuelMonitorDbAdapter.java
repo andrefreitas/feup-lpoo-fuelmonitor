@@ -430,4 +430,14 @@ public class FuelMonitorDbAdapter {
 		return result.getFloat(0);
 	}
 
+	public int getLastFuelingVehicleID() {
+		Cursor result = mDb.query("Fueling", new String[] { "idVehicle" },
+				null, null, null, null, "_id DESC", "1");
+		result.moveToFirst();
+		// if there are no fuelings, return 0
+		if (result.getCount() == 0)
+			return 0;
+		return result.getInt(0);
+	}
+
 }
