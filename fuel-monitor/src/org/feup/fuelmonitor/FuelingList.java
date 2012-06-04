@@ -46,7 +46,7 @@ public class FuelingList extends SherlockListActivity {
 			public void onClick(View arg0) {
 				Intent i = new Intent(getApplicationContext(), AddFueling.class);
 				i.putExtra("idVehicle", mVehicleID);
-				startActivity(i);
+				startActivityForResult(i, 2);
 			}
 		});
 	}
@@ -74,11 +74,12 @@ public class FuelingList extends SherlockListActivity {
 			Intent i = new Intent(getApplicationContext(), AddFueling.class);
 			i.putExtra("edit", true);
 			i.putExtra("fuelingID", id);
-			startActivity(i);
+			startActivityForResult(i, 1);
 			return true;
 		case Menu.FIRST + 1:
 			mDbHelper.deleteFueling(id);
 			fillData();
+			fillTotals();
 			return true;
 		}
 		return super.onContextItemSelected(item);
@@ -166,6 +167,20 @@ public class FuelingList extends SherlockListActivity {
 			}
 		});
 		getListView().setAdapter(fuelingAdapter);
+
+		fillTotals();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		// update totals on edit or new fueling
+		if (requestCode == 1 || requestCode == 2) {
+			fillTotals();
+		}
+	}
+
+	private void fillTotals() {
 		if (mDbHelper.getNumFuelings(mVehicleID) > 0) {
 			TextView totalkms = (TextView) findViewById(R.id.fuelinglist_totalkms);
 			TextView totallitres = (TextView) findViewById(R.id.fuelinglist_totallitres);
