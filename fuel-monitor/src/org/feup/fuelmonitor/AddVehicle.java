@@ -29,6 +29,10 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
 
+/**
+ * A class for the adding vehicle activity
+ *
+ */
 public class AddVehicle extends SherlockActivity {
 
 	private static final String TAG = "FuelMonitorAddVehicle";
@@ -37,6 +41,9 @@ public class AddVehicle extends SherlockActivity {
 	private boolean edit;
 	private long mVehicleID;
 
+	/**
+	 * Function that is called when the activity is created.
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -230,9 +237,9 @@ public class AddVehicle extends SherlockActivity {
 
 	}
 
-	// TODO FIX ORIENTATION BUG WITH BITMAP
-	// TODO FIX ACTIVITY RESULT WHEN HORIZONTAL CAM (temp solution disabled
-	// rotation)
+	/**
+	 * Function to handle the activity result value
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -269,6 +276,9 @@ public class AddVehicle extends SherlockActivity {
 
 		}
 	}
+	/**
+	 * Function that is called when the activity is destroyed.
+	 */
 
 	@Override
 	protected void onDestroy() {

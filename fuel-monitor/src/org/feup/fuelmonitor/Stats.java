@@ -44,7 +44,7 @@ public class Stats extends SherlockActivity {
 		
 	}
 /**
- * BuildGraph
+ * BuildGraph - Builds the statistics graph bar
  */
 	private void buildGraph() {
 		
@@ -78,7 +78,9 @@ public class Stats extends SherlockActivity {
 				"Consumos de " + year, actualMonths, null, GraphView.BAR);
 		layoutGraph.addView(graphView);
 	}
-
+/**
+ * Fills the spinner with the registrations of the vehicles
+ */
 	private void fillSpinner() {
 
 		Cursor vehicleCursor = mDbHelper.fetchVehicles();
@@ -94,6 +96,9 @@ public class Stats extends SherlockActivity {
 		spinner.setAdapter(vehicleAdapter);	
 	}
 	
+/**
+ * On destroy of the activity method
+ */
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();

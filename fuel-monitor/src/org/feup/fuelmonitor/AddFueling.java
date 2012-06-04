@@ -50,6 +50,9 @@ public class AddFueling extends SherlockActivity {
 		}
 	};
 
+	/**
+	 * When the date is pressed creates a dialog
+	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
@@ -59,7 +62,9 @@ public class AddFueling extends SherlockActivity {
 		}
 		return null;
 	}
-
+	/**
+	 * Function that is called when the activity is created.
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -278,6 +283,9 @@ public class AddFueling extends SherlockActivity {
 		});
 
 	}
+	/**
+	 * Updates the date field
+	 */
 
 	private void updateDisplay() {
 
@@ -294,6 +302,9 @@ public class AddFueling extends SherlockActivity {
 		mDatePick.setAdapter(dateAdapter);
 	}
 
+	/**
+	 * Function that is called when the activity is destroyed
+	 */
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();

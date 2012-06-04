@@ -9,7 +9,6 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
 /**
  * FuelMonitor - This is the home screen class
- *
  */
 public class FuelMonitor extends SherlockActivity {
 

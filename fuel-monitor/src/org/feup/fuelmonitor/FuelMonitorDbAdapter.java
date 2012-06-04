@@ -23,12 +23,14 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
+/**
+ * A class for manipulating the database
+ */
 public class FuelMonitorDbAdapter {
 
 	private static final String TAG = "FuelMonitorDbAdapter";
-	private DatabaseHelper mDbHelper;
-	private SQLiteDatabase mDb;
+	private DatabaseHelper mDbHelper;	/* The database helper */
+	private SQLiteDatabase mDb; 		/* The sqlite database */
 
 	/**
 	 * Database creation sql statement
@@ -61,6 +63,10 @@ public class FuelMonitorDbAdapter {
 
 	private final Context mCtx;
 
+	/**
+	 * A class for creating the data base structure
+	 *
+	 */
 	private static class DatabaseHelper extends SQLiteOpenHelper {
 
 		private final Context mCtx;

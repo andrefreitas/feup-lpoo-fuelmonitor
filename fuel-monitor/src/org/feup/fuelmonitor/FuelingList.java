@@ -15,6 +15,10 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockListActivity;
 
+/**
+ * Lists the fueling in a activity
+ *
+ */
 public class FuelingList extends SherlockListActivity {
 
 	// private static final String TAG = "FuelMonitorFuelingList";
@@ -35,6 +39,10 @@ public class FuelingList extends SherlockListActivity {
 		registerForContextMenu(getListView());
 
 	}
+	
+	/**
+	 * Populates the context menu
+	 */
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
@@ -44,6 +52,9 @@ public class FuelingList extends SherlockListActivity {
 		menu.add(0, Menu.FIRST + 1, 0, R.string.fueling_delete);
 	}
 
+	/**
+	 * Function to handle a selection of a context menu
+	 */
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		long id = ((AdapterContextMenuInfo) item.getMenuInfo()).id;
@@ -62,6 +73,9 @@ public class FuelingList extends SherlockListActivity {
 		return super.onContextItemSelected(item);
 	}
 
+	/** 
+	 * Fills the list with the fuelling data
+	 */
 	private void fillData() {
 		Cursor fuelingCursor = mDbHelper.fetchFuelingsByVehicleID(mVehicleID);
 		// TODO Use a CursorLoader (startManagingCursor is deprecated)
