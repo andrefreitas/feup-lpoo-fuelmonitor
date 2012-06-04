@@ -342,12 +342,8 @@ public class FuelMonitorDbAdapter {
 	}
 
 	public float getAverageFuelConsumptionByVehicleID(long rowId) {
-		Cursor result = mDb.query("Fueling", new String[] {
-				"MAX(kmsAtFueling)", "SUM(quantity)" }, "idVehicle=?",
-				new String[] { String.valueOf(rowId) }, null, null, null);
-		result.moveToFirst();
-		int totalKms = result.getInt(0) - this.getMinKms(rowId);
-		double totalLitres = result.getDouble(1);
+		int totalKms = getTotalKms(rowId);
+		double totalLitres = getTotalLitres(rowId);
 
 		return (float) ((totalLitres * 100) / totalKms);
 	}
@@ -408,6 +404,30 @@ public class FuelMonitorDbAdapter {
 		double totalLitres = result.getDouble(1);
 
 		return (float) ((totalLitres * 100) / totalKms);
+	}
+
+	public int getTotalKms(long rowId) {
+		Cursor result = mDb.query("Fueling",
+				new String[] { "MAX(kmsAtFueling)" }, "idVehicle=?",
+				new String[] { String.valueOf(rowId) }, null, null, null);
+		result.moveToFirst();
+		return result.getInt(0) - this.getMinKms(rowId);
+	}
+
+	public double getTotalLitres(long rowId) {
+		Cursor result = mDb.query("Fueling", new String[] { "SUM(quantity)" },
+				"idVehicle=?", new String[] { String.valueOf(rowId) }, null,
+				null, null);
+		result.moveToFirst();
+		return result.getDouble(0);
+	}
+
+	public float getTotalCost(long rowId) {
+		Cursor result = mDb.query("Fueling", new String[] { "SUM(cost)" },
+				"idVehicle=?", new String[] { String.valueOf(rowId) }, null,
+				null, null);
+		result.moveToFirst();
+		return result.getFloat(0);
 	}
 
 }

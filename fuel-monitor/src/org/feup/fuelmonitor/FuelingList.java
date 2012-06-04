@@ -41,7 +41,7 @@ public class FuelingList extends SherlockListActivity {
 		registerForContextMenu(getListView());
 
 		addFueling.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				Intent i = new Intent(getApplicationContext(), AddFueling.class);
@@ -166,6 +166,18 @@ public class FuelingList extends SherlockListActivity {
 			}
 		});
 		getListView().setAdapter(fuelingAdapter);
+		if (mDbHelper.getNumFuelings(mVehicleID) > 0) {
+			TextView totalkms = (TextView) findViewById(R.id.fuelinglist_totalkms);
+			TextView totallitres = (TextView) findViewById(R.id.fuelinglist_totallitres);
+			TextView totalcost = (TextView) findViewById(R.id.fuelinglist_totalcost);
+
+			totalkms.setText(String.valueOf(mDbHelper.getTotalKms(mVehicleID))
+					+ " Kms");
+			totallitres.setText(String.format("%.1f l",
+					mDbHelper.getTotalLitres(mVehicleID)));
+			totalcost.setText(String.format("%.1f €",
+					mDbHelper.getTotalCost(mVehicleID)));
+		}
 	}
 
 	@Override
