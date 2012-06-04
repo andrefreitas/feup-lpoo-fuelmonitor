@@ -255,10 +255,6 @@ public class FuelMonitorDbAdapter {
 		return result.getString(0);
 	}
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 6240059f43c617094572ba5379e1359e804cd9ec
 	public boolean deleteVehicle(long rowId) {
 		return mDb.delete("vehicle", "_id=?",
 				new String[] { String.valueOf(rowId) }) > 0;
