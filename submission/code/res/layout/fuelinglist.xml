@@ -3,20 +3,59 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
 
+    <TextView
+        android:id="@+id/fuelinglist_totalkms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/fuelinglist_totallitres"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/fuelinglist_totalcost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/fuelinglist_addfueling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/fueling_list_add_fueling" />
+
     <ListView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/android:list"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-    </ListView>
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/fuelinglist_addfueling"
+        android:layout_below="@+id/fuelinglist_totalkms" />
 
     <TextView
         android:id="@+id/android:empty"
         android:layout_width="fill_parent"
-        android:gravity="center"
         android:layout_height="fill_parent"
+        android:layout_above="@+id/fuelinglist_addfueling"
+        android:gravity="center"
+        android:text="@string/fueling_list_empty"
         android:textAppearance="@android:style/TextAppearance.Large"
-        android:textColor="@android:color/secondary_text_dark"
-        android:text="@string/fueling_list_empty" />
+        android:textColor="@android:color/secondary_text_dark" />
 
 </RelativeLayout>

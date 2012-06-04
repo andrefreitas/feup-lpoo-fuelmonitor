@@ -23,14 +23,15 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
 /**
  * A class for manipulating the database
  */
 public class FuelMonitorDbAdapter {
 
 	private static final String TAG = "FuelMonitorDbAdapter";
-	private DatabaseHelper mDbHelper;	/* The database helper */
-	private SQLiteDatabase mDb; 		/* The sqlite database */
+	private DatabaseHelper mDbHelper; /* The database helper */
+	private SQLiteDatabase mDb; /* The sqlite database */
 
 	/**
 	 * Database creation sql statement
@@ -65,7 +66,7 @@ public class FuelMonitorDbAdapter {
 
 	/**
 	 * A class for creating the data base structure
-	 *
+	 * 
 	 */
 	private static class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -272,9 +273,10 @@ public class FuelMonitorDbAdapter {
 		return result.getInt(0);
 	}
 
-	public int getNumFuelings() {
-		Cursor result = mDb.query("Fueling", new String[] { "COUNT(*)" }, null,
-				null, null, null, null);
+	public int getNumFuelings(long rowId) {
+		Cursor result = mDb.query("Fueling", new String[] { "COUNT(*)" },
+				"idVehicle=?", new String[] { String.valueOf(rowId) }, null,
+				null, null);
 		result.moveToFirst();
 		return result.getInt(0);
 	}
@@ -340,12 +342,8 @@ public class FuelMonitorDbAdapter {
 	}
 
 	public float getAverageFuelConsumptionByVehicleID(long rowId) {
-		Cursor result = mDb.query("Fueling", new String[] {
-				"MAX(kmsAtFueling)", "SUM(quantity)" }, "idVehicle=?",
-				new String[] { String.valueOf(rowId) }, null, null, null);
-		result.moveToFirst();
-		int totalKms = result.getInt(0) - this.getMinKms(rowId);
-		double totalLitres = result.getDouble(1);
+		int totalKms = getTotalKms(rowId);
+		double totalLitres = getTotalLitres(rowId);
 
 		return (float) ((totalLitres * 100) / totalKms);
 	}
@@ -398,7 +396,7 @@ public class FuelMonitorDbAdapter {
 								String.format("%02d", month),
 								String.valueOf(year) }, null, null, null, "1");
 		firstFuelingCursor.moveToFirst();
-		if(result.getCount()==0 || firstFuelingCursor.getCount()==0)
+		if (result.getCount() == 0 || firstFuelingCursor.getCount() == 0)
 			return 0;
 		int firstFuelingID = firstFuelingCursor.getInt(0);
 		int totalKms = result.getInt(0)
@@ -406,6 +404,40 @@ public class FuelMonitorDbAdapter {
 		double totalLitres = result.getDouble(1);
 
 		return (float) ((totalLitres * 100) / totalKms);
+	}
+
+	public int getTotalKms(long rowId) {
+		Cursor result = mDb.query("Fueling",
+				new String[] { "MAX(kmsAtFueling)" }, "idVehicle=?",
+				new String[] { String.valueOf(rowId) }, null, null, null);
+		result.moveToFirst();
+		return result.getInt(0) - this.getMinKms(rowId);
+	}
+
+	public double getTotalLitres(long rowId) {
+		Cursor result = mDb.query("Fueling", new String[] { "SUM(quantity)" },
+				"idVehicle=?", new String[] { String.valueOf(rowId) }, null,
+				null, null);
+		result.moveToFirst();
+		return result.getDouble(0);
+	}
+
+	public float getTotalCost(long rowId) {
+		Cursor result = mDb.query("Fueling", new String[] { "SUM(cost)" },
+				"idVehicle=?", new String[] { String.valueOf(rowId) }, null,
+				null, null);
+		result.moveToFirst();
+		return result.getFloat(0);
+	}
+
+	public int getLastFuelingVehicleID() {
+		Cursor result = mDb.query("Fueling", new String[] { "idVehicle" },
+				null, null, null, null, "_id DESC", "1");
+		result.moveToFirst();
+		// if there are no fuelings, return 0
+		if (result.getCount() == 0)
+			return 0;
+		return result.getInt(0);
 	}
 
 }

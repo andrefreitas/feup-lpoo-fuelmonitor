@@ -23,31 +23,33 @@ import org.feup.fuelmonitor.FuelMonitorDbAdapter;
 public class Stats extends SherlockActivity {
 	private long mVehicleID;
 	private FuelMonitorDbAdapter mDbHelper;
-	private long vehicleId;
+	private long mVehicleId;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stats);
 		mDbHelper = new FuelMonitorDbAdapter(this);
 		mDbHelper.open();
-		
+
 		fillSpinner();
-		
+
 		Spinner spinner = (Spinner) findViewById(R.id.stats_CarSpinner);
-		
-		vehicleId = ((SimpleCursorAdapter) spinner
-			       .getAdapter()).getCursor().getLong(
-			       ((SimpleCursorAdapter) spinner.getAdapter())
-			         .getCursor().getColumnIndex("_id"));
-		
+
+		mVehicleId = ((SimpleCursorAdapter) spinner.getAdapter()).getCursor()
+				.getLong(
+						((SimpleCursorAdapter) spinner.getAdapter())
+								.getCursor().getColumnIndex("_id"));
+
 		buildGraph();
-		
+
 	}
-/**
- * BuildGraph - Builds the statistics graph bar
- */
+
+	/**
+	 * BuildGraph - Builds the statistics graph bar
+	 */
 	private void buildGraph() {
-		
+
 		String[] months = new String[] { "Jan.", "Fev.", "Mar.", "Abr.",
 				"Mai.", "Jun.", "Jul.", "Ago.", "Set.", "Out.", "Nov.", "Dez." };
 
@@ -64,23 +66,25 @@ public class Stats extends SherlockActivity {
 		}
 		String[] actualMonths = new String[month];
 		listMonths.toArray(actualMonths);
-		
-		float [] values = new float[month];
+
+		float[] values = new float[month];
 		// Get the consumptions
 
-		for(int i=0; i<month; i++){
-			values[i]=mDbHelper.getAverageFuelConsumptionByDate(vehicleId,i+1,year);
+		for (int i = 0; i < month; i++) {
+			values[i] = mDbHelper.getAverageFuelConsumptionByDate(mVehicleId,
+					i + 1, year);
 		}
-	
+
 		// Add the graphview as a view in the RelativeLayout inside the activity
 		RelativeLayout layoutGraph = (RelativeLayout) findViewById(R.id.stats_GraphLayout);
 		GraphView graphView = new GraphView(this, values,
 				"Consumos de " + year, actualMonths, null, GraphView.BAR);
 		layoutGraph.addView(graphView);
 	}
-/**
- * Fills the spinner with the registrations of the vehicles
- */
+
+	/**
+	 * Fills the spinner with the registrations of the vehicles
+	 */
 	private void fillSpinner() {
 
 		Cursor vehicleCursor = mDbHelper.fetchVehicles();
@@ -93,12 +97,26 @@ public class Stats extends SherlockActivity {
 				new int[] { android.R.id.text1 });
 
 		Spinner spinner = (Spinner) findViewById(R.id.stats_CarSpinner);
-		spinner.setAdapter(vehicleAdapter);	
+		spinner.setAdapter(vehicleAdapter);
+
+		// This is needed in case one vehicle (in the middle) had been
+		// deleted (Default - Select previous vehicle)
+		SimpleCursorAdapter adapter = (SimpleCursorAdapter) spinner
+				.getAdapter();
+		Cursor cursor = adapter.getCursor();
+		int findInt = mDbHelper.getLastFuelingVehicleID();
+		for (int i = 0; i < adapter.getCount(); i++) {
+			cursor.moveToPosition(i);
+			if ((cursor.getLong(cursor.getColumnIndex("_id"))) == findInt) {
+				spinner.setSelection(i);
+				break;
+			}
+		}
 	}
-	
-/**
- * On destroy of the activity method
- */
+
+	/**
+	 * On destroy of the activity method
+	 */
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();

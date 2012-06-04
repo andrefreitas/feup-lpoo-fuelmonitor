@@ -27,14 +27,22 @@ import com.actionbarsherlock.app.SherlockActivity;
  * Addfueling - a class for implementing the activity of adding a fueling.
  */
 public class AddFueling extends SherlockActivity {
-	private static final String TAG = "FuelMonitorAddFueling"; /* The tag for identifying this activity */
-	private FuelMonitorDbAdapter mDbHelper; /* The class for managing the data base */
+	private static final String TAG = "FuelMonitorAddFueling"; /*
+																 * The tag for
+																 * identifying
+																 * this activity
+																 */
+	private FuelMonitorDbAdapter mDbHelper; /*
+											 * The class for managing the data
+											 * base
+											 */
 	private int mYear; /* The selected year in the form */
 	private int mMonth; /* The selected month in the form */
 	private int mDay; /* The selected day in the form */
 	private Spinner mDatePick; /* The spinner for displaying the dates */
 	private boolean edit; /* Boolean for edit mode */
 	private long mFuelingID; /* The id of the fueling */
+	private long mVehicleID;
 
 	/**
 	 * This function updates the date when the spinner is used
@@ -62,6 +70,7 @@ public class AddFueling extends SherlockActivity {
 		}
 		return null;
 	}
+
 	/**
 	 * Function that is called when the activity is created.
 	 */
@@ -106,8 +115,20 @@ public class AddFueling extends SherlockActivity {
 			mFuelingID = getIntent().getLongExtra("fuelingID", 0);
 			Cursor editFueling = mDbHelper.getFuelingByID(mFuelingID);
 			editFueling.moveToFirst();
-			vehicle.setSelection(editFueling.getInt(editFueling
-					.getColumnIndex("idVehicle")) - 1);
+			// This is needed in case one vehicle (in the middle) had been
+			// deleted
+			SimpleCursorAdapter adapter = (SimpleCursorAdapter) vehicle
+					.getAdapter();
+			Cursor cursor = adapter.getCursor();
+			long findId = editFueling.getLong(editFueling
+					.getColumnIndex("idVehicle"));
+			for (int i = 0; i < adapter.getCount(); i++) {
+				cursor.moveToPosition(i);
+				if ((cursor.getLong(cursor.getColumnIndex("_id"))) == findId) {
+					vehicle.setSelection(i);
+					break;
+				}
+			}
 
 			try {
 				SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
@@ -147,6 +168,37 @@ public class AddFueling extends SherlockActivity {
 			mYear = c.get(Calendar.YEAR);
 			mMonth = c.get(Calendar.MONTH);
 			mDay = c.get(Calendar.DAY_OF_MONTH);
+
+			mVehicleID = getIntent().getLongExtra("idVehicle", 0);
+			if (mVehicleID > 0) {
+				// This is needed in case one vehicle (in the middle) had been
+				// deleted
+				SimpleCursorAdapter adapter = (SimpleCursorAdapter) vehicle
+						.getAdapter();
+				Cursor cursor = adapter.getCursor();
+				for (int i = 0; i < adapter.getCount(); i++) {
+					cursor.moveToPosition(i);
+					if ((cursor.getLong(cursor.getColumnIndex("_id"))) == mVehicleID) {
+						vehicle.setSelection(i);
+						break;
+					}
+				}
+
+			} else {
+				// This is needed in case one vehicle (in the middle) had been
+				// deleted (Default - Select previous vehicle)
+				SimpleCursorAdapter adapter = (SimpleCursorAdapter) vehicle
+						.getAdapter();
+				Cursor cursor = adapter.getCursor();
+				int findInt = mDbHelper.getLastFuelingVehicleID();
+				for (int i = 0; i < adapter.getCount(); i++) {
+					cursor.moveToPosition(i);
+					if ((cursor.getLong(cursor.getColumnIndex("_id"))) == findInt) {
+						vehicle.setSelection(i);
+						break;
+					}
+				}
+			}
 		}
 
 		// display the current date
@@ -283,6 +335,7 @@ public class AddFueling extends SherlockActivity {
 		});
 
 	}
+
 	/**
 	 * Updates the date field
 	 */
