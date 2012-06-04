@@ -171,6 +171,14 @@ public class AddFueling extends SherlockActivity {
 						&& (courseTypeCity.isChecked()
 								|| courseTypeRoad.isChecked() || courseTypeFreeway
 									.isChecked())) {
+					long vehicleId = ((SimpleCursorAdapter) vehicle.getAdapter())
+							.getCursor()
+							.getLong(
+									((SimpleCursorAdapter) vehicle
+											.getAdapter())
+											.getCursor()
+											.getColumnIndex(
+													"_id"));
 
 					Calendar c = Calendar.getInstance();
 					c.set(mYear, mMonth, mDay);
@@ -192,14 +200,7 @@ public class AddFueling extends SherlockActivity {
 									(courseTypeRoad.isChecked()) ? 1 : 0,
 									(courseTypeFreeway.isChecked()) ? 1 : 0,
 									drivingStyle.getSelectedItemPosition() + 1,
-									((SimpleCursorAdapter) vehicle.getAdapter())
-											.getCursor()
-											.getLong(
-													((SimpleCursorAdapter) vehicle
-															.getAdapter())
-															.getCursor()
-															.getColumnIndex(
-																	"_id")));
+									vehicleId);
 						} else {
 							queryRetCode = mDbHelper.addFueling(
 									new String(mYear + "-" + (mMonth + 1) // Month
@@ -215,14 +216,7 @@ public class AddFueling extends SherlockActivity {
 									(courseTypeRoad.isChecked()) ? 1 : 0,
 									(courseTypeFreeway.isChecked()) ? 1 : 0,
 									drivingStyle.getSelectedItemPosition() + 1,
-									((SimpleCursorAdapter) vehicle.getAdapter())
-											.getCursor()
-											.getLong(
-													((SimpleCursorAdapter) vehicle
-															.getAdapter())
-															.getCursor()
-															.getColumnIndex(
-																	"_id")));
+									vehicleId);
 						}
 						if (queryRetCode > 0)
 							finish();

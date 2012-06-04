@@ -264,22 +264,45 @@ public class FuelMonitorDbAdapter {
 		return result.getString(0);
 	}
 
-	/*
-	 * public long getIDByRegistration(String registration) { Cursor result =
-	 * mDb.query("Vehicle", new String[] { "_id" }, "registration=?", new
-	 * String[] { registration }, null, null, null); result.moveToFirst();
-	 * return result.getLong(0); }
-	 */
-
 	public boolean deleteVehicle(long rowId) {
 		return mDb.delete("vehicle", "_id=?",
 				new String[] { String.valueOf(rowId) }) > 0;
 	}
 
 	public int getNumVehicles() {
-		Cursor result = mDb.rawQuery("SELECT COUNT(*) FROM Vehicle", null);
+		Cursor result = mDb.query("Vehicle", new String[] { "COUNT(*)" }, null,
+				null, null, null, null);
 		result.moveToFirst();
 		return result.getInt(0);
+	}
+
+	public int getNumFuelings() {
+		Cursor result = mDb.query("Fueling", new String[] { "COUNT(*)" }, null,
+				null, null, null, null);
+		result.moveToFirst();
+		return result.getInt(0);
+	}
+
+	public int getMinKms(long rowId) {
+		Cursor result1 = mDb.query("Vehicle", new String[] { "kms" }, "_id=?",
+				new String[] { String.valueOf(rowId) }, null, null, null);
+		result1.moveToFirst();
+		Cursor result2 = mDb.query("Fueling",
+				new String[] { "MIN(kmsAtFueling)" }, "idVehicle=?",
+				new String[] { String.valueOf(rowId) }, null, null, null);
+		result2.moveToFirst();
+		// A fueling could have been added from before adding the vehicle
+		return Math.min(result1.getInt(0), result2.getInt(0));
+
+	}
+
+	public int getMaxKms(long rowId) {
+		Cursor result = mDb.query("Fueling",
+				new String[] { "MAX(kmsAtFueling)" }, "idVehicle=?",
+				new String[] { String.valueOf(rowId) }, null, null, null);
+		result.moveToFirst();
+		return result.getInt(0);
+
 	}
 
 	public boolean deleteFueling(long rowId) {
@@ -288,84 +311,37 @@ public class FuelMonitorDbAdapter {
 	}
 
 	public Cursor fetchFuelingsByVehicleID(long rowId) {
-		return mDb.query("Fueling", new String[] { "_id", "quantity", "cost" },
-				"idVehicle=?", new String[] { String.valueOf(rowId) }, null,
-				null, null);
+		return mDb.query("Fueling", new String[] { "_id", "quantity", "cost",
+				"kmsAtFueling" }, "idVehicle=?",
+				new String[] { String.valueOf(rowId) }, null, null,
+				"kmsAtFueling");
 	}
 
-	/*
-	 * TO IMPLEMENT
-	 * 
-	 * /** Create a new note using the title and body provided. If the note is
-	 * successfully created return the new rowId for that note, otherwise return
-	 * a -1 to indicate failure.
-	 * 
-	 * @param title the title of the note
-	 * 
-	 * @param body the body of the note
-	 * 
-	 * @return rowId or -1 if failed
-	 * 
-	 * public long createNote(String title, String body) { ContentValues
-	 * initialValues = new ContentValues(); initialValues.put(KEY_TITLE, title);
-	 * initialValues.put(KEY_BODY, body);
-	 * 
-	 * return mDb.insert(DATABASE_TABLE, null, initialValues); }
-	 * 
-	 * /** Delete the note with the given rowId
-	 * 
-	 * @param rowId id of note to delete
-	 * 
-	 * @return true if deleted, false otherwise
-	 * 
-	 * public boolean deleteNote(long rowId) {
-	 * 
-	 * return mDb.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0; }
-	 * 
-	 * /** Return a Cursor over the list of all notes in the database
-	 * 
-	 * @return Cursor over all notes
-	 * 
-	 * public Cursor fetchAllNotes() {
-	 * 
-	 * return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TITLE,
-	 * KEY_BODY}, null, null, null, null, null); }
-	 * 
-	 * /** Return a Cursor positioned at the note that matches the given rowId
-	 * 
-	 * @param rowId id of note to retrieve
-	 * 
-	 * @return Cursor positioned to matching note, if found
-	 * 
-	 * @throws SQLException if note could not be found/retrieved
-	 * 
-	 * public Cursor fetchNote(long rowId) throws SQLException {
-	 * 
-	 * Cursor mCursor =
-	 * 
-	 * mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TITLE,
-	 * KEY_BODY}, KEY_ROWID + "=" + rowId, null, null, null, null, null); if
-	 * (mCursor != null) { mCursor.moveToFirst(); } return mCursor;
-	 * 
-	 * }
-	 * 
-	 * /** Update the note using the details provided. The note to be updated is
-	 * specified using the rowId, and it is altered to use the title and body
-	 * values passed in
-	 * 
-	 * @param rowId id of note to update
-	 * 
-	 * @param title value to set note title to
-	 * 
-	 * @param body value to set note body to
-	 * 
-	 * @return true if the note was successfully updated, false otherwise
-	 * 
-	 * public boolean updateNote(long rowId, String title, String body) {
-	 * ContentValues args = new ContentValues(); args.put(KEY_TITLE, title);
-	 * args.put(KEY_BODY, body);
-	 * 
-	 * return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) >
-	 * 0; }
-	 */
+	public float getAverageFuelConsumption(long rowId) {
+		Cursor result = mDb.query("Fueling", new String[] {
+				"MAX(kmsAtFueling)", "SUM(quantity)" }, "idVehicle=?",
+				new String[] { String.valueOf(rowId) }, null, null, null);
+		result.moveToFirst();
+		int totalKms = result.getInt(0) - this.getMinKms(rowId);
+		double totalLitres = result.getDouble(1);
+
+		return (float) ((totalLitres * 100) / totalKms);
+	}
+
+	public float getAverageFuelConsumption(long rowId, int month, int year) {
+		Cursor result = mDb
+				.query("Fueling",
+						new String[] { "MIN(kmsAtFueling)",
+								"MAX(kmsAtFueling)", "SUM(quantity)" },
+						"idVehicle=? AND strftime('%m', `date`) = ? AND strftime('%Y', `date`) = ?",
+						new String[] { String.valueOf(rowId),
+								String.format("%01d", month),
+								String.valueOf(year) }, null, null, null);
+		result.moveToFirst();
+		int totalKms = result.getInt(1) - result.getInt(0);
+		double totalLitres = result.getDouble(2);
+
+		return (float) ((totalLitres * 100) / totalKms);
+	}
+
 }
