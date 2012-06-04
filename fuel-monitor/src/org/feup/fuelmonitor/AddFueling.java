@@ -22,16 +22,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
-
+/**
+ * Addfueling - a class for implementing the activity of adding a fueling.
+ */
 public class AddFueling extends SherlockActivity {
-	private static final String TAG = "FuelMonitorAddFueling";
-	private FuelMonitorDbAdapter mDbHelper;
-	private int mYear;
-	private int mMonth;
-	private int mDay;
-	private Spinner mDatePick;
-	private boolean edit;
-	private long mFuelingID;
+	private static final String TAG = "FuelMonitorAddFueling";	/* The tag for identifying this activity */
+	private FuelMonitorDbAdapter mDbHelper; 						/* The class for managing the data base */
+	private int mYear;												/* The selected year in the form */
+	private int mMonth;											/* The selected month in the form */
+	private int mDay;												/* The selected day in the form */
+	private Spinner mDatePick;										/* The spinner for displaying the dates */
+	private boolean edit;											/* Boolean for edit mode */
+	private long mFuelingID;										/* The id of the fueling */
+	
+	/**
+	 * This function updates the date when the spinner is used
+	 */
 	private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
 
 		public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -53,6 +59,7 @@ public class AddFueling extends SherlockActivity {
 		return null;
 	}
 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

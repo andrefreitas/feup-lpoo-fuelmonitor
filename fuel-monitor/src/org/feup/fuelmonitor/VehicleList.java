@@ -22,12 +22,16 @@ import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockListActivity;
-
+/**
+ * VehicleList - A class for listing in a activity the vehicles
+ */
 public class VehicleList extends SherlockListActivity {
-
-	// private static final String TAG = "FuelMonitorVehicleList";
-	private FuelMonitorDbAdapter mDbHelper;
-
+	private FuelMonitorDbAdapter mDbHelper; /* The class for managing the data base */
+	
+	/**
+	 * Function that is called when the activity is created
+	 * @param savedInstanceState a object from the android system that have informations that may be useful for the activity
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,7 +73,11 @@ public class VehicleList extends SherlockListActivity {
 		menu.add(0, Menu.FIRST, 0, R.string.vehicle_edit);
 		menu.add(0, Menu.FIRST + 1, 0, R.string.vehicle_delete);
 	}
-
+	/**
+	 * Function that is called when a car from the list is selected.
+	 * @param item the item that is being selected
+	 * @return true upon success
+	 */
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		long id = ((AdapterContextMenuInfo) item.getMenuInfo()).id;
@@ -95,6 +103,9 @@ public class VehicleList extends SherlockListActivity {
 		return super.onContextItemSelected(item);
 	}
 
+	/**
+	 * Fills all the list with the vehicles objects
+	 */
 	private void fillData() {
 		Cursor vehicleCursor = mDbHelper.fetchVehicles();
 		// TODO Use a CursorLoader (startManagingCursor is deprecated)
@@ -132,6 +143,9 @@ public class VehicleList extends SherlockListActivity {
 		getListView().setAdapter(vehicleAdapter);
 	}
 
+	/**
+	 * Function that is called when the activity is destroyed
+	 */
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
