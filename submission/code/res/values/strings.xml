@@ -128,5 +128,8 @@
     <string name="menu_not_implemented_toast">Não implementado</string>
     <string name="fueling_row_kms_unit">Kms</string>
     <string name="add_fueling_invalid_kms_toast">Kms inválidos</string>
+    <string name="fueling_list_drivingStyle_calm">Condução calma</string>
+    <string name="fueling_list_drivingStyle_normal">Condução normal</string>
+    <string name="fueling_list_drivingStyle_agressive">Condução agressiva</string>
 
 </resources>
