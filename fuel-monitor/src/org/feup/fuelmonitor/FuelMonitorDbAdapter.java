@@ -304,7 +304,7 @@ public class FuelMonitorDbAdapter {
 
 	public Cursor fetchFuelingsByVehicleID(long rowId) {
 		return mDb.query("Fueling", new String[] { "_id", "quantity", "cost",
-				"kmsAtFueling", "drivingStyle" }, "idVehicle=?",
+				"kmsAtFueling", "drivingStyle", "fuelStation" }, "idVehicle=?",
 				new String[] { String.valueOf(rowId) }, null, null,
 				"kmsAtFueling");
 	}
