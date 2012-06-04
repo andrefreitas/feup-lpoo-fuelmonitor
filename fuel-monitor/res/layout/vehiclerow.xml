@@ -2,19 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-	android:paddingTop="10dp"
-	android:paddingBottom="10dp"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp" >
 
     <ImageView
         android:id="@+id/vehicleRow_pic"
         android:layout_width="75dp"
-        android:layout_height="wrap_content" 
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:contentDescription="@string/vehicle_list_pic_description"
         android:adjustViewBounds="true"
-        android:src="@drawable/photo_not_available"/>
-        
+        android:contentDescription="@string/vehicle_list_pic_description"
+        android:src="@drawable/photo_not_available" />
+
     <TextView
         android:id="@+id/vehicleRow_make"
         android:layout_width="wrap_content"
@@ -24,7 +24,7 @@
         android:layout_toRightOf="@id/vehicleRow_pic"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-    
+
     <TextView
         android:id="@+id/vehicleRow_model"
         android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
         android:layout_toRightOf="@id/vehicleRow_make"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-    
+
     <TextView
         android:id="@+id/vehicleRow_registration"
         android:layout_width="wrap_content"
@@ -42,6 +42,16 @@
         android:layout_alignBottom="@+id/vehicleRow_pic"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/vehicleRow_pic"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/vehicleRow_avgConsumption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/vehicleRow_registration"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/vehicleRow_registration"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 

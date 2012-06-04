@@ -66,8 +66,8 @@ public class FuelingList extends SherlockListActivity {
 		startManagingCursor(fuelingCursor);
 		SimpleCursorAdapter fuelingAdapter = new SimpleCursorAdapter(this,
 				R.layout.fuelingrow, fuelingCursor, new String[] { "quantity",
-						"cost" }, new int[] { R.id.fuelingRow_quantity,
-						R.id.fuelingRow_cost });
+						"cost", "kmsAtFueling" }, new int[] { R.id.fuelingRow_quantity,
+						R.id.fuelingRow_cost, R.id.fuelingRow_kms });
 		getListView().setAdapter(fuelingAdapter);
 	}
 

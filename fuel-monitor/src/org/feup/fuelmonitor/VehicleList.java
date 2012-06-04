@@ -1,6 +1,7 @@
 package org.feup.fuelmonitor;
 
 import java.io.File;
+import java.util.Calendar;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -113,13 +114,23 @@ public class VehicleList extends SherlockListActivity {
 		startManagingCursor(vehicleCursor);
 		SimpleCursorAdapter vehicleAdapter = new SimpleCursorAdapter(this,
 				R.layout.vehiclerow, vehicleCursor, new String[] { "makeName",
-						"model", "registration", "registration" }, new int[] {
-						R.id.vehicleRow_make, R.id.vehicleRow_model,
-						R.id.vehicleRow_pic, R.id.vehicleRow_registration });
+						"model", "registration", "registration", "_id" },
+				new int[] { R.id.vehicleRow_make, R.id.vehicleRow_model,
+						R.id.vehicleRow_pic, R.id.vehicleRow_registration,
+						R.id.vehicleRow_avgConsumption });
 		vehicleAdapter.setViewBinder(new ViewBinder() {
 
 			public boolean setViewValue(View view, Cursor cursor,
 					int columnIndex) {
+				if (view.getId() == R.id.vehicleRow_avgConsumption) {
+					if (mDbHelper.getNumFuelings() > 0) {
+						TextView text = (TextView) view;
+						text.setText(Float.toString(mDbHelper
+								.getAverageFuelConsumption(cursor
+										.getInt(columnIndex), 6, 2012)));
+					}
+					return true;
+				}
 				if (view instanceof TextView) {
 					TextView text = (TextView) view;
 					text.setText(cursor.getString(columnIndex));

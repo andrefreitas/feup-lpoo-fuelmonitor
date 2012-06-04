@@ -126,5 +126,6 @@
     <string name="fueling_edit">Editar</string>
     <string name="add_fueling_invalid_date_toast">Data inválida</string>
     <string name="menu_not_implemented_toast">Não implementado</string>
+    <string name="fueling_row_kms_unit">Kms</string>
 
 </resources>

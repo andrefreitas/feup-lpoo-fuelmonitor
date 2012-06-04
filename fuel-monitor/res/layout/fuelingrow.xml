@@ -48,4 +48,21 @@
         android:text="@string/fueling_row_cost_unit"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
+    <TextView
+        android:id="@+id/fuelingRow_kms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/fuelingRow_costUnit"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/fuelingRow_kmsUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/fuelingRow_kms"
+        android:text="@string/fueling_row_kms_unit"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
 </RelativeLayout>
