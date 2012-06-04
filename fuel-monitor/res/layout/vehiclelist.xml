@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         android:text="@string/vehicle_list_add_vehicle" />
 
     <ListView
@@ -16,17 +17,16 @@
         android:id="@+id/android:list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@id/vehiclelist_addvehicle" >
-    </ListView>
+        android:layout_above="@id/vehiclelist_addvehicle" />
 
     <TextView
         android:id="@+id/android:empty"
         android:layout_width="fill_parent"
-        android:gravity="center"
         android:layout_height="fill_parent"
         android:layout_above="@id/vehiclelist_addvehicle"
+        android:gravity="center"
+        android:text="@string/vehicle_list_empty"
         android:textAppearance="@android:style/TextAppearance.Large"
-        android:textColor="@android:color/secondary_text_dark"
-        android:text="@string/vehicle_list_empty" />
+        android:textColor="@android:color/secondary_text_dark" />
 
 </RelativeLayout>

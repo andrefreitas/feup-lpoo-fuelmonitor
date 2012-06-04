@@ -3,15 +3,15 @@ package org.feup.fuelmonitor;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.SimpleCursorAdapter.ViewBinder;
+import android.widget.Button;
 import android.widget.SimpleCursorAdapter;
+import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockListActivity;
@@ -32,6 +32,7 @@ public class FuelingList extends SherlockListActivity {
 		mVehicleID = getIntent().getLongExtra("vehicleID", 0);
 		setContentView(R.layout.fuelinglist);
 		mDbHelper = new FuelMonitorDbAdapter(this);
+		Button addFueling = (Button) findViewById(R.id.fuelinglist_addfueling);
 
 		mDbHelper.open();
 
@@ -39,6 +40,15 @@ public class FuelingList extends SherlockListActivity {
 
 		registerForContextMenu(getListView());
 
+		addFueling.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Intent i = new Intent(getApplicationContext(), AddFueling.class);
+				i.putExtra("idVehicle", mVehicleID);
+				startActivity(i);
+			}
+		});
 	}
 
 	/**
