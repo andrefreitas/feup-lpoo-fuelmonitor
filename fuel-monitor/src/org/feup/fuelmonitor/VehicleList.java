@@ -23,15 +23,22 @@ import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockListActivity;
+
 /**
  * VehicleList - A class for listing in a activity the vehicles
  */
 public class VehicleList extends SherlockListActivity {
-	private FuelMonitorDbAdapter mDbHelper; /* The class for managing the data base */
-	
+	private FuelMonitorDbAdapter mDbHelper; /*
+											 * The class for managing the data
+											 * base
+											 */
+
 	/**
 	 * Function that is called when the activity is created
-	 * @param savedInstanceState a object from the android system that have informations that may be useful for the activity
+	 * 
+	 * @param savedInstanceState
+	 *            a object from the android system that have informations that
+	 *            may be useful for the activity
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +81,12 @@ public class VehicleList extends SherlockListActivity {
 		menu.add(0, Menu.FIRST, 0, R.string.vehicle_edit);
 		menu.add(0, Menu.FIRST + 1, 0, R.string.vehicle_delete);
 	}
+
 	/**
 	 * Function that is called when a car from the list is selected.
-	 * @param item the item that is being selected
+	 * 
+	 * @param item
+	 *            the item that is being selected
 	 * @return true upon success
 	 */
 	@Override
@@ -127,7 +137,7 @@ public class VehicleList extends SherlockListActivity {
 						TextView text = (TextView) view;
 						text.setText(Float.toString(mDbHelper
 								.getAverageFuelConsumptionByVehicleID(cursor
-										.getInt(columnIndex))));
+										.getInt(columnIndex)))+" l/100Km");
 					}
 					return true;
 				}
