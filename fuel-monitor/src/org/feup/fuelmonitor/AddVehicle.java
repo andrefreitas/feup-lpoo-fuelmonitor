@@ -31,7 +31,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 
 /**
  * A class for the adding vehicle activity
- *
+ * 
  */
 public class AddVehicle extends SherlockActivity {
 
@@ -95,12 +95,38 @@ public class AddVehicle extends SherlockActivity {
 			mVehicleID = getIntent().getLongExtra("vehicleID", 0);
 			Cursor editVehicle = mDbHelper.getVehicleByID(mVehicleID);
 			editVehicle.moveToFirst();
-			make.setSelection(editVehicle.getInt(editVehicle
-					.getColumnIndex("idMake")) - 1);
+			// This is needed in case one make (in the middle) had been
+			// deleted
+			SimpleCursorAdapter makeAdapterEdit = (SimpleCursorAdapter) make
+					.getAdapter();
+			Cursor makeCursorEdit = makeAdapterEdit.getCursor();
+			long findMakeId = editVehicle.getLong(editVehicle
+					.getColumnIndex("idMake"));
+			for (int i = 0; i < makeAdapterEdit.getCount(); i++) {
+				makeCursorEdit.moveToPosition(i);
+				if ((makeCursorEdit.getLong(makeCursorEdit
+						.getColumnIndex("_id"))) == findMakeId) {
+					make.setSelection(i);
+					break;
+				}
+			}
 			model.setText(editVehicle.getString(editVehicle
 					.getColumnIndex("model")));
-			fuelType.setSelection(editVehicle.getInt(editVehicle
-					.getColumnIndex("idFuelType")) - 1);
+			// This is needed in case one fueltype (in the middle) had been
+			// deleted
+			SimpleCursorAdapter fuelTypeAdapterEdit = (SimpleCursorAdapter) fuelType
+					.getAdapter();
+			Cursor fuelTypeCursorEdit = fuelTypeAdapterEdit.getCursor();
+			long findFuelTypeId = editVehicle.getLong(editVehicle
+					.getColumnIndex("idFuelType"));
+			for (int i = 0; i < fuelTypeCursorEdit.getCount(); i++) {
+				fuelTypeCursorEdit.moveToPosition(i);
+				if ((fuelTypeCursorEdit.getLong(fuelTypeCursorEdit
+						.getColumnIndex("_id"))) == findFuelTypeId) {
+					fuelType.setSelection(i);
+					break;
+				}
+			}
 			capacity.setText(Integer.toString(editVehicle.getInt(editVehicle
 					.getColumnIndex("fuelCapacity"))));
 			registration.setText(editVehicle.getString(editVehicle
@@ -276,6 +302,7 @@ public class AddVehicle extends SherlockActivity {
 
 		}
 	}
+
 	/**
 	 * Function that is called when the activity is destroyed.
 	 */

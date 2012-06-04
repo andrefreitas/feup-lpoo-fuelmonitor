@@ -115,9 +115,19 @@ public class AddFueling extends SherlockActivity {
 			mFuelingID = getIntent().getLongExtra("fuelingID", 0);
 			Cursor editFueling = mDbHelper.getFuelingByID(mFuelingID);
 			editFueling.moveToFirst();
-			//TODO This can cause the ID to be incorrect if one vehicle has been deleted
-			vehicle.setSelection(editFueling.getInt(editFueling
-					.getColumnIndex("idVehicle")) - 1);
+			//This is needed in case one vehicle (in the middle) had been deleted
+			SimpleCursorAdapter adapter = (SimpleCursorAdapter) vehicle
+					.getAdapter();
+			Cursor cursor = adapter.getCursor();
+			long findId = editFueling.getLong(editFueling
+					.getColumnIndex("idVehicle"));
+			for (int i = 0; i < adapter.getCount(); i++) {
+				cursor.moveToPosition(i);
+				if ((cursor.getLong(cursor.getColumnIndex("_id"))) == findId) {
+					vehicle.setSelection(i);
+					break;
+				}
+			}
 
 			try {
 				SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
@@ -159,9 +169,20 @@ public class AddFueling extends SherlockActivity {
 			mDay = c.get(Calendar.DAY_OF_MONTH);
 
 			mVehicleID = getIntent().getLongExtra("idVehicle", 0);
-			if (mVehicleID > 0)
-				//TODO This can cause the ID to be incorrect if one vehicle has been deleted
-				vehicle.setSelection((int) (mVehicleID - 1));
+			if (mVehicleID > 0) {
+				//This is needed in case one vehicle (in the middle) had been deleted
+				SimpleCursorAdapter adapter = (SimpleCursorAdapter) vehicle
+						.getAdapter();
+				Cursor cursor = adapter.getCursor();
+				for (int i = 0; i < adapter.getCount(); i++) {
+					cursor.moveToPosition(i);
+					if ((cursor.getLong(cursor.getColumnIndex("_id"))) == mVehicleID) {
+						vehicle.setSelection(i);
+						break;
+					}
+				}
+
+			}
 		}
 
 		// display the current date
