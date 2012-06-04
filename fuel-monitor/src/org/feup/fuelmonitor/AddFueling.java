@@ -27,15 +27,8 @@ import com.actionbarsherlock.app.SherlockActivity;
  * Addfueling - a class for implementing the activity of adding a fueling.
  */
 public class AddFueling extends SherlockActivity {
-	private static final String TAG = "FuelMonitorAddFueling"; /*
-																 * The tag for
-																 * identifying
-																 * this activity
-																 */
-	private FuelMonitorDbAdapter mDbHelper; /*
-											 * The class for managing the data
-											 * base
-											 */
+	private static final String TAG = "FuelMonitorAddFueling"; /* The tag for identifying this activity */
+	private FuelMonitorDbAdapter mDbHelper; /* The class for managing the data base */
 	private int mYear; /* The selected year in the form */
 	private int mMonth; /* The selected month in the form */
 	private int mDay; /* The selected day in the form */

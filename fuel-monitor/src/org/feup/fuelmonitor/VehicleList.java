@@ -66,6 +66,13 @@ public class VehicleList extends SherlockListActivity {
 			}
 		});
 	}
+	
+	/**
+	 * A function to populate the context menu that is visible in the press long of a vehicle
+	 * @param v the vehicle
+	 * @param menu the menu itself
+	 * @param menuInfo the information about the menu
+	 */
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
