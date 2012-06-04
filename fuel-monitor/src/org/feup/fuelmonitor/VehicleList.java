@@ -140,11 +140,12 @@ public class VehicleList extends SherlockListActivity {
 			public boolean setViewValue(View view, Cursor cursor,
 					int columnIndex) {
 				if (view.getId() == R.id.vehicleRow_avgConsumption) {
-					if (mDbHelper.getNumFuelings() > 0) {
+					if (mDbHelper.getNumFuelings(cursor
+							.getInt(columnIndex)) > 0) {
 						TextView text = (TextView) view;
-						text.setText(Float.toString(mDbHelper
+						text.setText(String.format("%.1f l/100Km", mDbHelper
 								.getAverageFuelConsumptionByVehicleID(cursor
-										.getInt(columnIndex)))+" l/100Km");
+										.getInt(columnIndex))));
 					}
 					return true;
 				}

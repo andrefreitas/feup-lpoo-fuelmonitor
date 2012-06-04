@@ -18,7 +18,7 @@ import com.actionbarsherlock.app.SherlockListActivity;
 
 /**
  * Lists the fueling in a activity
- *
+ * 
  */
 public class FuelingList extends SherlockListActivity {
 
@@ -40,7 +40,7 @@ public class FuelingList extends SherlockListActivity {
 		registerForContextMenu(getListView());
 
 	}
-	
+
 	/**
 	 * Populates the context menu
 	 */
@@ -74,19 +74,21 @@ public class FuelingList extends SherlockListActivity {
 		return super.onContextItemSelected(item);
 	}
 
-	/** 
+	/**
 	 * Fills the list with the fuelling data
 	 */
 	private void fillData() {
 		Cursor fuelingCursor = mDbHelper.fetchFuelingsByVehicleID(mVehicleID);
 		// TODO Use a CursorLoader (startManagingCursor is deprecated)
 		startManagingCursor(fuelingCursor);
-		SimpleCursorAdapter fuelingAdapter = new SimpleCursorAdapter(this,
-				R.layout.fuelingrow, fuelingCursor, new String[] { "quantity",
-						"cost", "kmsAtFueling", "_id", "drivingStyle", "_id",
-						"fuelStation" }, new int[] { R.id.fuelingRow_quantity,
-						R.id.fuelingRow_cost, R.id.fuelingRow_kms,
-						R.id.fuelingRow_avgConsumption,
+		SimpleCursorAdapter fuelingAdapter = new SimpleCursorAdapter(
+				this,
+				R.layout.fuelingrow,
+				fuelingCursor,
+				new String[] { "quantity", "cost", "kmsAtFueling", "_id",
+						"drivingStyle", "_id", "fuelStation" },
+				new int[] { R.id.fuelingRow_quantity, R.id.fuelingRow_cost,
+						R.id.fuelingRow_kms, R.id.fuelingRow_avgConsumption,
 						R.id.fuelingRow_drivingStyle,
 						R.id.fuelingRow_courseType, R.id.fuelingRow_fuelStation });
 		fuelingAdapter.setViewBinder(new ViewBinder() {
@@ -121,13 +123,16 @@ public class FuelingList extends SherlockListActivity {
 					TextView drivingStyleText = (TextView) view;
 					switch (drivingStyle) {
 					case 1:
-						drivingStyleText.setText(getString(R.string.fueling_list_drivingStyle_calm));
+						drivingStyleText
+								.setText(getString(R.string.fueling_list_drivingStyle_calm));
 						break;
 					case 2:
-						drivingStyleText.setText(getString(R.string.fueling_list_drivingStyle_normal));
+						drivingStyleText
+								.setText(getString(R.string.fueling_list_drivingStyle_normal));
 						break;
 					case 3:
-						drivingStyleText.setText(getString(R.string.fueling_list_drivingStyle_agressive));
+						drivingStyleText
+								.setText(getString(R.string.fueling_list_drivingStyle_agressive));
 						break;
 					}
 					return true;
@@ -138,8 +143,8 @@ public class FuelingList extends SherlockListActivity {
 							.getAverageFuelConsumptionByFuelingID(cursor
 									.getInt(columnIndex)));
 					if (avgConsumption > 0)
-						avgConsumptionText.setText(Float
-								.toString(avgConsumption) + " l/100Km");
+						avgConsumptionText.setText(String.format(
+								"%.1f l/100Km", avgConsumption));
 					return true;
 				}
 				if (view instanceof TextView) {
