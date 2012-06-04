@@ -320,12 +320,12 @@ public class FuelMonitorDbAdapter {
 		return (float) ((totalLitres * 100) / totalKms);
 	}
 
-	public int getPreviousKms(long rowId, int currentKms, int idVehicle) {
+	public int getPreviousKms(long idFueling, int idVehicle) {
 		Cursor result = mDb
 				.query("Fueling",
 						new String[] { "kmsAtFueling" },
 						"kmsAtFueling < (SELECT kmsAtFueling from Fueling WHERE _id=?)",
-						new String[] { String.valueOf(rowId) }, null, null,
+						new String[] { String.valueOf(idFueling) }, null, null,
 						"kmsAtFueling", "1");
 		// if this is the lowest km value, use the first one (when added
 		// vehicle)
@@ -343,7 +343,7 @@ public class FuelMonitorDbAdapter {
 		result.moveToFirst();
 		int currentKms = result.getInt(0);
 		int idVehicle = result.getInt(1);
-		int prevKms = getPreviousKms(rowId, currentKms, idVehicle);
+		int prevKms = getPreviousKms(rowId, idVehicle);
 		int totalKms = currentKms - prevKms;
 		double totalLitres = result.getDouble(2);
 
@@ -353,27 +353,25 @@ public class FuelMonitorDbAdapter {
 	public float getAverageFuelConsumptionByDate(long rowId, int month, int year) {
 		Cursor result = mDb
 				.query("Fueling",
-						new String[] { "MIN(kmsAtFueling)",
-								"MAX(kmsAtFueling)", "SUM(quantity)" },
+						new String[] { "MAX(kmsAtFueling)", "SUM(quantity)" },
 						"idVehicle=? AND strftime('%m', `date`) = ? AND strftime('%Y', `date`) = ?",
 						new String[] { String.valueOf(rowId),
 								String.format("%02d", month),
 								String.valueOf(year) }, null, null, null);
 		result.moveToFirst();
-		// Have to subtract first fueling of the month quantity, because it is
-		// from the previous month
+		// Have to subtract to previous fueling kms
 		Cursor firstFuelingCursor = mDb
 				.query("Fueling",
-						new String[] { "quantity" },
+						new String[] { "_id" },
 						"idVehicle=? AND strftime('%m', `date`) = ? AND strftime('%Y', `date`) = ?",
 						new String[] { String.valueOf(rowId),
 								String.format("%02d", month),
-								String.valueOf(year) }, null, null,
-						"kmsAtFueling", "1");
+								String.valueOf(year) }, null, null, null, "1");
 		firstFuelingCursor.moveToFirst();
-		int totalKms = result.getInt(1) - result.getInt(0);
-		double totalLitres = result.getDouble(2)
-				- firstFuelingCursor.getDouble(0);
+		int firstFuelingID = firstFuelingCursor.getInt(0);
+		int totalKms = result.getInt(0)
+				- getPreviousKms(firstFuelingID, (int) rowId);
+		double totalLitres = result.getDouble(1);
 
 		return (float) ((totalLitres * 100) / totalKms);
 	}

@@ -189,7 +189,8 @@ public class AddFueling extends SherlockActivity {
 							.getAdapter()).getCursor().getLong(
 							((SimpleCursorAdapter) vehicle.getAdapter())
 									.getCursor().getColumnIndex("_id"));
-					if (Integer.parseInt(kms.getText().toString()) > mDbHelper.getMinKms(vehicleId)) {
+					if (Integer.parseInt(kms.getText().toString()) > mDbHelper
+							.getMinKms(vehicleId)) {
 						Calendar c = Calendar.getInstance();
 						c.set(mYear, mMonth, mDay);
 						if (c.compareTo(Calendar.getInstance()) != 1) {
@@ -219,10 +220,14 @@ public class AddFueling extends SherlockActivity {
 										vehicleId);
 							} else {
 								queryRetCode = mDbHelper.addFueling(
-										new String(mYear + "-" + (mMonth + 1) // Month
+										new String(mYear
+												+ "-"
+												+ String.format("%02d",
+														mMonth + 1) // Month
 												// starts at
 												// 0
-												+ "-" + mDay),
+												+ "-"
+												+ String.format("%02d", mDay)),
 										Integer.parseInt(kms.getText()
 												.toString()),
 										fuelStation.getText().toString(),
@@ -261,9 +266,11 @@ public class AddFueling extends SherlockActivity {
 					} else {
 						int duration = Toast.LENGTH_SHORT;
 
-						Toast toast = Toast.makeText(getApplicationContext(),
-								getString(R.string.add_fueling_invalid_kms_toast),
-								duration);
+						Toast toast = Toast
+								.makeText(
+										getApplicationContext(),
+										getString(R.string.add_fueling_invalid_kms_toast),
+										duration);
 						toast.show();
 					}
 				} else {
