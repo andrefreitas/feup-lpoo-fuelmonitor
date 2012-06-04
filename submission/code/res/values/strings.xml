@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Fuel Monitor</string>
+    <string name="add_vehicle_brand">Marca</string>
+    <string name="add_vehicle_model">Modelo</string>
+    <string name="add_vehicle_fuel_type">Combustível</string>
+    <string name="add_vehicle_registration">Matrícula</string>
+    <string name="add_vehicle_year">Ano</string>
+    <string name="add_vehicle_photo">Foto</string>
+
+    <dimen name="add_vehicle_spacing">25dp</dimen>
+
+    <string name="add_vehicle_save_button">Gravar</string>
+    <string name="menu_addfueling">Abastecer</string>
+    <string name="menu_vehicles">Veículos</string>
+    <string name="menu_stats">Estatísticas</string>
+    <string name="menu_fuelstations">Gasolineiras</string>
+    <string name="add_vehicle_fuel_capacity">Capacidade</string>
+    <string name="add_vehicle_kms">Kms</string>
+    <string name="vehicle_list_add_vehicle">Adicionar veículo</string>
+    <string name="vehicle_delete">Apagar</string>
+    <string name="vehicle_list_empty">Sem Veículos</string>
+    <string name="vehicle_list_pic_description">Fotografia do veículo</string>
+
+    <dimen name="add_fueling_spacing">15dp</dimen>
+
+    <string name="add_fueling_vehicle">Veículo</string>
+    <string name="add_fueling_station">Gasolineira</string>
+    <string name="add_fueling_quantity">Litros</string>
+    <string name="add_fueling_kms">Kms</string>
+    <string name="add_fueling_cost">Custo</string>
+    <string name="add_fueling_courseType">Percurso</string>
+    <string name="add_fueling_courseTypeCity">Cidade</string>
+    <string name="add_fueling_courseTypeRoad">Estrada</string>
+    <string name="add_fueling_courseTypeFreeway">Auto-estrada</string>
+    <string name="add_fueling_drivingStyle">Condução</string>
+    <string name="add_fueling_save_button">Gravar</string>
+
+    <string-array name="add_fueling_driving_styles">
+        <item>Calma</item>
+        <item>Normal</item>
+        <item>Agressiva</item>
+    </string-array>
+    
+    <string-array name="make_database_list">
+        <item>Alfa Romeo</item>
+        <item>Aston Martin</item>
+        <item>Audi</item>
+        <item>Austin Morris</item>
+        <item>Austin Rover</item>
+        <item>Bentley</item>
+        <item>BMW</item>
+        <item>Chevrolet</item>
+        <item>Chrysler</item>
+        <item>Citroën</item>
+        <item>Dacia</item>
+        <item>Daewoo</item>
+        <item>Daihatsu</item>
+        <item>Dodge</item>
+        <item>Ferrari</item>
+        <item>Fiat</item>
+        <item>Ford</item>
+        <item>GMC</item>
+        <item>Honda</item>
+        <item>Hummer</item>
+        <item>Hyundai</item>
+        <item>Isuzu</item>
+        <item>Jaguar</item>
+        <item>Jeep</item>
+        <item>Kia</item>
+        <item>Lada</item>
+        <item>Lamborghini</item>
+        <item>Lancia</item>
+        <item>Land Rover</item>
+        <item>Lexus</item>
+        <item>Lotus</item>
+        <item>Maserati</item>
+        <item>Mazda</item>
+        <item>Mercedes-Benz</item>
+        <item>MG</item>
+        <item>MINI</item>
+        <item>Mitsubishi</item>
+        <item>Nissan</item>
+        <item>Opel</item>
+        <item>Peugeot</item>
+        <item>Pontiac</item>
+        <item>Porsche</item>
+        <item>Renault</item>
+        <item>Rolls Royce</item>
+        <item>Rover</item>
+        <item>Saab</item>
+        <item>Seat</item>
+        <item>Skoda</item>
+        <item>Smart</item>
+        <item>SsangYong</item>
+        <item>Subaru</item>
+        <item>Suzuki</item>
+        <item>Tata</item>
+        <item>Toyota</item>
+        <item>Triumph</item>
+        <item>UMM</item>
+        <item>Vauxhall</item>
+        <item>Volvo</item>
+        <item>VW</item>
+    </string-array>
+    
+    <string-array name="fuelType_database_list">
+        <item>Gasolina</item>
+        <item>Gasóleo</item>
+        <item>GPL</item>
+    </string-array>
+
+    <string name="add_fueling_date">Data</string>
+    <string name="vehicle_menu_no_vehicles_toast">Não existem veículos</string>
+    <string name="add_vehicle_error_inserting_toast">Erro ao inserir na base de dados</string>
+    <string name="add_vehicle_fill_all_toast">Preencher todos os campos</string>
+    <string name="add_fueling_error_inserting_toast">Erro ao inserir na base de dados</string>
+    <string name="add_fueling_fill_all_toast">Preencher todos os campos</string>
+    <string name="fueling_list_empty">Sem Abastecimentos</string>
+    <string name="fueling_delete">Apagar</string>
+    <string name="fueling_row_separator">-</string>
+    <string name="fueling_row_quantity_unit">l</string>
+    <string name="fueling_row_cost_unit">€</string>
+    <string name="vehicle_edit">Editar</string>
+    <string name="fueling_edit">Editar</string>
+    <string name="add_fueling_invalid_date_toast">Data inválida</string>
+    <string name="menu_not_implemented_toast">Não implementado</string>
+    <string name="fueling_row_kms_unit">Kms</string>
+    <string name="add_fueling_invalid_kms_toast">Kms inválidos</string>
+
+</resources>
