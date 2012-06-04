@@ -37,6 +37,7 @@ public class FuelingList extends SherlockListActivity {
 		mDbHelper.open();
 
 		fillData();
+		fillTotals();
 
 		registerForContextMenu(getListView());
 
@@ -167,8 +168,6 @@ public class FuelingList extends SherlockListActivity {
 			}
 		});
 		getListView().setAdapter(fuelingAdapter);
-
-		fillTotals();
 	}
 
 	@Override
