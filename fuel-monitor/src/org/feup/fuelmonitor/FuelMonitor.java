@@ -7,12 +7,17 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
-
+/**
+ * FuelMonitor - This is the home screen class
+ *
+ */
 public class FuelMonitor extends SherlockActivity {
-	/** Called when the activity is first created. */
 
-	private FuelMonitorDbAdapter mDbHelper;
-
+	private FuelMonitorDbAdapter mDbHelper; /* The object for manipulating the data */
+	
+	/**
+	 * Function that is called when the activity is created.
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

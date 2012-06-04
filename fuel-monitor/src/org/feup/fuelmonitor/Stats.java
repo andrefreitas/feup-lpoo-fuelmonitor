@@ -18,28 +18,36 @@ import android.widget.SpinnerAdapter;
 import org.feup.fuelmonitor.FuelMonitorDbAdapter;
 
 /**
- * GraphViewDemo creates some dummy data to demonstrate the GraphView component.
- * 
- * @author Arno den Hond
- * 
+ * Stats - Creates the statistics for the consumptions.
  */
 public class Stats extends SherlockActivity {
 	private long mVehicleID;
 	private FuelMonitorDbAdapter mDbHelper;
-
+	private long vehicleId;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stats);
 		mDbHelper = new FuelMonitorDbAdapter(this);
 		mDbHelper.open();
+		
 		fillSpinner();
+		
+		Spinner spinner = (Spinner) findViewById(R.id.stats_CarSpinner);
+		
+		vehicleId = ((SimpleCursorAdapter) spinner
+			       .getAdapter()).getCursor().getLong(
+			       ((SimpleCursorAdapter) spinner.getAdapter())
+			         .getCursor().getColumnIndex("_id"));
+		
 		buildGraph();
-
+		
 	}
-
+/**
+ * BuildGraph
+ */
 	private void buildGraph() {
-		float[] values = new float[] { 2.0f, 1.5f, 2.5f, 1.0f, 3.0f };
+		
 		String[] months = new String[] { "Jan.", "Fev.", "Mar.", "Abr.",
 				"Mai.", "Jun.", "Jul.", "Ago.", "Set.", "Out.", "Nov.", "Dez." };
 
@@ -56,7 +64,14 @@ public class Stats extends SherlockActivity {
 		}
 		String[] actualMonths = new String[month];
 		listMonths.toArray(actualMonths);
+		
+		float [] values = new float[month];
+		// Get the consumptions
 
+		for(int i=0; i<month; i++){
+			values[i]=mDbHelper.getAverageFuelConsumptionByDate(vehicleId,i+1,year);
+		}
+	
 		// Add the graphview as a view in the RelativeLayout inside the activity
 		RelativeLayout layoutGraph = (RelativeLayout) findViewById(R.id.stats_GraphLayout);
 		GraphView graphView = new GraphView(this, values,

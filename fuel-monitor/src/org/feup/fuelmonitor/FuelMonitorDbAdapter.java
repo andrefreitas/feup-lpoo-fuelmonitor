@@ -392,6 +392,8 @@ public class FuelMonitorDbAdapter {
 								String.format("%02d", month),
 								String.valueOf(year) }, null, null, null, "1");
 		firstFuelingCursor.moveToFirst();
+		if(result.getCount()==0 || firstFuelingCursor.getCount()==0)
+			return 0;
 		int firstFuelingID = firstFuelingCursor.getInt(0);
 		int totalKms = result.getInt(0)
 				- getPreviousKms(firstFuelingID, (int) rowId);
