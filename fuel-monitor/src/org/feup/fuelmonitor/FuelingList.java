@@ -9,7 +9,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockListActivity;
 
@@ -66,8 +68,29 @@ public class FuelingList extends SherlockListActivity {
 		startManagingCursor(fuelingCursor);
 		SimpleCursorAdapter fuelingAdapter = new SimpleCursorAdapter(this,
 				R.layout.fuelingrow, fuelingCursor, new String[] { "quantity",
-						"cost", "kmsAtFueling" }, new int[] { R.id.fuelingRow_quantity,
-						R.id.fuelingRow_cost, R.id.fuelingRow_kms });
+						"cost", "kmsAtFueling", "_id" }, new int[] { R.id.fuelingRow_quantity,
+						R.id.fuelingRow_cost, R.id.fuelingRow_kms, R.id.fuelingRow_avgConsumption });
+		fuelingAdapter.setViewBinder(new ViewBinder() {
+			
+			@Override
+			public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+				if (view.getId() == R.id.fuelingRow_avgConsumption) {
+						TextView text = (TextView) view;
+						float avgConsumption = (mDbHelper
+								.getAverageFuelConsumptionByFuelingID(cursor
+										.getInt(columnIndex)));
+						if(avgConsumption>0)
+							text.setText(Float.toString(avgConsumption));
+					return true;
+				}
+				if (view instanceof TextView) {
+					TextView text = (TextView) view;
+					text.setText(cursor.getString(columnIndex));
+					return true;
+				}
+				return false;
+			}
+		});
 		getListView().setAdapter(fuelingAdapter);
 	}
 

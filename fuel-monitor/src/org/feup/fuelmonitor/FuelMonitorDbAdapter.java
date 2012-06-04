@@ -317,7 +317,7 @@ public class FuelMonitorDbAdapter {
 				"kmsAtFueling");
 	}
 
-	public float getAverageFuelConsumption(long rowId) {
+	public float getAverageFuelConsumptionByVehicleID(long rowId) {
 		Cursor result = mDb.query("Fueling", new String[] {
 				"MAX(kmsAtFueling)", "SUM(quantity)" }, "idVehicle=?",
 				new String[] { String.valueOf(rowId) }, null, null, null);
@@ -328,18 +328,72 @@ public class FuelMonitorDbAdapter {
 		return (float) ((totalLitres * 100) / totalKms);
 	}
 
-	public float getAverageFuelConsumption(long rowId, int month, int year) {
+	public int getPreviousKms(long rowId, int currentKms, int idVehicle) {
+		Cursor result = mDb
+				.query("Fueling",
+						new String[] { "kmsAtFueling" },
+						"kmsAtFueling < (SELECT kmsAtFueling from Fueling WHERE _id=?)",
+						new String[] { String.valueOf(rowId) }, null, null,
+						"kmsAtFueling", "1");
+		// if this is the lowest km value, use the first one (when added
+		// vehicle)
+		if (result.getCount() == 0) {
+			Cursor initialKmsCursor = mDb.query("Vehicle",
+					new String[] { "kms" }, "_id=?",
+					new String[] { String.valueOf(idVehicle) }, null, null,
+					null);
+			initialKmsCursor.moveToFirst();
+			int resultInt = initialKmsCursor.getInt(0);
+			// if the initial value is higher than the lowest kms, just return 0
+			if (resultInt < currentKms)
+				return resultInt;
+			else
+				return 0;
+		}
+		result.moveToFirst();
+		int resultInt = result.getInt(0);
+		return resultInt;
+	}
+
+	public float getAverageFuelConsumptionByFuelingID(long rowId) {
+		Cursor result = mDb.query("Fueling", new String[] {
+				"kmsAtFueling, idVehicle", "quantity" }, "_id=?",
+				new String[] { String.valueOf(rowId) }, null, null, null);
+		result.moveToFirst();
+		int currentKms = result.getInt(0);
+		int prevKms = getPreviousKms(rowId, currentKms, result.getInt(1));
+		if (prevKms == 0)
+			return 0;
+		int totalKms = currentKms - prevKms;
+		double totalLitres = result.getDouble(2);
+
+		return (float) ((totalLitres * 100) / totalKms);
+	}
+
+	public float getAverageFuelConsumptionByDate(long rowId, int month, int year) {
 		Cursor result = mDb
 				.query("Fueling",
 						new String[] { "MIN(kmsAtFueling)",
 								"MAX(kmsAtFueling)", "SUM(quantity)" },
 						"idVehicle=? AND strftime('%m', `date`) = ? AND strftime('%Y', `date`) = ?",
 						new String[] { String.valueOf(rowId),
-								String.format("%01d", month),
+								String.format("%02d", month),
 								String.valueOf(year) }, null, null, null);
 		result.moveToFirst();
+		// Have to subtract first fueling of the month quantity, because it is
+		// from the previous month
+		Cursor firstFuelingCursor = mDb
+				.query("Fueling",
+						new String[] { "quantity" },
+						"idVehicle=? AND strftime('%m', `date`) = ? AND strftime('%Y', `date`) = ?",
+						new String[] { String.valueOf(rowId),
+								String.format("%02d", month),
+								String.valueOf(year) }, null, null,
+						"kmsAtFueling", "1");
+		firstFuelingCursor.moveToFirst();
 		int totalKms = result.getInt(1) - result.getInt(0);
-		double totalLitres = result.getDouble(2);
+		double totalLitres = result.getDouble(2)
+				- firstFuelingCursor.getDouble(0);
 
 		return (float) ((totalLitres * 100) / totalKms);
 	}

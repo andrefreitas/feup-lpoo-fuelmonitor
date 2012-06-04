@@ -115,8 +115,8 @@ public class VehicleList extends SherlockListActivity {
 					if (mDbHelper.getNumFuelings() > 0) {
 						TextView text = (TextView) view;
 						text.setText(Float.toString(mDbHelper
-								.getAverageFuelConsumption(cursor
-										.getInt(columnIndex), 6, 2012)));
+								.getAverageFuelConsumptionByVehicleID(cursor
+										.getInt(columnIndex))));
 					}
 					return true;
 				}

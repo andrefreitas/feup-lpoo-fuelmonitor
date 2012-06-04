@@ -171,14 +171,10 @@ public class AddFueling extends SherlockActivity {
 						&& (courseTypeCity.isChecked()
 								|| courseTypeRoad.isChecked() || courseTypeFreeway
 									.isChecked())) {
-					long vehicleId = ((SimpleCursorAdapter) vehicle.getAdapter())
-							.getCursor()
-							.getLong(
-									((SimpleCursorAdapter) vehicle
-											.getAdapter())
-											.getCursor()
-											.getColumnIndex(
-													"_id"));
+					long vehicleId = ((SimpleCursorAdapter) vehicle
+							.getAdapter()).getCursor().getLong(
+							((SimpleCursorAdapter) vehicle.getAdapter())
+									.getCursor().getColumnIndex("_id"));
 
 					Calendar c = Calendar.getInstance();
 					c.set(mYear, mMonth, mDay);
@@ -187,15 +183,17 @@ public class AddFueling extends SherlockActivity {
 						if (edit) {
 							queryRetCode = mDbHelper.editFueling(
 									mFuelingID,
-									new String(mYear + "-" + (mMonth + 1) // Month
+									new String(mYear + "-"
+											+ String.format("%02d", mMonth + 1) // Month
 											// starts at
 											// 0
-											+ "-" + mDay),
+											+ "-" + String.format("%02d", mDay)),
 									Integer.parseInt(kms.getText().toString()),
-									fuelStation.getText().toString(),
-									Float.parseFloat(quantity.getText()
-											.toString()),
-									Float.parseFloat(cost.getText().toString()),
+									fuelStation.getText().toString(), Float
+											.parseFloat(quantity.getText()
+													.toString()), Float
+											.parseFloat(cost.getText()
+													.toString()),
 									(courseTypeCity.isChecked()) ? 1 : 0,
 									(courseTypeRoad.isChecked()) ? 1 : 0,
 									(courseTypeFreeway.isChecked()) ? 1 : 0,
