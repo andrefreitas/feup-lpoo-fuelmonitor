@@ -3,6 +3,7 @@ package org.feup.fuelmonitor;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -21,7 +22,7 @@ import com.actionbarsherlock.app.SherlockListActivity;
  */
 public class FuelingList extends SherlockListActivity {
 
-	// private static final String TAG = "FuelMonitorFuelingList";
+	private static final String TAG = "FuelMonitorFuelingList";
 	private FuelMonitorDbAdapter mDbHelper;
 	private long mVehicleID;
 
@@ -81,20 +82,55 @@ public class FuelingList extends SherlockListActivity {
 		// TODO Use a CursorLoader (startManagingCursor is deprecated)
 		startManagingCursor(fuelingCursor);
 		SimpleCursorAdapter fuelingAdapter = new SimpleCursorAdapter(this,
-				R.layout.fuelingrow, fuelingCursor, new String[] { "quantity",
-						"cost", "kmsAtFueling", "_id" }, new int[] { R.id.fuelingRow_quantity,
-						R.id.fuelingRow_cost, R.id.fuelingRow_kms, R.id.fuelingRow_avgConsumption });
+				R.layout.fuelingrow, fuelingCursor,
+				new String[] { "quantity", "cost", "kmsAtFueling", "_id",
+						"drivingStyle", "_id" }, new int[] {
+						R.id.fuelingRow_quantity, R.id.fuelingRow_cost,
+						R.id.fuelingRow_kms, R.id.fuelingRow_avgConsumption,
+						R.id.fuelingRow_drivingStyle,
+						R.id.fuelingRow_courseType });
 		fuelingAdapter.setViewBinder(new ViewBinder() {
-			
+
 			@Override
-			public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+			public boolean setViewValue(View view, Cursor cursor,
+					int columnIndex) {
+				if (view.getId() == R.id.fuelingRow_courseType) {
+					TextView courseTypeText = (TextView) view;
+					boolean courseTypeCity = mDbHelper.getFuelingCourseTypeCity(cursor.getInt(columnIndex))==1;
+					boolean courseTypeRoad = mDbHelper.getFuelingCourseTypeRoad(cursor.getInt(columnIndex))==1;
+					boolean courseTypeFreeway = mDbHelper.getFuelingCourseTypeFreeway(cursor.getInt(columnIndex))==1;
+					if(courseTypeCity)
+						courseTypeText.setText(courseTypeText.getText().toString() + " C");
+					if(courseTypeRoad)
+						courseTypeText.setText(courseTypeText.getText().toString() + " E");
+					if(courseTypeFreeway)
+						courseTypeText.setText(courseTypeText.getText().toString() + " AE");
+					return true;
+				}
+				if (view.getId() == R.id.fuelingRow_drivingStyle) {
+					int drivingStyle = cursor.getInt(columnIndex);
+					TextView drivingStyleText = (TextView) view;
+					switch (drivingStyle) {
+					case 1:
+						drivingStyleText.setText("Condução calma");
+						break;
+					case 2:
+						drivingStyleText.setText("Condução normal");
+						break;
+					case 3:
+						drivingStyleText.setText("Condução agressiva");
+						break;
+					}
+					return true;
+				}
 				if (view.getId() == R.id.fuelingRow_avgConsumption) {
-						TextView text = (TextView) view;
-						float avgConsumption = (mDbHelper
-								.getAverageFuelConsumptionByFuelingID(cursor
-										.getInt(columnIndex)));
-						if(avgConsumption>0)
-							text.setText(Float.toString(avgConsumption));
+					TextView avgConsumptionText = (TextView) view;
+					float avgConsumption = (mDbHelper
+							.getAverageFuelConsumptionByFuelingID(cursor
+									.getInt(columnIndex)));
+					if (avgConsumption > 0)
+						avgConsumptionText.setText(Float
+								.toString(avgConsumption) + " l/100Km");
 					return true;
 				}
 				if (view instanceof TextView) {

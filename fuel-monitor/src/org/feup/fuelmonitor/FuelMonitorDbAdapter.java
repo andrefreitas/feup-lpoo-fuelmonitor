@@ -310,9 +310,33 @@ public class FuelMonitorDbAdapter {
 
 	public Cursor fetchFuelingsByVehicleID(long rowId) {
 		return mDb.query("Fueling", new String[] { "_id", "quantity", "cost",
-				"kmsAtFueling" }, "idVehicle=?",
+				"kmsAtFueling", "drivingStyle" }, "idVehicle=?",
 				new String[] { String.valueOf(rowId) }, null, null,
 				"kmsAtFueling");
+	}
+
+	public int getFuelingCourseTypeCity(long rowId) {
+		Cursor cursor = mDb.query("Fueling", new String[] { "courseTypeCity" },
+				"_id=?", new String[] { String.valueOf(rowId) }, null, null,
+				null);
+		cursor.moveToFirst();
+		return cursor.getInt(0);
+	}
+
+	public int getFuelingCourseTypeRoad(long rowId) {
+		Cursor cursor = mDb.query("Fueling", new String[] { "courseTypeRoad" },
+				"_id=?", new String[] { String.valueOf(rowId) }, null, null,
+				null);
+		cursor.moveToFirst();
+		return cursor.getInt(0);
+	}
+
+	public int getFuelingCourseTypeFreeway(long rowId) {
+		Cursor cursor = mDb.query("Fueling",
+				new String[] { "courseTypeFreeway" }, "_id=?",
+				new String[] { String.valueOf(rowId) }, null, null, null);
+		cursor.moveToFirst();
+		return cursor.getInt(0);
 	}
 
 	public float getAverageFuelConsumptionByVehicleID(long rowId) {
