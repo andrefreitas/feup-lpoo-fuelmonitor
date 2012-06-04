@@ -24,16 +24,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-/**
- * Simple notes database access helper class. Defines the basic CRUD operations
- * for the notepad example, and gives the ability to list all notes as well as
- * retrieve or modify a specific note.
- * 
- * This has been improved from the first version of this tutorial through the
- * addition of better error handling and also using returning a Cursor instead
- * of using a collection of inner classes (which is less scalable and not
- * recommended).
- */
+
 public class FuelMonitorDbAdapter {
 
 	private static final String TAG = "FuelMonitorDbAdapter";
@@ -264,6 +255,10 @@ public class FuelMonitorDbAdapter {
 		return result.getString(0);
 	}
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 6240059f43c617094572ba5379e1359e804cd9ec
 	public boolean deleteVehicle(long rowId) {
 		return mDb.delete("vehicle", "_id=?",
 				new String[] { String.valueOf(rowId) }) > 0;
@@ -304,7 +299,12 @@ public class FuelMonitorDbAdapter {
 		return result.getInt(0);
 
 	}
-
+	
+	public float averageConsumption(int year, int month, int vehicleID){
+		Cursor result = mDb.rawQuery("SELECT AVG(*) FROM Fueling " +
+				"Where idVehicle="+vehicleID+" and date<"+year+"-"+month+"-30 and date >"+year+"-"+month+"-0", null);
+		return result.getFloat(0);
+	}
 	public boolean deleteFueling(long rowId) {
 		return mDb.delete("fueling", "_id=?",
 				new String[] { String.valueOf(rowId) }) > 0;
