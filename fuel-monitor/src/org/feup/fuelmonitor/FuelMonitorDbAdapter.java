@@ -352,8 +352,10 @@ public class FuelMonitorDbAdapter {
 		Cursor result = mDb
 				.query("Fueling",
 						new String[] { "kmsAtFueling" },
-						"kmsAtFueling < (SELECT kmsAtFueling from Fueling WHERE _id=?)",
-						new String[] { String.valueOf(idFueling) }, null, null,
+						"kmsAtFueling < (SELECT kmsAtFueling from Fueling WHERE _id=? AND idVehicle=?) AND idVehicle=?",
+						new String[] { String.valueOf(idFueling),
+								String.valueOf(idVehicle),
+								String.valueOf(idVehicle) }, null, null,
 						"kmsAtFueling", "1");
 		// if this is the lowest km value, use the first one (when added
 		// vehicle)
@@ -370,10 +372,15 @@ public class FuelMonitorDbAdapter {
 				new String[] { String.valueOf(rowId) }, null, null, null);
 		result.moveToFirst();
 		int currentKms = result.getInt(0);
+		Log.d(TAG, "CURRENT KMS = " + currentKms);
 		int idVehicle = result.getInt(1);
+		Log.d(TAG, "ID VEHICLE = " + idVehicle);
 		int prevKms = getPreviousKms(rowId, idVehicle);
+		Log.d(TAG, "PREV KMS = " + prevKms);
 		int totalKms = currentKms - prevKms;
+		Log.d(TAG, "TOTAL KMS = " + totalKms);
 		double totalLitres = result.getDouble(2);
+		Log.d(TAG, "TOTAL LITRES = " + totalLitres);
 
 		return (float) ((totalLitres * 100) / totalKms);
 	}
