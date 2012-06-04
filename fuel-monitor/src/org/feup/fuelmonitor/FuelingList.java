@@ -82,13 +82,13 @@ public class FuelingList extends SherlockListActivity {
 		// TODO Use a CursorLoader (startManagingCursor is deprecated)
 		startManagingCursor(fuelingCursor);
 		SimpleCursorAdapter fuelingAdapter = new SimpleCursorAdapter(this,
-				R.layout.fuelingrow, fuelingCursor,
-				new String[] { "quantity", "cost", "kmsAtFueling", "_id",
-						"drivingStyle", "_id" }, new int[] {
-						R.id.fuelingRow_quantity, R.id.fuelingRow_cost,
-						R.id.fuelingRow_kms, R.id.fuelingRow_avgConsumption,
+				R.layout.fuelingrow, fuelingCursor, new String[] { "quantity",
+						"cost", "kmsAtFueling", "_id", "drivingStyle", "_id",
+						"fuelStation" }, new int[] { R.id.fuelingRow_quantity,
+						R.id.fuelingRow_cost, R.id.fuelingRow_kms,
+						R.id.fuelingRow_avgConsumption,
 						R.id.fuelingRow_drivingStyle,
-						R.id.fuelingRow_courseType });
+						R.id.fuelingRow_courseType, R.id.fuelingRow_fuelStation });
 		fuelingAdapter.setViewBinder(new ViewBinder() {
 
 			@Override
@@ -96,15 +96,24 @@ public class FuelingList extends SherlockListActivity {
 					int columnIndex) {
 				if (view.getId() == R.id.fuelingRow_courseType) {
 					TextView courseTypeText = (TextView) view;
-					boolean courseTypeCity = mDbHelper.getFuelingCourseTypeCity(cursor.getInt(columnIndex))==1;
-					boolean courseTypeRoad = mDbHelper.getFuelingCourseTypeRoad(cursor.getInt(columnIndex))==1;
-					boolean courseTypeFreeway = mDbHelper.getFuelingCourseTypeFreeway(cursor.getInt(columnIndex))==1;
-					if(courseTypeCity)
-						courseTypeText.setText(courseTypeText.getText().toString() + " C");
-					if(courseTypeRoad)
-						courseTypeText.setText(courseTypeText.getText().toString() + " E");
-					if(courseTypeFreeway)
-						courseTypeText.setText(courseTypeText.getText().toString() + " AE");
+					boolean courseTypeCity = mDbHelper
+							.getFuelingCourseTypeCity(cursor
+									.getInt(columnIndex)) == 1;
+					boolean courseTypeRoad = mDbHelper
+							.getFuelingCourseTypeRoad(cursor
+									.getInt(columnIndex)) == 1;
+					boolean courseTypeFreeway = mDbHelper
+							.getFuelingCourseTypeFreeway(cursor
+									.getInt(columnIndex)) == 1;
+					if (courseTypeCity)
+						courseTypeText.setText(courseTypeText.getText()
+								.toString() + " C");
+					if (courseTypeRoad)
+						courseTypeText.setText(courseTypeText.getText()
+								.toString() + " E");
+					if (courseTypeFreeway)
+						courseTypeText.setText(courseTypeText.getText()
+								.toString() + " AE");
 					return true;
 				}
 				if (view.getId() == R.id.fuelingRow_drivingStyle) {

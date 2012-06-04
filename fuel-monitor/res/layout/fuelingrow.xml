@@ -59,7 +59,7 @@
         android:id="@+id/fuelingRow_kmsUnit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+        android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/fuelingRow_kms"
         android:text="@string/fueling_row_kms_unit"
         android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -76,8 +76,8 @@
         android:id="@+id/fuelingRow_drivingStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/fuelingRow_quantity"
         android:layout_alignLeft="@id/fuelingRow_quantity"
+        android:layout_below="@id/fuelingRow_quantity"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -86,8 +86,16 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/fuelingRow_drivingStyle"
         android:layout_alignParentRight="true"
-        android:gravity="right"
         android:layout_marginRight="10dp"
+        android:gravity="right"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-    
+
+    <TextView
+        android:id="@+id/fuelingRow_fuelStation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/fuelingRow_drivingStyle"
+        android:layout_below="@id/fuelingRow_drivingStyle"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
 </RelativeLayout>
