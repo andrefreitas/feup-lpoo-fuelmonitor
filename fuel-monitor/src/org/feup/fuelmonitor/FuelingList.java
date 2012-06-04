@@ -121,13 +121,13 @@ public class FuelingList extends SherlockListActivity {
 					TextView drivingStyleText = (TextView) view;
 					switch (drivingStyle) {
 					case 1:
-						drivingStyleText.setText("Condução calma");
+						drivingStyleText.setText(getString(R.string.fueling_list_drivingStyle_calm));
 						break;
 					case 2:
-						drivingStyleText.setText("Condução normal");
+						drivingStyleText.setText(getString(R.string.fueling_list_drivingStyle_normal));
 						break;
 					case 3:
-						drivingStyleText.setText("Condução agressiva");
+						drivingStyleText.setText(getString(R.string.fueling_list_drivingStyle_agressive));
 						break;
 					}
 					return true;
