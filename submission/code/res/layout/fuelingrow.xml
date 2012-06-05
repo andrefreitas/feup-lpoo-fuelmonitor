@@ -79,7 +79,7 @@
         android:layout_alignLeft="@id/fuelingRow_quantity"
         android:layout_below="@id/fuelingRow_quantity"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-    
+
     <TextView
         android:id="@+id/fuelingRow_drivingStyle"
         android:layout_width="wrap_content"
@@ -89,13 +89,30 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/fuelingRow_courseType"
+        android:id="@+id/fuelingRow_courseTypeFreeway"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/fuelingRow_drivingStyle"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
-        android:gravity="right"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/fuelingRow_courseTypeRoad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/fuelingRow_drivingStyle"
+        android:layout_toLeftOf="@+id/fuelingRow_courseTypeFreeway"
+        android:layout_marginRight="5dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/fuelingRow_courseTypeCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/fuelingRow_drivingStyle"
+        android:layout_toLeftOf="@+id/fuelingRow_courseTypeRoad"
+        android:layout_marginRight="5dp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
