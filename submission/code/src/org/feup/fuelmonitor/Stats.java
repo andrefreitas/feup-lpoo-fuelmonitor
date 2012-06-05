@@ -9,6 +9,10 @@ import com.actionbarsherlock.app.SherlockActivity;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
@@ -21,6 +25,7 @@ import org.feup.fuelmonitor.FuelMonitorDbAdapter;
  * Stats - Creates the statistics for the consumptions.
  */
 public class Stats extends SherlockActivity {
+	private static final String TAG = "Stats";
 	private long mVehicleID;
 	private FuelMonitorDbAdapter mDbHelper;
 	private long mVehicleId;
@@ -32,17 +37,29 @@ public class Stats extends SherlockActivity {
 		mDbHelper = new FuelMonitorDbAdapter(this);
 		mDbHelper.open();
 
+		Spinner spinner = (Spinner) findViewById(R.id.stats_CarSpinner);
 		fillSpinner();
 
-		Spinner spinner = (Spinner) findViewById(R.id.stats_CarSpinner);
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
-		mVehicleId = ((SimpleCursorAdapter) spinner.getAdapter()).getCursor()
-				.getLong(
-						((SimpleCursorAdapter) spinner.getAdapter())
-								.getCursor().getColumnIndex("_id"));
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				mVehicleId = ((SimpleCursorAdapter) parent.getAdapter())
+						.getCursor().getLong(
+								((SimpleCursorAdapter) parent.getAdapter())
+										.getCursor().getColumnIndex("_id"));
+				Log.d(TAG, "ID: " + mVehicleId);
+				buildGraph();
 
-		buildGraph();
+			}
 
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// NOT NEEDED
+			}
+
+		});
 	}
 
 	/**
@@ -79,6 +96,7 @@ public class Stats extends SherlockActivity {
 		RelativeLayout layoutGraph = (RelativeLayout) findViewById(R.id.stats_GraphLayout);
 		GraphView graphView = new GraphView(this, values,
 				"Consumos de " + year, actualMonths, null, GraphView.BAR);
+		layoutGraph.removeAllViews();
 		layoutGraph.addView(graphView);
 	}
 
