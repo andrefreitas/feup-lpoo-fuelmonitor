@@ -1,8 +1,13 @@
 package org.feup.fuelmonitor;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -93,21 +98,37 @@ public class FuelingList extends SherlockListActivity {
 		Cursor fuelingCursor = mDbHelper.fetchFuelingsByVehicleID(mVehicleID);
 		// TODO Use a CursorLoader (startManagingCursor is deprecated)
 		startManagingCursor(fuelingCursor);
-		SimpleCursorAdapter fuelingAdapter = new SimpleCursorAdapter(
-				this,
-				R.layout.fuelingrow,
-				fuelingCursor,
-				new String[] { "quantity", "cost", "kmsAtFueling", "_id",
-						"drivingStyle", "_id", "fuelStation" },
-				new int[] { R.id.fuelingRow_quantity, R.id.fuelingRow_cost,
+		SimpleCursorAdapter fuelingAdapter = new SimpleCursorAdapter(this,
+				R.layout.fuelingrow, fuelingCursor, new String[] { "quantity",
+						"cost", "kmsAtFueling", "_id", "drivingStyle", "_id",
+						"fuelStation", "date" }, new int[] {
+						R.id.fuelingRow_quantity, R.id.fuelingRow_cost,
 						R.id.fuelingRow_kms, R.id.fuelingRow_avgConsumption,
 						R.id.fuelingRow_drivingStyle,
-						R.id.fuelingRow_courseType, R.id.fuelingRow_fuelStation });
+						R.id.fuelingRow_courseType,
+						R.id.fuelingRow_fuelStation, R.id.fuelingRow_date });
 		fuelingAdapter.setViewBinder(new ViewBinder() {
 
 			@Override
 			public boolean setViewValue(View view, Cursor cursor,
 					int columnIndex) {
+				if (view.getId() == R.id.fuelingRow_date) {
+					TextView dateText = (TextView) view;
+					try {
+						SimpleDateFormat date = new SimpleDateFormat(
+								"yyyy-MM-dd");
+						date.parse(cursor.getString(columnIndex));
+						Calendar c = date.getCalendar();
+						dateText.setText(String.format("%02d-%02d-%d",
+								c.get(Calendar.DAY_OF_MONTH),
+								(c.get(Calendar.MONTH) + 1),
+								c.get(Calendar.YEAR)));
+					} catch (ParseException e) {
+						Log.e(TAG, "Error parsing date from database");
+						return false;
+					}
+					return true;
+				}
 				if (view.getId() == R.id.fuelingRow_courseType) {
 					TextView courseTypeText = (TextView) view;
 					boolean courseTypeCity = mDbHelper

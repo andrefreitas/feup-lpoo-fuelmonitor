@@ -73,11 +73,19 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/fuelingRow_drivingStyle"
+        android:id="@+id/fuelingRow_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/fuelingRow_quantity"
         android:layout_below="@id/fuelingRow_quantity"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <TextView
+        android:id="@+id/fuelingRow_drivingStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/fuelingRow_date"
+        android:layout_below="@id/fuelingRow_date"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView

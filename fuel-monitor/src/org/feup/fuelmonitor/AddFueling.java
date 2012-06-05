@@ -132,9 +132,9 @@ public class AddFueling extends SherlockActivity {
 
 			try {
 				SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-				Calendar c = Calendar.getInstance();
-				c.setTime(date.parse(editFueling.getString(editFueling
-						.getColumnIndex("date"))));
+				date.parse(editFueling.getString(editFueling
+						.getColumnIndex("date")));
+				Calendar c = date.getCalendar();
 				mYear = c.get(Calendar.YEAR);
 				mMonth = c.get(Calendar.MONTH);
 				mDay = c.get(Calendar.DAY_OF_MONTH);
@@ -348,9 +348,10 @@ public class AddFueling extends SherlockActivity {
 
 		dateAdapter.clear();
 
-		dateAdapter.add(new String(mDay + "-" + (mMonth + 1) // Month starts at
-																// 0
-				+ "-" + mYear));
+		dateAdapter.add(String
+				.format("%02d-%02d-%d", mDay, (mMonth + 1), mYear)); // MONTH
+																		// STARTS
+																		// AT 0
 
 		mDatePick.setAdapter(dateAdapter);
 	}
