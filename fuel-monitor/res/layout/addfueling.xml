@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/addfueling_dateLabel"
-        android:layout_alignRight="@id/addfueling_vehicleSpinner"/>
+        android:layout_alignRight="@id/addfueling_vehicleSpinner" />
 
     <TextView
         android:id="@+id/addfueling_fuelStationLabel"

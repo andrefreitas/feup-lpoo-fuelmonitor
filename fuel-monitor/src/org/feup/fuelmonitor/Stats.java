@@ -3,30 +3,25 @@ package org.feup.fuelmonitor;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import org.graphview.*;
-
-import com.actionbarsherlock.app.SherlockActivity;
+import org.graphview.GraphView;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
-import org.feup.fuelmonitor.FuelMonitorDbAdapter;
+import com.actionbarsherlock.app.SherlockActivity;
 
 /**
  * Stats - Creates the statistics for the consumptions.
  */
 public class Stats extends SherlockActivity {
-	private static final String TAG = "Stats";
-	private long mVehicleID;
+	// private static final String TAG = "Stats";
+	// private long mVehicleID;
 	private FuelMonitorDbAdapter mDbHelper;
 	private long mVehicleId;
 
@@ -49,7 +44,6 @@ public class Stats extends SherlockActivity {
 						.getCursor().getLong(
 								((SimpleCursorAdapter) parent.getAdapter())
 										.getCursor().getColumnIndex("_id"));
-				Log.d(TAG, "ID: " + mVehicleId);
 				buildGraph();
 
 			}
